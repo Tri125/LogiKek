@@ -27,8 +27,34 @@
 	<script src="js/categorie.js"></script>
 </head>
 <body>
-	<div class="page-header">
-		<h1>LogiKek</h1>
+	<div class="row page-header">
+		<div class="col-md-4">
+			<h1>LogiKek</h1>
+		</div>
+		<div class="col-md-4">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Search for...">
+				<div class="input-group-btn">
+					<select class="btn dropdown-toggle">
+						<option>All Products</option>
+						<option>Microsoft</option>
+						<option>3</option>
+						<option>4</option>
+					</select>
+				</div>
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+				</span>
+			</div><!-- /input-group -->
+		</div><!-- /.col-mg-4 -->
+
+
+
+
+
+
+
+
 	</div>
 	<nav class="navbar narbar-default navbar-static-top well well-sm">
 		<div class="container">
@@ -64,24 +90,7 @@
 						</button>
 					</li>
 				</ul>
-				<div class="row">
-					<div class="col-lg-4">
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Search for...">
-							<div class="input-group-btn">
-								<select class="btn dropdown-toggle">
-									<option>All Products</option>
-									<option>Microsoft</option>
-									<option>3</option>
-									<option>4</option>
-								</select>
-							</div>
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
-							</span>
-						</div><!-- /input-group -->
-					</div><!-- /.col-lg-6 -->
-				</div><!-- /.row -->
+
 			</div>
 		</div>
 	</nav>
@@ -95,7 +104,7 @@
 		<!-- Début section central col-md-9 -->
 		<div class="col-md-9">
 			<div class="pub">
-				<img src="img/DealArchEdit.png" alt="Publicité de Arch Linux.">
+				<img class="img-responsive" src="img/DealArchEdit.png" alt="Publicité de Arch Linux.">
 			</div>
 			<!-- Début des produits -->
 			<div class="row">
