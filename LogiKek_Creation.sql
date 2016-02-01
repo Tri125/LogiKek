@@ -63,3 +63,15 @@ FOREIGN KEY (idProduit) REFERENCES Produits (idProduit);
 ALTER TABLE ProduitsCategories
 ADD CONSTRAINT ProduitsCategories_Categories_FK
 FOREIGN KEY (idCategorie) REFERENCES Categories (idCategorie);
+
+
+CREATE OR REPLACE VIEW ListeCategories AS
+	SELECT nom 
+    FROM Categories
+    ORDER  BY nom ASC;
+    
+    
+CREATE OR REPLACE VIEW Catalog AS
+	SELECT nom, prix, quantite 
+    FROM Produits
+    ORDER  BY nom DESC;

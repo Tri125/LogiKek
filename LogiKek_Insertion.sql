@@ -30,6 +30,9 @@ VALUES ('32-bit', 9);
 INSERT INTO Categories (nom, codeCategorie)
 VALUES ('64-bit', 10);
 
+INSERT INTO Categories (nom, codeCategorie)
+VALUES ('Google', 11);
+
 
 
 
