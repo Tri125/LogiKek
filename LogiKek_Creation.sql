@@ -77,12 +77,10 @@ CREATE OR REPLACE VIEW Catalog AS
     ORDER  BY nom DESC;
     
 CREATE OR REPLACE VIEW FetchAllProduits AS
-	SELECT p.nom, p.description, p.prix, p.codeProduit, p.quantite, p.quantiteMin, c.codeCategorie, c.nom AS categorie
+	SELECT p.nom, p.description, p.prix, p.codeProduit, p.quantite, p.quantiteMin, c.codeCategorie, 
+    GROUP_CONCAT(c.nom SEPARATOR ',') categories
 	FROM Produits p
 		INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit
 		INNER JOIN Categories c ON c.idCategorie = pc.idCategorie 
 	GROUP BY p.idProduit
-	ORDER BY p.nom, categorie ASC;
-    
-    
-SELECT * FROM FetchAllProduits;
+	ORDER BY p.nom, c.nom ASC;
