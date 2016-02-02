@@ -27,11 +27,11 @@ require_once("php/Classes/Produit.php");
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="TP1/css/index.css">
-	<link rel="stylesheet" href="TP1/css/dirtyIndex.css">
+	<link rel="stylesheet" href="LogiKek/css/index.css">
+	<link rel="stylesheet" href="LogiKek/css/dirtyIndex.css">
 
-	<script src="TP1/js/app.js"></script>
-	<script src="TP1/js/categorie.js"></script>
+	<script src="LogiKek/js/app.js"></script>
+	<script src="LogiKek/js/categorie.js"></script>
 </head>
 <body>
 	<div class="row" id="tete">
@@ -98,7 +98,7 @@ require_once("php/Classes/Produit.php");
 <!-- Début section central col-md-9 -->
 <div class="col-md-8">
 	<div class="pub">
-		<img class="img-responsive" src="TP1/img/DealArchEdit.png" alt="Publicité de Arch Linux.">
+		<img class="img-responsive" src="LogiKek/img/DealArchEdit.png" alt="Publicité de Arch Linux.">
 	</div>
 	<!-- Début des produits -->
 	<div class="row">
