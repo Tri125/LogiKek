@@ -65,8 +65,8 @@ ADD CONSTRAINT ProduitsCategories_Categories_FK
 FOREIGN KEY (idCategorie) REFERENCES Categories (idCategorie);
 
 
-CREATE OR REPLACE VIEW ListeCategories AS
-	SELECT nom 
+CREATE OR REPLACE VIEW FetchAllCategories AS
+	SELECT codeCategorie, nom 
     FROM Categories
     ORDER  BY nom ASC;
     
@@ -75,3 +75,14 @@ CREATE OR REPLACE VIEW Catalog AS
 	SELECT nom, prix, quantite 
     FROM Produits
     ORDER  BY nom DESC;
+    
+CREATE OR REPLACE VIEW FetchAllProduits AS
+	SELECT p.nom, p.description, p.prix, p.codeProduit, p.quantite, p.quantiteMin, c.codeCategorie, c.nom AS categorie
+	FROM Produits p
+		INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit
+		INNER JOIN Categories c ON c.idCategorie = pc.idCategorie 
+	GROUP BY p.idProduit
+	ORDER BY p.nom, categorie ASC;
+    
+    
+SELECT * FROM FetchAllProduits;

@@ -1,4 +1,8 @@
-<?php require_once("php/mysqli.php"); ?>
+<?php 
+require_once("php/mysqli.php");
+require_once("php/Classes/Categorie.php"); 
+require_once("php/Classes/Produit.php"); 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -39,11 +43,10 @@
 				<input type="text" class="form-control" placeholder="Search for...">
 				<div class="input-group-btn">
 					<select class="btn dropdown-toggle">
+						<option selected>Tout les produits</option>
 						<?php 
-						global $mysqli;
-						$requeteCategories = "SELECT * FROM ListeCategories";
-						foreach($mysqli->query($requeteCategories) as $value): ?>
-						<option><?php echo $value['nom']; ?></option>
+						foreach(Categorie::fetchAll() as $value): ?>
+						<option><?php echo $value->nom; ?></option>
 					<?php endforeach; ?>
 				</select>
 			</div>
@@ -85,10 +88,8 @@
 	<div class="col-md-2">
 		<ul>
 			<?php 
-			global $mysqli;
-			$requeteCategories = "SELECT * FROM ListeCategories";
-			foreach($mysqli->query($requeteCategories) as $value): ?>
-			<li><a href="#"><?php echo $value['nom'] ?></a></li>
+			foreach(Categorie::fetchAll() as $value): ?>
+			<li><a href="#"><?php echo $value->nom ?></a></li>
 		<?php endforeach; ?>
 
 
@@ -101,21 +102,23 @@
 	</div>
 	<!-- Début des produits -->
 	<div class="row">
-		<div class="col-md-4">
-			<a href="#" class="thumbnail">
-				<img src="..." alt="...">
-			</a>
-		</div>
-		<div class="col-md-4">
-			<a href="#" class="thumbnail">
-				<img src="..." alt="...">
-			</a>
-		</div>
-		<div class="col-md-4">
-			<a href="#" class="thumbnail">
-				<img src="..." alt="...">
-			</a>
-		</div>
+		<?php foreach(Produit::fetchAll() as $value): ?>
+			<div class="col-md-4 panel panel-default produit">
+				<h4><?php echo $value->nom ?></h4>
+				<a href="#" class="thumbnail">
+					<img src="..." alt="<?php echo $value->nom ?>">
+				</a>
+				<?php foreach($value->categories as $categorie): ?>
+					<span class="label label-info"><?php echo $categorie ?></span>
+				<?php endforeach; ?>
+				<h4>
+					<?php echo $value->prix ?>$ 
+					<a href="#">
+						<i class="fa fa-shopping-cart"></i>
+					</a>
+				</h4>
+			</div>
+		<?php endforeach; ?>
 	</div> 	<!-- Fin des produits -->
 </div>	<!-- Fin section central col-md-9 -->
 <div class="col-md-1"> 	<!-- Début Section de droite central -->
