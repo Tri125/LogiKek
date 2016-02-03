@@ -2,6 +2,7 @@
 require_once("php/mysqli.php");
 require_once("php/Classes/Categorie.php"); 
 require_once("php/Classes/Produit.php"); 
+require_once("php/Classes/Catalogue.php"); 
 
 $titre = 'LogiKek';
 $description = 'Site de vente de système d\'exploitation';
@@ -19,7 +20,7 @@ require_once("sectionGauche.php");
 	</div>
 	<!-- Début des produits -->
 	<div class="row">
-		<?php foreach(Produit::fetchAll() as $value): ?>
+		<?php foreach($liste->catalogue as $value): ?>
 			<div class="col-md-4 panel panel-default">
 				<h4><?php echo $value->nom ?></h4>
 				<a href="#" class="thumbnail imgProduitPetit">

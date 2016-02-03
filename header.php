@@ -2,6 +2,20 @@
 require_once("php/mysqli.php");
 require_once("php/Classes/Categorie.php"); 
 require_once("php/Classes/Produit.php"); 
+require_once("php/Classes/Catalogue.php"); 
+
+$categorie = 0;
+$recherche = '';
+
+if(isset($_GET['listeCategorie']))
+	$categorie = $_GET['listeCategorie'];
+
+if(isset($_GET['recherche']))
+	$recherche = $_GET['recherche'];
+
+$liste = new Catalogue($categorie, $recherche);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -44,9 +58,9 @@ require_once("php/Classes/Produit.php");
 		<div class="col-md-4">
 			<form action='' method='GET'>
 				<div class="input-group" id="groupeRecherche">
-					<input type="text" name="nom" class="form-control" placeholder="Rechercher...">
+					<input type="text" required name="recherche" class="form-control" placeholder="Rechercher...">
 					<div class="input-group-btn">
-						<select class="btn dropdown-toggle" name="categorie">
+						<select class="btn dropdown-toggle" name="listeCategorie">
 							<option value="0" selected>Tout les produits</option>
 							<?php 
 							foreach(Categorie::fetchAll() as $value): ?>

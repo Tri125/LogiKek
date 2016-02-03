@@ -21,24 +21,6 @@ class Produit
 		$this->quantiteMin = $tableau['quantiteMin'];
 		$this->categories = explode(",", $tableau['categories']);
 	}
-
-	public static function fetchAll()
-	{
-		global $mysqli;
-		$produits = array();
-
-		$requeteProduits = 'SELECT * FROM FetchAllProduits';
-		foreach($mysqli->query($requeteProduits) as $value)
-		{
-			$tmp = new Produit($value);
-			$produits[] = $tmp;
-		}
-
-		return $produits;
-	}
-
-
-
 }
 
 ?>
