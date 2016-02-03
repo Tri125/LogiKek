@@ -42,22 +42,24 @@ require_once("php/Classes/Produit.php");
 			<h1>LogiKek</h1>
 		</div>
 		<div class="col-md-4">
-			<div class="input-group" id="groupeRecherche">
-				<input type="text" class="form-control" placeholder="Search for...">
-				<div class="input-group-btn">
-					<select class="btn dropdown-toggle">
-						<option selected>Tout les produits</option>
-						<?php 
-						foreach(Categorie::fetchAll() as $value): ?>
-						<option><?php echo $value->nom; ?></option>
-					<?php endforeach; ?>
-				</select>
-			</div>
-			<span class="input-group-btn">
-				<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
-			</span>
-		</div><!-- /input-group -->
-	</div><!-- /.col-mg-4 -->
+			<form action='' method='GET'>
+				<div class="input-group" id="groupeRecherche">
+					<input type="text" name="nom" class="form-control" placeholder="Rechercher...">
+					<div class="input-group-btn">
+						<select class="btn dropdown-toggle" name="categorie">
+							<option value="0" selected>Tout les produits</option>
+							<?php 
+							foreach(Categorie::fetchAll() as $value): ?>
+							<?php echo "<option value='$value->codeCategorie'> $value->nom </option>"; ?>
+							<?php endforeach; ?>
+						</select>
+					</div>
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+					</span>
+				</div><!-- /input-group -->
+			</form>
+		</div><!-- /.col-mg-4 -->
 
 	<div class="col-md-3 text-right" id="logCart">
 		<div class="row">
