@@ -453,3 +453,6 @@ VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'Kali Linux 64-bit'),
 (SELECT idCategorie FROM Categories WHERE nom = 'Stability')
 );
+
+
+COMMIT;

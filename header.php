@@ -15,7 +15,6 @@ if(isset($_GET['recherche']))
 
 $liste = new Catalogue($categorie, $recherche);
 
-
 ?>
 
 <!DOCTYPE html>

@@ -24,7 +24,7 @@ class Catalogue
 		}
 
 		$requeteProduits = "SELECT * FROM FetchAllProduits WHERE (nom LIKE '%$critere%' OR description LIKE '%$critere%')".$condition;
-
+		
 		foreach($mysqli->query($requeteProduits) as $value)
 		{
 			$produit = new Produit($value);
