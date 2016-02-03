@@ -20,10 +20,10 @@ class Catalogue
 			$requeteProduits = "SELECT nom FROM Categories WHERE idCategorie = $categorie";
 			$nomCategorie = $mysqli->query($requeteProduits)->fetch_object()->nom;
 
-			$condition = "WHERE categories LIKE '%$nomCategorie%'";
+			$condition = " AND categories LIKE '%$nomCategorie%'";
 		}
 
-		$requeteProduits = "SELECT * FROM FetchAllProduits $condition";
+		$requeteProduits = "SELECT * FROM FetchAllProduits WHERE (nom LIKE '%$critere%' OR description LIKE '%$critere%')".$condition;
 
 		foreach($mysqli->query($requeteProduits) as $value)
 		{
