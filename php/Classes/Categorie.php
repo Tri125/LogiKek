@@ -9,7 +9,7 @@ class Categorie
 	public function __construct($tableau)
 	{
 		$this->nom = $tableau['nom'];
-		$this->codeCategorie = $tableau['codeCategorie'];
+		$this->codeCategorie = $tableau['idCategorie'];
 	}
 
 	public static function fetchAll()

@@ -66,18 +66,18 @@ FOREIGN KEY (idCategorie) REFERENCES Categories (idCategorie);
 
 
 CREATE OR REPLACE VIEW FetchAllCategories AS
-	SELECT codeCategorie, nom 
+	SELECT * 
     FROM Categories
     ORDER  BY nom ASC;
     
     
 CREATE OR REPLACE VIEW Catalog AS
-	SELECT nom, prix, quantite 
+	SELECT idProduit, nom, prix, quantite 
     FROM Produits
     ORDER  BY nom DESC;
     
 CREATE OR REPLACE VIEW FetchAllProduits AS
-	SELECT p.nom, p.description, p.prix, p.codeProduit, p.quantite, p.quantiteMin, c.codeCategorie, 
+	SELECT p.idProduit, p.nom, p.description, p.prix, p.codeProduit, p.quantite, p.quantiteMin, c.codeCategorie, 
     GROUP_CONCAT(c.nom SEPARATOR ',') categories
 	FROM Produits p
 		INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit

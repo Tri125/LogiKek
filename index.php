@@ -103,10 +103,10 @@ require_once("php/Classes/Produit.php");
 	<!-- Début des produits -->
 	<div class="row">
 		<?php foreach(Produit::fetchAll() as $value): ?>
-			<div class="col-md-4 panel panel-default produit">
+			<div class="col-md-4 panel panel-default">
 				<h4><?php echo $value->nom ?></h4>
-				<a href="#" class="thumbnail">
-					<img src="..." alt="<?php echo $value->nom ?>">
+				<a href="#" class="thumbnail imgProduitPetit">
+					<img src="LogiKek/img/produits/<?php echo $value->codeProduit ?>_small.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='LogiKek/img/produits/nonDispo_small.png';">
 				</a>
 				<?php foreach($value->categories as $categorie): ?>
 					<span class="label label-info"><?php echo $categorie ?></span>

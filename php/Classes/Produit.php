@@ -14,7 +14,7 @@ class Produit
 	public function __construct($tableau)
 	{
 		$this->nom = $tableau['nom'];
-		$this->codeProduit = $tableau['codeProduit'];
+		$this->codeProduit = $tableau['idProduit'];
 		$this->prix = number_format($tableau['prix'], 2);
 		$this->description = $tableau['description'];
 		$this->quantite = $tableau['quantite'];
