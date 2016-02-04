@@ -1,7 +1,6 @@
 <?php 
 require_once("php/biblio/foncCommunes.php");
 
-$js = 'index.js';
 $css = 'index.css';
 $titre = 'LogiKek';
 $description = 'Site de vente de système d\'exploitation';
@@ -22,7 +21,7 @@ require_once("sectionGauche.php");
 		<?php foreach($liste->catalogue as $value): ?>
 			<div class="col-md-4 panel panel-default produit">
 				<h4><?php echo $value->nom ?></h4>
-				<a class="thumbnail imgProduitPetit" data-codeProduit="<?php echo $value->codeProduit ?>">
+				<a href="#" class="thumbnail imgProduitPetit">
 					<img src="LogiKek/img/produits/<?php echo $value->codeProduit ?>_small.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='LogiKek/img/produits/nonDispo_small.png';">
 				</a>
 				<?php foreach($value->categories as $categorie): ?>

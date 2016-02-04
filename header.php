@@ -44,8 +44,7 @@ $liste = new Catalogue($categorie, $recherche);
 	<link rel="stylesheet" href="/LogiKek/css/<?php echo $css; ?>">
 	<link rel="stylesheet" href="/LogiKek/css/dirtyIndex.css">
 
-	<script src="/LogiKek/js/app.js"></script>
-	<script src="/LogiKek/js/categorie.js"></script>
+	<script src="/LogiKek/js/<?php echo $js; ?>"></script>
 </head>
 <body>
 	<div class="row" id="tete">

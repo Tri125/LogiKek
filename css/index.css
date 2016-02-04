@@ -26,3 +26,7 @@
 .proCart{
     font-size: 130%;
 }
+
+.produit > a{
+    cursor: pointer;
+}
