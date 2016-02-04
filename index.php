@@ -43,5 +43,9 @@ require_once("sectionGauche.php");
 <!-- Fin section de droite central -->
 </div>
 
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+  </div>
+</div>
 
 <?php require_once('footer.php'); ?>
