@@ -32,7 +32,7 @@ if(isset($_GET['codeProduit']))
 	</div>
 	<div class="modal-body">
 		<a class="thumbnail imgProduitGrand">
-			<img src="./img/produits/<?php echo $produit->codeProduit ?>_big.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_big.png';">
+			<img src="./img/produits/<?php echo $produit->codeProduit ?>_big.png" alt="<?php echo $produit->nom ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_big.png';">
 		</a>
 		<p><?php echo $produit->description; ?></p>
 	</div>

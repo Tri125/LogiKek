@@ -16,10 +16,10 @@ INSERT INTO Categories (nom, codeCategorie)
 VALUES ('Apple', 5);
 
 INSERT INTO Categories (nom, codeCategorie)
-VALUES ('Stability', 6);
+VALUES ('Stable', 6);
 
 INSERT INTO Categories (nom, codeCategorie)
-VALUES ('Bleeding edge', 7);
+VALUES ('Fine pointe', 7);
 
 INSERT INTO Categories (nom, codeCategorie)
 VALUES ('Oracle', 8);
@@ -139,7 +139,7 @@ VALUES(
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
 VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'Arch Linux 32-bit'),
-(SELECT idCategorie FROM Categories WHERE nom = 'Bleeding edge')
+(SELECT idCategorie FROM Categories WHERE nom = 'Fine pointe')
 );
 
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
@@ -151,7 +151,7 @@ VALUES(
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
 VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'Arch Linux 64-bit'),
-(SELECT idCategorie FROM Categories WHERE nom = 'Bleeding edge')
+(SELECT idCategorie FROM Categories WHERE nom = 'Fine pointe')
 );
 
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
@@ -205,7 +205,7 @@ VALUES(
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
 VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'Ubuntu 15.10 (Wily Werewolf)'),
-(SELECT idCategorie FROM Categories WHERE nom = 'Stability')
+(SELECT idCategorie FROM Categories WHERE nom = 'Stable')
 );
 
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
@@ -253,7 +253,7 @@ VALUES(
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
 VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'CentOS-7 64-bit'),
-(SELECT idCategorie FROM Categories WHERE nom = 'Stability')
+(SELECT idCategorie FROM Categories WHERE nom = 'Stable')
 );
 
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
@@ -265,7 +265,7 @@ VALUES(
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
 VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'CentOS-7 32-bit'),
-(SELECT idCategorie FROM Categories WHERE nom = 'Stability')
+(SELECT idCategorie FROM Categories WHERE nom = 'Stable')
 );
 
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
@@ -337,7 +337,7 @@ VALUES(
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
 VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'Linux Mint 64-bit'),
-(SELECT idCategorie FROM Categories WHERE nom = 'Stability')
+(SELECT idCategorie FROM Categories WHERE nom = 'Stable')
 );
 
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
@@ -355,13 +355,13 @@ VALUES(
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
 VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'Linux Mint 32-bit'),
-(SELECT idCategorie FROM Categories WHERE nom = 'Stability')
+(SELECT idCategorie FROM Categories WHERE nom = 'Stable')
 );
 
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
 VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'OS X v10.11 El Capitan'),
-(SELECT idCategorie FROM Categories WHERE nom = 'Stability')
+(SELECT idCategorie FROM Categories WHERE nom = 'Stable')
 );
 
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
@@ -433,7 +433,7 @@ VALUES(
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
 VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'Kali Linux 32-bit'),
-(SELECT idCategorie FROM Categories WHERE nom = 'Stability')
+(SELECT idCategorie FROM Categories WHERE nom = 'Stable')
 );
 
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
@@ -451,7 +451,7 @@ VALUES(
 INSERT INTO ProduitsCategories (idProduit, idCategorie)
 VALUES(
 (SELECT idProduit FROM Produits WHERE nom = 'Kali Linux 64-bit'),
-(SELECT idCategorie FROM Categories WHERE nom = 'Stability')
+(SELECT idCategorie FROM Categories WHERE nom = 'Stable')
 );
 
 

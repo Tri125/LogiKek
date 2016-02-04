@@ -19,7 +19,8 @@ class Catalogue
 		if ($categorie != 0)
 		{
 			$requeteProduits = "SELECT nom FROM Categories WHERE idCategorie = $categorie";
-			$nomCategorie = $mysqli->query($requeteProduits)->fetch_object()->nom;
+			$tmp = $maBD->select($requeteProduits);
+			$nomCategorie = $tmp[0]['nom'];
 
 			$condition = " AND categories LIKE '%$nomCategorie%'";
 		}

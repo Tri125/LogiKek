@@ -75,14 +75,14 @@ $liste = new Catalogue($categorie, $recherche);
 		<div class="row">
 			<a href="#">
 				<i class="fa fa-user">
-					Log in
+					Se connecter
 				</i>
 			</a>
 		</div>
 		<div class="row">
 			<a href="#">
 				<i class="fa fa-shopping-cart">
-					<ins>0 Items</ins>
+					<ins>0 Articles</ins>
 				</i>
 			</a>
 		</div>
@@ -92,8 +92,8 @@ $liste = new Catalogue($categorie, $recherche);
 	<nav class="navbar navbar-left navbar-static-top">
 		<div class="container">
 			<ul class="nav navbar-nav">
-				<li><a href="#">Deals <span class="sr-only">(current)</span></a></li>
-				<li><a href="#">Help <span class="sr-only">(current)</span></a></li>
+				<li><a href="#">Spéciaux<span class="sr-only">(current)</span></a></li>
+				<li><a href="#">Aide<span class="sr-only">(current)</span></a></li>
 			</ul>
 		</div>
 		<div class="panel panel-success"></div>
