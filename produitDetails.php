@@ -1,5 +1,5 @@
 <?php 
-require_once("php/biblio/foncCommunes.php");
+require_once("./php/biblio/foncCommunes.php");
 
 //$css = 'index.css';
 //$titre = 'LogiKek';

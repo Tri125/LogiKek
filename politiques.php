@@ -1,13 +1,13 @@
 <?php 
-require_once("php/biblio/foncCommunes.php");
+require_once("./php/biblio/foncCommunes.php");
 
 $css = 'politiques.css';
 $titre = 'LogiKek - Politiques';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
-require_once("header.php");
-require_once("sectionGauche.php");
+require_once("./header.php");
+require_once("./sectionGauche.php");
 
 ?>
 
@@ -37,4 +37,4 @@ require_once("sectionGauche.php");
 </div>
 
 
-<?php require_once('footer.php'); ?>
+<?php require_once('./footer.php'); ?>

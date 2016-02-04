@@ -14,16 +14,16 @@ class Categorie
 
 	public static function fetchAll()
 	{
-		global $mysqli;
+		global $maBD;
 		$categories = array();
 
-		$requeteCategories = 'SELECT * FROM FetchAllCategories';
-		foreach($mysqli->query($requeteCategories) as $value)
-		{
-			$tmp = new Categorie($value);
-			$categories[] = $tmp;
-		}
+		$tabResultat = $maBD->select("SELECT * FROM Categories ORDER BY nom ASC");
 
+		
+		foreach($tabResultat as $value)
+		{
+			$categories[] = new Categorie($value);
+		}
 		return $categories;
 	}
 }

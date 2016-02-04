@@ -1,5 +1,5 @@
 <?php 
-require_once("php/biblio/foncCommunes.php");
+require_once("./php/biblio/foncCommunes.php");
 
 $categorie = 0;
 $recherche = '';
@@ -40,19 +40,19 @@ $liste = new Catalogue($categorie, $recherche);
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/css/global.css">
-	<link rel="stylesheet" href="/css/<?php echo $css; ?>">
-	<link rel="stylesheet" href="/css/dirtyIndex.css">
+		<link rel="stylesheet" href="./css/global.css">
+	<link rel="stylesheet" href="./css/<?php echo $css; ?>">
+	<link rel="stylesheet" href="./css/dirtyIndex.css">
 
-	<script src="/js/<?php echo $js; ?>"></script>
+	<script src="./js/<?php echo $js; ?>"></script>
 </head>
 <body>
 	<div class="row" id="tete">
 		<div class="col-md-4" id="nomLogiKek">
-			<a href="/?"><h1>LogiKek</h1></a>
+			<a href="./?"><h1>LogiKek</h1></a>
 		</div>
 		<div class="col-md-4">
-			<form action='/' method='GET'>
+			<form action='./' method='GET'>
 				<div class="input-group" id="groupeRecherche">
 					<input type="text" required name="recherche" class="form-control" placeholder="Rechercher...">
 					<div class="input-group-btn">
