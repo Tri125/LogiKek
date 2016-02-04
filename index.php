@@ -15,7 +15,7 @@ require_once("sectionGauche.php");
 <!-- Début section central col-md-9 -->
 <div class="col-md-8" id="centre">
 	<div class="pub">
-		<img class="img-responsive" src="/LogiKek/img/DealArchEdit.png" alt="Publicité de Arch Linux.">
+		<img class="img-responsive" src="/img/DealArchEdit.png" alt="Publicité de Arch Linux.">
 	</div>
 	<!-- Début des produits -->
 	<div class="row">
@@ -23,14 +23,14 @@ require_once("sectionGauche.php");
 			<div class="col-md-4 panel panel-default produit">
 				<h4><?php echo $value->nom ?></h4>
 				<a class="thumbnail imgProduitPetit" data-codeProduit="<?php echo $value->codeProduit ?>">
-					<img src="LogiKek/img/produits/<?php echo $value->codeProduit ?>_small.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='LogiKek/img/produits/nonDispo_small.png';">
+					<img src="/img/produits/<?php echo $value->codeProduit ?>_small.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='/img/produits/nonDispo_small.png';">
 				</a>
 				<?php foreach($value->categories as $categorie): ?>
 					<span class="label label-info proCategorie"><?php echo $categorie ?></span>
 				<?php endforeach; ?>
 				<h4 class="proPrix">
 					<?php echo $value->prix ?>$ 
-					<a href="LogiKek/panierGestion.php?quoiFaire=ajout&noproduit=<?php echo $value->codeProduit; ?>" class="proCart">
+					<a href="/panierGestion.php?quoiFaire=ajout&noproduit=<?php echo $value->codeProduit; ?>" class="proCart">
 						<i class="fa fa-shopping-cart"></i>
 					</a>
 				</h4>

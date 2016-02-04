@@ -40,11 +40,11 @@ $liste = new Catalogue($categorie, $recherche);
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/LogiKek/css/global.css">
-	<link rel="stylesheet" href="/LogiKek/css/<?php echo $css; ?>">
-	<link rel="stylesheet" href="/LogiKek/css/dirtyIndex.css">
+		<link rel="stylesheet" href="/css/global.css">
+	<link rel="stylesheet" href="/css/<?php echo $css; ?>">
+	<link rel="stylesheet" href="/css/dirtyIndex.css">
 
-	<script src="/LogiKek/js/<?php echo $js; ?>"></script>
+	<script src="/js/<?php echo $js; ?>"></script>
 </head>
 <body>
 	<div class="row" id="tete">
