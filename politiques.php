@@ -1,8 +1,8 @@
 <?php 
 require_once("php/biblio/foncCommunes.php");
 
-$css = 'index.css';
-$titre = 'LogiKek';
+$css = 'politiques.css';
+$titre = 'LogiKek - Politiques';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
@@ -13,12 +13,17 @@ require_once("sectionGauche.php");
 
 <!-- Début section central col-md-9 -->
 <div class="col-md-8" id="centre">
-	<div class="pub">
-		<img class="img-responsive" src="/LogiKek/img/DealArchEdit.png" alt="Publicité de Arch Linux.">
-	</div>
 	<!-- Début des produits -->
 	<div class="row">
-
+		<div class="jumbotron">
+  			<div class="container">
+  				<h2>Politiques d'achat</h2>
+  				<p>Vente final.</p>
+  				<p>Aucun remboursement ou échange.</p>
+  				<p>Un code d'accès unique vous seras envoyé pour télécharger le produit acheté.</p>
+  				<p>Un code égaré ne vous seras pas ré-envoyé.</p>
+  			</div>
+		</div>
 
 
 <!-- Contenu principal -->

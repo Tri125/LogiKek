@@ -1,6 +1,7 @@
 <?php 
 require_once("php/biblio/foncCommunes.php");
 
+$css = 'index.css';
 $titre = 'LogiKek';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
@@ -13,7 +14,7 @@ require_once("sectionGauche.php");
 <!-- Début section central col-md-9 -->
 <div class="col-md-8" id="centre">
 	<div class="pub">
-		<img class="img-responsive" src="LogiKek/img/DealArchEdit.png" alt="Publicité de Arch Linux.">
+		<img class="img-responsive" src="/LogiKek/img/DealArchEdit.png" alt="Publicité de Arch Linux.">
 	</div>
 	<!-- Début des produits -->
 	<div class="row">
