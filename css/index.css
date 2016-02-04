@@ -30,3 +30,8 @@
 .produit > a{
     cursor: pointer;
 }
+
+
+#myModal{
+    top: 20%;
+}
