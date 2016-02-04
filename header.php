@@ -52,7 +52,7 @@ $liste = new Catalogue($categorie, $recherche);
 <body>
 	<div class="row" id="tete">
 		<div class="col-md-4" id="nomLogiKek">
-			<h1>LogiKek</h1>
+			<a href="?"><h1>LogiKek</h1></a>
 		</div>
 		<div class="col-md-4">
 			<form action='' method='GET'>
