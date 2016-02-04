@@ -53,7 +53,7 @@ $liste = new Catalogue($categorie, $recherche);
 			<a href="/?"><h1>LogiKek</h1></a>
 		</div>
 		<div class="col-md-4">
-			<form action='' method='GET'>
+			<form action='/' method='GET'>
 				<div class="input-group" id="groupeRecherche">
 					<input type="text" required name="recherche" class="form-control" placeholder="Rechercher...">
 					<div class="input-group-btn">
