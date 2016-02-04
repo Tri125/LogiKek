@@ -21,17 +21,17 @@ require_once("sectionGauche.php");
 	<!-- Début des produits -->
 	<div class="row">
 		<?php foreach($liste->catalogue as $value): ?>
-			<div class="col-md-4 panel panel-default">
+			<div class="col-md-4 panel panel-default produit">
 				<h4><?php echo $value->nom ?></h4>
 				<a href="#" class="thumbnail imgProduitPetit">
 					<img src="LogiKek/img/produits/<?php echo $value->codeProduit ?>_small.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='LogiKek/img/produits/nonDispo_small.png';">
 				</a>
 				<?php foreach($value->categories as $categorie): ?>
-					<span class="label label-info"><?php echo $categorie ?></span>
+					<span class="label label-info proCategorie"><?php echo $categorie ?></span>
 				<?php endforeach; ?>
-				<h4>
+				<h4 class="proPrix">
 					<?php echo $value->prix ?>$ 
-					<a href="#">
+					<a href="#" class="proCart">
 						<i class="fa fa-shopping-cart"></i>
 					</a>
 				</h4>
