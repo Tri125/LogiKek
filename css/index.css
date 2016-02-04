@@ -33,5 +33,18 @@
 
 
 #myModal{
-    top: 20%;
+    top: 10%;
+    left: 40%;
+    width: 30em;
+}
+
+
+#myModal h4{
+    text-align: center;
+}
+
+
+#myModal .modal-footer{
+    text-align: center;
+    font-weight: bold;
 }

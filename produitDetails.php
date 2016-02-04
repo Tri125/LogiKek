@@ -6,23 +6,37 @@ require_once("./php/biblio/foncCommunes.php");
 //$description = 'Site de vente de système d\'exploitation';
 //$motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
+global $maBD;
+$produit;
+
+if(isset($_GET['codeProduit']))
+{
+	$codeProduit = $_GET['codeProduit'];
+	$resultat = $maBD->select("SELECT p.idProduit, p.nom, p.description, p.prix, p.codeProduit, p.quantite, p.quantiteMin, 
+    GROUP_CONCAT(c.nom SEPARATOR ',') categories
+	FROM Produits p
+		INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit
+		INNER JOIN Categories c ON c.idCategorie = pc.idCategorie 
+	GROUP BY p.idProduit
+	HAVING p.idProduit = $codeProduit");
+
+	$produit = new Produit($resultat[0]);
+}
 
 ?>
 
-
-
-
-
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p>One fine body&hellip;</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
+<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title"><?php echo $produit->nom; ?></h4>
+	</div>
+	<div class="modal-body">
+		<a class="thumbnail imgProduitGrand">
+			<img src="./img/produits/<?php echo $produit->codeProduit ?>_big.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_big.png';">
+		</a>
+		<p><?php echo $produit->description; ?></p>
+	</div>
+	<div class="modal-footer">
+		<p>Quantité disponible: <?php echo $produit->quantite; ?></p>
+	</div>
+</div><!-- /.modal-content -->
