@@ -22,7 +22,7 @@ require_once("./sectionGauche.php");
 		<?php foreach($liste->catalogue as $value): ?>
 			<div class="col-md-4 panel panel-default produit">
 				<h4><?php echo $value->nom ?></h4>
-				<a class="thumbnail imgProduitPetit" data-codeProduit="<?php echo $value->codeProduit ?>">
+				<a class="thumbnail imgProduitPetit" data-noProduit="<?php echo $value->codeProduit ?>">
 					<img src="./img/produits/<?php echo $value->codeProduit ?>_small.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_small.png';">
 				</a>
 				<?php foreach($value->categories as $categorie): ?>
@@ -30,7 +30,7 @@ require_once("./sectionGauche.php");
 				<?php endforeach; ?>
 				<h4 class="proPrix">
 					<?php echo $value->prix ?>$ 
-					<a href="./panierGestion.php?quoiFaire=ajout&noproduit=<?php echo $value->codeProduit; ?>" class="proCart">
+					<a href="./panierGestion.php?quoiFaire=ajout&noProduit=<?php echo $value->codeProduit; ?>" class="proCart">
 						<i class="fa fa-shopping-cart"></i>
 					</a>
 				</h4>

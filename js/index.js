@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$(".imgProduitPetit").click(function() {
-		var codeProduit = $(this).attr("data-codeProduit");
-		var url = "./produitDetails.php?codeProduit=" + codeProduit;
+		var codeProduit = $(this).attr("data-noProduit");
+		var url = "./produitDetails.php?noProduit=" + codeProduit;
 
 		$.get(url, function(data){
 			$('#myModal').load(url, function(){

@@ -1,9 +1,14 @@
 <?php
 
-require_once("./php/Classes/bdService.php");
-require_once("./php/Classes/Categorie.php"); 
-require_once("./php/Classes/Produit.php"); 
-require_once("./php/Classes/Catalogue.php"); 
+session_start();
+
+spl_autoload_register('ChargementClasses');
+
+function ChargementClasses($nomClasse)
+{
+	$chemin = './php/Classes/';
+	require_once($chemin.$nomClasse.'.php');
+}
 
 $maBD = new bdService();
 

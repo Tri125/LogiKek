@@ -9,9 +9,9 @@ require_once("./php/biblio/foncCommunes.php");
 global $maBD;
 $produit;
 
-if(isset($_GET['codeProduit']))
+if(isset($_GET['noProduit']))
 {
-	$codeProduit = $_GET['codeProduit'];
+	$codeProduit = $_GET['noProduit'];
 	$resultat = $maBD->select("SELECT p.idProduit, p.nom, p.description, p.prix, p.codeProduit, p.quantite, p.quantiteMin, 
     GROUP_CONCAT(c.nom SEPARATOR ',') categories
 	FROM Produits p
