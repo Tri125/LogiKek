@@ -65,14 +65,39 @@ require_once("./sectionGauche.php");
 						<input class="" type="text" size="3" maxlength="3"></input>
 					</td>
 					<td width="220px" align="right"> <!-- Prix -->
-						<p class="prix">$
+						<p class="prix">
 							<strong>34</strong>
 							<sup>.99</sup>
+							$
 						</p>
 					</td>
 				</tr>
 			</tbody>
 			<tfoot>
+				<tr>
+					<td colspan="3" align="right">
+						<span class="label label-default">Sous total:</span>
+						<span>199.99$</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" align="right">
+						<span class="label label-default">TPS:</span>
+						<span>199.99$</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" align="right">
+						<span class="label label-default">TVQ:</span>
+						<span>199.99$</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" align="right">
+						<span class="label label-default">Frais de génération de codes:</span>
+						<span>199.99$</span>
+					</td>
+				</tr>
 			</tfoot>
 		</table>
 

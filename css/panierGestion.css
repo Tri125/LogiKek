@@ -21,6 +21,10 @@ tbody{
     vertical-align: middle;
 }
 
+tfoot{
+   background: rgb(217, 217, 217); 
+}
+
 table{
     text-align: left;
     empty-cells: show;
