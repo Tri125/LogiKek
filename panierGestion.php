@@ -42,7 +42,39 @@ require_once("./sectionGauche.php");
 	</div>
 	<!-- Début des produits -->
 	<div class="row">
-
+		<table class="table">
+			<thead>
+				<tr>
+					<td colspan="3">
+						<h2>Panier</h2>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td> <!-- L'article -->
+						<input class="left" type="checkbox" name="chkProduit"></input>
+						<div class="produit">
+							<img class="img-responsive left" src="https://ssl-images.newegg.com/ProductImageCompressAll/35-608-026-02.jpg"></img>
+							<div class="wrapper">
+								<p class="nomProduit">Noctua NF</p>
+							</div>
+						</div>
+					</td>
+					<td width="50px"> <!-- Quantite -->
+						<input class="" type="text" size="3" maxlength="3"></input>
+					</td>
+					<td width="220px" align="right"> <!-- Prix -->
+						<p class="prix">$
+							<strong>34</strong>
+							<sup>.99</sup>
+						</p>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+			</tfoot>
+		</table>
 
 
 <!-- Contenu principal -->

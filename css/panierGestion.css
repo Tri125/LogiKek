@@ -1,0 +1,50 @@
+/*
+Style inspiré de Newegg.ca
+*/
+
+.produit{
+    overflow: hidden;
+}
+
+.nomProduit{
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+
+.left{
+    float: left;
+}
+
+tbody{
+    display: table-row-group;
+    vertical-align: middle;
+}
+
+table{
+    text-align: left;
+    empty-cells: show;
+}
+
+.wrapper{
+    padding-left: 70px;
+    margin-right: 25px;
+    min-width: 320px;
+    padding-right: 10px;
+}
+
+.produit img{
+    display: block;
+    max-width: 60px;
+    max-height: 45px;
+}
+
+input[type=checkbox] {
+    margin: 15px auto;
+    display: table;
+}
+
+.prix{
+    font-size: 26px;
+    margin: 0 0 5px 0;
+}
