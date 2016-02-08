@@ -77,11 +77,13 @@ require_once("./sectionGauche.php");
 						<ul>
 							<li class="prix">
 								<strong><?php echo intval($value->prix * $value->getQuantite()) ?></strong>
-								<sup>.<?php echo explode('.', number_format($value->prix * $value->getQuantite(), 2))[1] ?></sup>
+								<sup>.<?php $tmp = explode('.', number_format($value->prix * $value->getQuantite(), 2)); 
+										echo $tmp[1];?>
+								</sup>
 								$
 							</li>
 							<li>
-								<span>(<?php echo $value->prix; ?>$ chaq.)</span>
+								<span>(<?php echo number_format($value->prix, 2); ?>$ chaq.)</span>
 							</li>
 						</ul>
 					</td>
