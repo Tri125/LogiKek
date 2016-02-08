@@ -56,7 +56,7 @@ require_once("./sectionGauche.php");
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($panier->getTabAchats() as $value): 
+				<?php foreach($panier->getTabAchats() as $key=>$value): 
 					$sousTotal += ($value->prix * $value->getQuantite());
 				?>
 				<tr>
@@ -70,7 +70,7 @@ require_once("./sectionGauche.php");
 						</div>
 					</td>
 					<td class="quantite"> <!-- Quantite -->
-						<input type="text" size="3" value="<?php echo $value->getQuantite(); ?>" maxlength="3"/>
+						<input type="text" size="3" name="<?php echo ("quantite").$key ?>" value="<?php echo $value->getQuantite(); ?>" maxlength="3"/>
 						<div>Quantité</div>
 					</td>
 					<td class="prix-group"> <!-- Prix -->
