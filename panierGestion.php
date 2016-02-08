@@ -29,7 +29,7 @@ if(isset($_GET['quoiFaire']))
 }
 
 
-$js = 'panierGestion.js';
+//$js = 'panierGestion.js';
 $css = 'panierGestion.css';
 $titre = 'LogiKek - Panier';
 $description = 'Site de vente de système d\'exploitation';

@@ -47,10 +47,13 @@ if (isset($_SESSION['panier-item']))
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="./css/global.css">
-	<link rel="stylesheet" href="./css/<?php echo $css; ?>">
+	<?php if(isset($css)) : ?>
+		<link rel="stylesheet" href="./css/<?php echo $css; ?>">
+	<?php endif; ?>
 	<link rel="stylesheet" href="./css/dirtyIndex.css">
-
+	<?php if(isset($js)) : ?>
 	<script src="./js/<?php echo $js; ?>"></script>
+	<?php endif; ?>
 </head>
 <body>
 	<div class="row" id="tete">
