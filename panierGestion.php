@@ -59,7 +59,7 @@ require_once("./sectionGauche.php");
 				?>
 				<tr>
 					<td> <!-- L'article -->
-						<a class="left supprimer" href="#">
+						<a class="left supprimer" href="./panierGestion.php?quoiFaire=suppression&no=<?php echo $key; ?>">
 							<i class="fa fa-trash"></i>
 						</a>
 						<div class="produit">

@@ -10,9 +10,10 @@ Style inspiré de Newegg.ca
     margin-top: 5px;
     margin-right: 10px;
     font-size: 140%;
+    color: inherit;
 }
 
-.supprimer:hover, .supprimer:visited{
+.supprimer:hover, .supprimer:link .supprimer:active, .supprimer:visited{
     color: inherit;
     text-decoration:none;
 }
