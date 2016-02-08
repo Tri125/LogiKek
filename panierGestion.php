@@ -56,7 +56,7 @@ require_once("./sectionGauche.php");
 			</thead>
 			<tbody>
 				<?php foreach($panier->getTabAchats() as $key=>$value): 
-					$sousTotal += ($value->prix * $value->getQuantite());
+					$sousTotal += ($value->getPrix() * $value->getNombre());
 				?>
 				<tr>
 					<td> <!-- L'article -->
@@ -64,27 +64,27 @@ require_once("./sectionGauche.php");
 							<i class="fa fa-trash"></i>
 						</a>
 						<div class="produit">
-							<img class="img-responsive left" src="./img/produits/<?php echo $value->codeProduit ?>_small.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_small.png';">
+							<img class="img-responsive left" src="./img/produits/<?php echo $value->getCodeProduit(); ?>_small.png" alt="<?php echo $value->getNom(); ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_small.png';">
 							<div class="wrapper">
-								<p class="nomProduit"><?php echo $value->nom ?></p>
+								<p class="nomProduit"><?php echo $value->getNom(); ?></p>
 							</div>
 						</div>
 					</td>
 					<td class="quantite"> <!-- Quantite -->
-						<input type="text" size="3" name="<?php echo ("quantite").$key ?>" value="<?php echo $value->getQuantite(); ?>" maxlength="3"/>
+						<input type="text" size="3" name="<?php echo ("quantite").$key ?>" value="<?php echo $value->getNombre(); ?>" maxlength="3"/>
 						<div>Quantité</div>
 					</td>
 					<td class="prix-group"> <!-- Prix -->
 						<ul>
 							<li class="prix">
-								<strong><?php echo intval($value->prix * $value->getQuantite()) ?></strong>
-								<sup>.<?php $tmp = explode('.', number_format($value->prix * $value->getQuantite(), 2)); 
+								<strong><?php echo intval($value->getPrix() * $value->getNombre()) ?></strong>
+								<sup>.<?php $tmp = explode('.', number_format($value->getPrix() * $value->getNombre(), 2)); 
 										echo $tmp[1];?>
 								</sup>
 								$
 							</li>
 							<li>
-								<span>(<?php echo number_format($value->prix, 2); ?>$ chaq.)</span>
+								<span>(<?php echo number_format($value->getPrix(), 2); ?>$ chaq.)</span>
 							</li>
 						</ul>
 					</td>

@@ -10,21 +10,17 @@ class Achat extends Produit
 		parent::__construct($tableau);
 	}
 
-	public function getQuantite()
+	public function getNombre()
 	{
 		return $this->nombre;
 	}
 
-	public function setQuantite($qt)
+	public function setNombre($qt)
 	{
 		if ($qt > 0)
 			$this->nombre = $qt;
 	}
 
-	public function getNoProduit()
-	{
-		return $this->codeProduit;
-	}
 }
 
 ?>

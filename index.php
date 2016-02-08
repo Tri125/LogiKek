@@ -21,16 +21,16 @@ require_once("./sectionGauche.php");
 	<div class="row">
 		<?php foreach($liste->catalogue as $value): ?>
 			<div class="col-md-4 panel panel-default produit">
-				<h4><?php echo $value->nom ?></h4>
-				<a class="thumbnail imgProduitPetit" data-noProduit="<?php echo $value->codeProduit ?>">
-					<img src="./img/produits/<?php echo $value->codeProduit ?>_small.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_small.png';">
+				<h4><?php echo $value->getNom(); ?></h4>
+				<a class="thumbnail imgProduitPetit" data-noProduit="<?php echo $value->getCodeProduit() ?>">
+					<img src="./img/produits/<?php echo $value->getCodeProduit(); ?>_small.png" alt="<?php echo $value->getNom(); ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_small.png';">
 				</a>
-				<?php foreach($value->categories as $categorie): ?>
-					<span class="label label-info proCategorie"><?php echo $categorie ?></span>
+				<?php foreach($value->getCategories() as $categorie): ?>
+					<span class="label label-info proCategorie"><?php echo $categorie; ?></span>
 				<?php endforeach; ?>
 				<h4 class="proPrix">
-					<?php echo number_format($value->prix, 2) ?>$ 
-					<a href="./panierGestion.php?quoiFaire=ajout&noProduit=<?php echo $value->codeProduit; ?>" class="proCart">
+					<?php echo number_format($value->getPrix(), 2); ?>$ 
+					<a href="./panierGestion.php?quoiFaire=ajout&noProduit=<?php echo $value->getCodeProduit(); ?>" class="proCart">
 						<i class="fa fa-shopping-cart"></i>
 					</a>
 				</h4>

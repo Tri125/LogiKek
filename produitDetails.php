@@ -28,15 +28,15 @@ if(isset($_GET['noProduit']))
 <div class="modal-content">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<h4 class="modal-title"><?php echo $produit->nom; ?></h4>
+		<h4 class="modal-title"><?php echo $produit->getNom(); ?></h4>
 	</div>
 	<div class="modal-body">
 		<a class="thumbnail imgProduitGrand">
-			<img src="./img/produits/<?php echo $produit->codeProduit ?>_big.png" alt="<?php echo $produit->nom ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_big.png';">
+			<img src="./img/produits/<?php echo $produit->getCodeProduit(); ?>_big.png" alt="<?php echo $produit->getNom(); ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_big.png';">
 		</a>
-		<p><?php echo $produit->description; ?></p>
+		<p><?php echo $produit->getDescription(); ?></p>
 	</div>
 	<div class="modal-footer">
-		<p>Quantité disponible: <?php echo $produit->quantite; ?></p>
+		<p>Quantité disponible: <?php echo $produit->getQuantite(); ?></p>
 	</div>
 </div><!-- /.modal-content -->

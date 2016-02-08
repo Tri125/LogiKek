@@ -25,7 +25,7 @@ Class Panier
 		{
 			for ($i = 0; $i < $nbAchats; $i++)
 			{
-				if ($id == $this->tabAchats[$i]->getNoProduit())
+				if ($id == $this->tabAchats[$i]->getCodeProduit())
 				{
 					$dejaPresent = true;
 					break;
@@ -35,8 +35,8 @@ Class Panier
 
 		if ($dejaPresent)
 		{
-			$quantite = $this->tabAchats[$i]->getQuantite();
-			$this->tabAchats[$i]->setQuantite($quantite + 1);
+			$quantite = $this->tabAchats[$i]->getNombre();
+			$this->tabAchats[$i]->setNombre($quantite + 1);
 		}
 		else
 		{
@@ -70,7 +70,7 @@ Class Panier
 		if (isset($this->tabAchats[$num]))
 		{
 			$nbAchats = count($this->tabAchats);
-			$quantite = $this->tabAchats[$num]->getQuantite();
+			$quantite = $this->tabAchats[$num]->getNombre();
 
 			for ($i = $num+1; $i < $nbAchats; $i++)
 			{
