@@ -3,6 +3,7 @@ require_once("./php/biblio/foncCommunes.php");
 
 $categorie = 0;
 $recherche = '';
+$nbrArticle = 0;
 
 if(isset($_GET['listeCategorie']))
 	$categorie = $_GET['listeCategorie'];
@@ -11,6 +12,10 @@ if(isset($_GET['recherche']))
 	$recherche = $_GET['recherche'];
 
 $liste = new Catalogue($categorie, $recherche);
+
+if (isset($_SESSION['panier-item']))
+	$nbrArticle	= $_SESSION['panier-item'];
+
 
 ?>
 
@@ -81,9 +86,9 @@ $liste = new Catalogue($categorie, $recherche);
 			</a>
 		</div>
 		<div class="row">
-			<a href="#">
+			<a href="./panierGestion.php">
 				<i class="fa fa-shopping-cart">
-					<ins>0 Articles</ins>
+					<ins><?php echo $nbrArticle ?> Articles</ins>
 				</i>
 			</a>
 		</div>

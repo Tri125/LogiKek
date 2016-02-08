@@ -4,6 +4,11 @@ require_once("./php/biblio/foncCommunes.php");
 
 $panier = new Panier();
 
+$sousTotal = 0.00;
+$tvq = 0.00;
+$tps = 0.00;
+$total = 0.00;
+
 if(isset($_GET['quoiFaire']))
 {
 	switch ($_GET['quoiFaire'])
@@ -51,51 +56,67 @@ require_once("./sectionGauche.php");
 				</tr>
 			</thead>
 			<tbody>
+				<?php foreach($panier->getTabAchats() as $value): 
+					$sousTotal += ($value->prix * $value->getQuantite());
+				?>
 				<tr>
 					<td> <!-- L'article -->
-						<input class="left" type="checkbox" name="chkProduit"></input>
+						<input class="left" type="checkbox" name="chkProduit"/>
 						<div class="produit">
-							<img class="img-responsive left" src="https://ssl-images.newegg.com/ProductImageCompressAll/35-608-026-02.jpg"></img>
+							<img class="img-responsive left" src="./img/produits/<?php echo $value->codeProduit ?>_small.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_small.png';">
 							<div class="wrapper">
-								<p class="nomProduit">Noctua NF</p>
+								<p class="nomProduit"><?php echo $value->nom ?></p>
 							</div>
 						</div>
 					</td>
-					<td width="50px"> <!-- Quantite -->
-						<input class="" type="text" size="3" maxlength="3"></input>
+					<td class="quantite"> <!-- Quantite -->
+						<input type="text" size="3" value="<?php echo $value->getQuantite(); ?>" maxlength="3"/>
+						<div>Quantité</div>
 					</td>
-					<td width="220px" align="right"> <!-- Prix -->
-						<p class="prix">
-							<strong>34</strong>
-							<sup>.99</sup>
-							$
-						</p>
+					<td class="prix-group"> <!-- Prix -->
+						<ul>
+							<li class="prix">
+								<strong><?php echo intval($value->prix * $value->getQuantite()) ?></strong>
+								<sup>.<?php echo explode('.', number_format($value->prix * $value->getQuantite(), 2))[1] ?></sup>
+								$
+							</li>
+							<li>
+								<span>(<?php echo $value->prix; ?>$ chaq.)</span>
+							</li>
+						</ul>
 					</td>
 				</tr>
+				<?php endforeach; ?>
 			</tbody>
-			<tfoot>
+			<tfoot class="fraisPrix">
 				<tr>
-					<td colspan="3" align="right">
-						<span class="label label-default">Sous total:</span>
-						<span>199.99$</span>
+					<td colspan="3">
+						<span class="label">Sous total:</span>
+						<span><?php echo number_format($sousTotal, 2) ?>$</span>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" align="right">
-						<span class="label label-default">TPS:</span>
-						<span>199.99$</span>
+					<td colspan="3">
+						<span class="label">TPS:</span>
+						<span><?php echo $tps = number_format($sousTotal * TPS, 2); ?>$</span>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" align="right">
-						<span class="label label-default">TVQ:</span>
-						<span>199.99$</span>
+					<td colspan="3">
+						<span class="label">TVQ:</span>
+						<span><?php echo $tvq = number_format($sousTotal * TVQ, 2); ?>$</span>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" align="right">
-						<span class="label label-default">Frais de génération de codes:</span>
-						<span>199.99$</span>
+					<td colspan="3">
+						<span class="label">Frais de génération de codes:</span>
+						<span><?php echo number_format(FRAIS_CODE, 2); ?>$</span>
+					</td>
+				</tr>
+				<tr>
+					<td id="total" colspan="3">
+						<span class="label">Total:</span>
+						<span><?php echo number_format($total = $sousTotal + $tvq + $tps + FRAIS_CODE, 2) ?>$</span>
 					</td>
 				</tr>
 			</tfoot>

@@ -6,9 +6,19 @@ Style inspiré de Newegg.ca
     overflow: hidden;
 }
 
+.produit img{
+    display: block;
+    max-width: 60px;
+    max-height: 45px;
+}
+
 .nomProduit{
     text-decoration: underline;
     font-weight: bold;
+}
+
+.wrapper{
+    padding-left: 70px;
 }
 
 
@@ -16,39 +26,70 @@ Style inspiré de Newegg.ca
     float: left;
 }
 
+.fraisPrix td{
+    text-align: right;
+}
+
 tbody{
     display: table-row-group;
     vertical-align: middle;
 }
 
-tfoot{
-   background: rgb(217, 217, 217); 
+.fraisPrix tr {
+    background: #f1f1f1;
+   
 }
 
 table{
     text-align: left;
     empty-cells: show;
+    border-collapse: collapse;
+    border-color: grey;
+    table-layout: fixed;
 }
 
-.wrapper{
-    padding-left: 70px;
-    margin-right: 25px;
-    min-width: 320px;
-    padding-right: 10px;
+table tr{
+    max-width: 100px;
 }
 
-.produit img{
-    display: block;
-    max-width: 60px;
-    max-height: 45px;
+
+#total{
+    border-top: 1px solid black;
+    font-size: 20px;
+    font-weight: bold;
 }
+
+
+td .label{
+    color: black;
+    font-size: 12px;
+    display: inline-block;
+}
+
 
 input[type=checkbox] {
     margin: 15px auto;
     display: table;
 }
 
+.prix-group{
+    text-align: right;
+}
+
+.prix-group ul{
+    list-style: none;
+}
+
 .prix{
     font-size: 26px;
     margin: 0 0 5px 0;
+}
+
+.quantite{
+    width: 50px;
+}
+
+.quantite div{
+    font-size: 86%;
+
 }

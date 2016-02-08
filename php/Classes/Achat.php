@@ -1,25 +1,29 @@
 <?php
 
-class Achat
+class Achat extends Produit
 {
-	public $nom;
-	public $codeProduit;
-	public $prix;
-	public $description;
-	public $quantite;
-	public $quantiteMin;
-	public $categories = array();
-
-
+	protected $nombre;
+	
 	public function __construct($tableau)
 	{
-		$this->nom = $tableau['nom'];
-		$this->codeProduit = $tableau['idProduit'];
-		$this->prix = number_format($tableau['prix'], 2);
-		$this->description = $tableau['description'];
-		$this->quantite = $tableau['quantite'];
-		$this->quantiteMin = $tableau['quantiteMin'];
-		$this->categories = explode(",", $tableau['categories']);
+		$this->nombre = 1;
+		parent::__construct($tableau);
+	}
+
+	public function getQuantite()
+	{
+		return $this->nombre;
+	}
+
+	public function setQuantite($qt)
+	{
+		if ($qt > 0)
+			$this->nombre = $qt;
+	}
+
+	public function getNoProduit()
+	{
+		return $this->codeProduit;
 	}
 }
 
