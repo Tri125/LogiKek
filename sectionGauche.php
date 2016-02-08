@@ -3,7 +3,7 @@
 		<ul>
 			<?php 
 			foreach(Categorie::fetchAll() as $value): ?>
-			<li><a <?php echo("href='./?listeCategorie=$value->codeCategorie'> $value->nom"); ?></a></li>
+			<li><a href="./?listeCategorie=<?php echo $value->getCodeCategorie(); ?>"><?php echo $value->getNom(); ?></a></li>
 		<?php endforeach; ?>
 
 

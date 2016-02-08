@@ -2,8 +2,8 @@
 
 class Categorie
 {
-	public $nom;
-	public $codeCategorie;
+	protected $nom;
+	protected $codeCategorie;
 
 
 	public function __construct($tableau)
@@ -25,6 +25,16 @@ class Categorie
 			$categories[] = new Categorie($value);
 		}
 		return $categories;
+	}
+
+	public function getNom()
+	{
+		return $this->nom;
+	}
+
+	public function getCodeCategorie()
+	{
+		return $this->codeCategorie;
 	}
 }
 

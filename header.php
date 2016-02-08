@@ -66,7 +66,7 @@ if (isset($_SESSION['panier-item']))
 							<option value="0" selected>Tout les produits</option>
 							<?php 
 							foreach(Categorie::fetchAll() as $value): ?>
-							<?php echo "<option value='$value->codeCategorie'> $value->nom </option>"; ?>
+							<option value="<?php echo $value->getCodeCategorie(); ?>"><?php echo $value->getNom(); ?></option>"
 							<?php endforeach; ?>
 						</select>
 					</div>
