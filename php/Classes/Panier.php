@@ -64,6 +64,20 @@ Class Panier
 		$_SESSION['panier'] = $this->tabAchats;
 		$_SESSION['panier-item'] += 1;
 	}
+	
+	public function suppression($num)
+	{
+		$nbAchats = count($this->tabAchats);
+		for ($i = $num+1; $i < $nbAchats; $i++)
+		{
+			$this->tabAchats[$i-1] = $this->tabAchats[$i];
+		}
+		
+		unset($this->tabAchats[$nbAchats-1]);
+		
+		$_SESSION['panier'] = $this->tabAchats;
+		$_SESSION['panier-item'] = count($this->tabAchats);
+	}
 
 	public function isEmpty()
 	{

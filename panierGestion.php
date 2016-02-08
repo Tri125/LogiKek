@@ -18,7 +18,8 @@ if(isset($_GET['quoiFaire']))
 			break;
 		case "modification":
 			break;
-		case "supression":
+		case "suppression":
+			$panier->suppression($_GET['no']);
 			break;
 		case "vider":
 			break;
