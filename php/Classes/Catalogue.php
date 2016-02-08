@@ -3,7 +3,7 @@
 
 class Catalogue
 {
-	public $catalogue = array();
+	protected $catalogue = array();
 
 	private function ajouterProduit($prod)
 	{
@@ -41,6 +41,10 @@ class Catalogue
 		}
 	}
 
+	public function getCatalogue()
+	{
+		return $this->catalogue;
+	}
 
 
 }

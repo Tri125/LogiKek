@@ -19,7 +19,7 @@ require_once("./sectionGauche.php");
 	</div>
 	<!-- Début des produits -->
 	<div class="row">
-		<?php foreach($liste->catalogue as $value): ?>
+		<?php foreach($liste->getCatalogue() as $value): ?>
 			<div class="col-md-4 panel panel-default produit">
 				<h4><?php echo $value->getNom(); ?></h4>
 				<a class="thumbnail imgProduitPetit" data-noProduit="<?php echo $value->getCodeProduit() ?>">
