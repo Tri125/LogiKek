@@ -50,8 +50,14 @@ Class Panier
 			HAVING (p.idProduit = '$id') 
 			LIMIT 1;";
 
-
-			$tmp = $maBD->select($requeteProduits);
+			try
+			{
+				$tmp = $maBD->select($requeteProduits);
+			}
+			catch (Exception $e)
+			{
+				die();
+			}
 
 			$produit = $tmp[0];
 

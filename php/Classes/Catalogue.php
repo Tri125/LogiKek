@@ -19,7 +19,14 @@ class Catalogue
 		if ($categorie != 0)
 		{
 			$requeteProduits = "SELECT nom FROM Categories WHERE idCategorie = $categorie";
-			$tmp = $maBD->select($requeteProduits);
+			try
+			{
+				$tmp = $maBD->select($requeteProduits);
+			}
+			catch (Exception $e)
+			{
+				die();
+			}
 			$nomCategorie = $tmp[0]['nom'];
 
 			$condition = " AND categories LIKE '%$nomCategorie%'";
@@ -34,10 +41,17 @@ class Catalogue
 	HAVING (p.nom LIKE '%$critere%' OR p.description LIKE '%$critere%') $condition 
 	ORDER BY p.nom, c.nom ASC;";
 		
-		foreach($maBD->select($requeteProduits) as $value)
+		try
 		{
-			$produit = new Produit($value);
-			$this->ajouterProduit($produit);
+			foreach($maBD->select($requeteProduits) as $value)
+			{
+				$produit = new Produit($value);
+				$this->ajouterProduit($produit);
+			}
+		}
+		catch (Exception $e)
+		{
+			die();
 		}
 	}
 
