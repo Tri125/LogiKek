@@ -67,16 +67,23 @@ Class Panier
 	
 	public function suppression($num)
 	{
-		$nbAchats = count($this->tabAchats);
-		for ($i = $num+1; $i < $nbAchats; $i++)
+		if (isset($this->tabAchats[$num]))
 		{
-			$this->tabAchats[$i-1] = $this->tabAchats[$i];
+			$nbAchats = count($this->tabAchats);
+			$quantite = $this->tabAchats[$num]->getQuantite();
+
+			for ($i = $num+1; $i < $nbAchats; $i++)
+			{
+				$this->tabAchats[$i-1] = $this->tabAchats[$i];
+			}
+		
+			unset($this->tabAchats[$nbAchats-1]);
+		
+			$_SESSION['panier'] = $this->tabAchats;
+			$_SESSION['panier-item'] -= $quantite;
 		}
-		
-		unset($this->tabAchats[$nbAchats-1]);
-		
-		$_SESSION['panier'] = $this->tabAchats;
-		$_SESSION['panier-item'] = count($this->tabAchats);
+		else
+			return;
 	}
 
 	public function isEmpty()
