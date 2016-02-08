@@ -78,7 +78,7 @@ VALUES ('CentOS-7 32-bit', 9, 50.99, 'La distribution de Linux CentOS est stable
 10, 1);
 
 INSERT INTO Produits (nom, codeProduit, prix, description, quantite, quantiteMin)
-VALUES ('Red Star OS', 10, 0.00, 'La distribution de choix du leader suprême. Version 32-bit et 64-bit inclus.',
+VALUES ('Red Star OS', 10, 0.00, 'La distribution de choix du chef suprême. Version 32-bit et 64-bit inclus.',
 10, 1);
 
 INSERT INTO Produits (nom, codeProduit, prix, description, quantite, quantiteMin)
