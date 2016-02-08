@@ -32,7 +32,7 @@ class Catalogue
 			$condition = " AND categories LIKE '%$nomCategorie%'";
 		}
 		
-		$requeteProduits = "SELECT p.idProduit, p.nom, p.description, p.prix, p.codeProduit, p.quantite, p.quantiteMin, 
+		$requeteProduits = "SELECT p.idProduit, p.nom, p.description, p.prix, p.quantite, p.quantiteMin, 
     GROUP_CONCAT(c.nom SEPARATOR ',') categories
 	FROM Produits p
 		INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit

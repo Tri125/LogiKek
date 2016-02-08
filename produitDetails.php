@@ -12,7 +12,7 @@ $produit;
 if(isset($_GET['noProduit']))
 {
 	$codeProduit = $_GET['noProduit'];
-	$resultat = $maBD->select("SELECT p.idProduit, p.nom, p.description, p.prix, p.codeProduit, p.quantite, p.quantiteMin, 
+	$resultat = $maBD->select("SELECT p.idProduit, p.nom, p.description, p.prix, p.quantite, p.quantiteMin, 
     GROUP_CONCAT(c.nom SEPARATOR ',') categories
 	FROM Produits p
 		INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit

@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS Categories;
 CREATE TABLE IF NOT EXISTS Produits
 (
 	idProduit INT PRIMARY KEY AUTO_INCREMENT
-    , codeProduit VARCHAR(20) NOT NULL
     , nom VARCHAR(50) NOT NULL
     , prix float
     , description TEXT
@@ -20,9 +19,6 @@ CREATE TABLE IF NOT EXISTS Produits
 )
 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
-ALTER TABLE Produits
-ADD CONSTRAINT Produits_codeProduit_UK
-UNIQUE (codeProduit);
 
 ALTER TABLE Produits
 ADD CONSTRAINT Produits_nom_UK
@@ -31,7 +27,6 @@ UNIQUE (nom);
 CREATE TABLE IF NOT EXISTS Categories
 (
 	idCategorie INT PRIMARY KEY AUTO_INCREMENT
-    , codeCategorie INT NOT NULL
     , nom VARCHAR (20) NOT NULL
 )
 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -40,9 +35,6 @@ ALTER TABLE Categories
 ADD CONSTRAINT Categories_nom_UK
 UNIQUE (nom);
 
-ALTER TABLE Categories
-ADD CONSTRAINT Categories_codeCategoie_UK
-UNIQUE (codeCategorie);
 
 CREATE TABLE IF NOT EXISTS ProduitsCategories
 (
