@@ -29,7 +29,7 @@ require_once("./sectionGauche.php");
 					<span class="label label-info proCategorie"><?php echo $categorie ?></span>
 				<?php endforeach; ?>
 				<h4 class="proPrix">
-					<?php echo $value->prix ?>$ 
+					<?php echo number_format($value->prix, 2) ?>$ 
 					<a href="./panierGestion.php?quoiFaire=ajout&noProduit=<?php echo $value->codeProduit; ?>" class="proCart">
 						<i class="fa fa-shopping-cart"></i>
 					</a>

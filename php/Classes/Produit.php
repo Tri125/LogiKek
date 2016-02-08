@@ -15,7 +15,7 @@ class Produit
 	{
 		$this->nom = $tableau['nom'];
 		$this->codeProduit = $tableau['idProduit'];
-		$this->prix = number_format($tableau['prix'], 2);
+		$this->prix = $tableau['prix'];
 		$this->description = $tableau['description'];
 		$this->quantite = $tableau['quantite'];
 		$this->quantiteMin = $tableau['quantiteMin'];
