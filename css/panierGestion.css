@@ -6,6 +6,18 @@ Style inspiré de Newegg.ca
     overflow: hidden;
 }
 
+.supprimer{
+    margin-top: 5px;
+    margin-right: 10px;
+    font-size: 140%;
+}
+
+.supprimer:hover, .supprimer:visited{
+    color: inherit;
+    text-decoration:none;
+}
+
+
 .produit img{
     display: block;
     max-width: 60px;

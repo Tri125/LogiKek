@@ -41,10 +41,8 @@ require_once("./sectionGauche.php");
 
 
 <!-- Début section central col-md-9 -->
-<div class="col-md-8" id="centre">
-	<div class="pub">
-		<h2>Panier</h2>
-	</div>
+<div class="col-md-7" id="centre">
+
 	<!-- Début des produits -->
 	<div class="row">
 		<table class="table">
@@ -61,7 +59,9 @@ require_once("./sectionGauche.php");
 				?>
 				<tr>
 					<td> <!-- L'article -->
-						<input class="left" type="checkbox" name="chkProduit"/>
+						<a class="left supprimer" href="#">
+							<i class="fa fa-trash"></i>
+						</a>
 						<div class="produit">
 							<img class="img-responsive left" src="./img/produits/<?php echo $value->codeProduit ?>_small.png" alt="<?php echo $value->nom ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_small.png';">
 							<div class="wrapper">
