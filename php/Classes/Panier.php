@@ -71,13 +71,14 @@ Class Panier
 			try
 			{
 				$tmp = $maBD->select($requeteProduits);
+				//Un select en BD retourne un tableau de résultat, notre requête est assuré d'avoir un seul résultat, donc on prend la variable à l'index 0.
+				$produit = $tmp[0];
 			}
 			catch (Exception $e)
 			{
 				die();
 			}
-			//Un select en BD retourne un tableau de résultat, notre requête est assuré d'avoir un seul résultat, donc on prend la variable à l'index 0.
-			$produit = $tmp[0];
+
 			//instancie un objet Achat
 			$achat = new Achat($produit);
 			//Le rajoute à la fin du tableau du Panier.

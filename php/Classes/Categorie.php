@@ -25,8 +25,14 @@ class Categorie
 		global $maBD;
 		$categories = array();
 
-		$tabResultat = $maBD->select("SELECT * FROM Categories ORDER BY nom ASC");
-
+		try
+		{
+			$tabResultat = $maBD->select("SELECT * FROM Categories ORDER BY nom ASC");
+		}
+		catch (Exception $e)
+		{
+			die();
+		}
 		
 		foreach($tabResultat as $value)
 		{

@@ -34,14 +34,15 @@ class Catalogue
 				//Récupère tout les Catégories de la bd qui correspond aux critères.
 				//1 puisque idCategorie est unique
 				$tmp = $maBD->select($requeteProduits);
+				
+				//Récupère le nom de la catégorie qui sera utilisé pour filtrer les produits.
+				//Index à 0, car un seul résultat
+				$nomCategorie = $tmp[0]['nom'];
 			}
 			catch (Exception $e)
 			{
 				die();
 			}
-			//Récupère le nom de la catégorie qui sera utilisé pour filtrer les produits.
-			//Index à 0, car un seul résultat
-			$nomCategorie = $tmp[0]['nom'];
 
 			$condition = " AND categories LIKE '%$nomCategorie%'";
 		}
