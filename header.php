@@ -109,8 +109,9 @@ if (isset($_SESSION['panier-item']))
 		<nav class="navbar navbar-left navbar-static-top">
 			<div class="container">
 				<ul class="nav navbar-nav"> <!-- Pour accéder aux spéciaux du magasin et au support technique -->
-					<li><a href="#">Spéciaux<span class="sr-only">(current)</span></a></li>
-					<li><a href="#">Aide<span class="sr-only">(current)</span></a></li>
+					<li><a href="">Spéciaux<span class="sr-only">(current)</span></a></li>
+					<li><a href="">Aide<span class="sr-only">(current)</span></a></li>
+					<li><a href="./politiques.php">Politiques<span class="sr-only">(current)</span></a></li>
 				</ul>
 			</div>
 			<div class="panel panel-success"></div>
