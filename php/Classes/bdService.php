@@ -3,12 +3,13 @@ class bdService
 {
 	private $BDInterne;
 	//-----------------------------
-	//
+	//Constructeur...
 	//-----------------------------
 	function __construct()
 	{
+		//Parse le fichier de configuration de bd config.ini
 		$config = parse_ini_file('./config.ini');
-
+		//Crée un objet mysqli selon les paramêtres du fichier de config.
 		$this->BDInterne = new mysqli($config['ip'], $config['username'], $config['password'], $config['dbname']);
 		if (!mysqli_connect_errno())
 		{
@@ -18,13 +19,13 @@ class bdService
 		{
 			throw(new Exception("Échec de connexion."));
 		}
-
+		//Spécifie le charset pour ne pas avoir de problème si Apache est configuré différament sous un autre système.
 		if (!$this->BDInterne->set_charset("utf8")) {
     		printf("Error loading character set utf8: %s\n", $this->BDInterne->error);
     	}
 	}
 	//-----------------------------
-	//
+	//Lance la requête $ins comme insert en bd et retourne le résultat (l'id du dernier élément rajouté)
 	//-----------------------------
 	function insert($ins)
 	{
@@ -36,7 +37,7 @@ class bdService
 	}
 	
 	//-----------------------------
-	//
+	//Lance la requête de select $sel et retourne le résultat comme tableau.
 	//-----------------------------
 	function select($sel)
 	{
