@@ -9,6 +9,9 @@ $recherche = '';
 //Utiliser pour l'affichage du nbr d'article dans le panier.
 $nbrArticle = 0;
 
+//Pour savoir si nous sommes à la page index.php (le catalogue) pour afficher les éléments de recherche.
+$estIndex = $_SERVER['PHP_SELF'] == '/index.php';
+
 //Paramètre GET pour le code de catégorie pour la recherche.
 if(isset($_GET['listeCategorie']))
 	$categorie = $_GET['listeCategorie'];
@@ -69,6 +72,7 @@ if (isset($_SESSION['panier-item']))
 			<a href="./?"><h1>LogiKek</h1></a>
 		</div> <!-- Fin du nom de la compagnie -->
 		<div class="col-md-4"> <!-- Début de la section du form de recherche -->
+			<?php if($estIndex) : //Cache le form de recherche si nous sommes pas à l'index ?>
 			<form action='./' method='GET'>
 				<div class="input-group" id="groupeRecherche">
 					<input type="text" required name="recherche" class="form-control" placeholder="Rechercher...">
@@ -86,6 +90,7 @@ if (isset($_SESSION['panier-item']))
 					</span>
 				</div><!-- Fin div input-group -->
 			</form>
+			<?php endif; ?>
 		</div><!-- Fin col-md-4 de la section du form de recherche -->
 
 		<div class="col-md-3 text-right" id="logCart"> <!-- Section de connexion et navigation vers le panier -->
