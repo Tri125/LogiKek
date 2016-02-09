@@ -19,23 +19,27 @@ require_once("./sectionGauche.php");
 	</div>
 	<!-- Début des produits -->
 	<div class="row">
-		<?php foreach($liste->getCatalogue() as $value): ?>
-			<div class="col-md-4 panel panel-default produit">
-				<h4><?php echo $value->getNom(); ?></h4>
-				<a class="thumbnail imgProduitPetit" data-noProduit="<?php echo $value->getCodeProduit() ?>">
-					<img src="./img/produits/<?php echo $value->getCodeProduit(); ?>_small.png" alt="<?php echo $value->getNom(); ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_small.png';">
-				</a>
-				<?php foreach($value->getCategories() as $categorie): ?>
-					<span class="label label-info proCategorie"><?php echo $categorie; ?></span>
-				<?php endforeach; ?>
-				<h4 class="proPrix">
-					<?php echo number_format($value->getPrix(), 2); ?>$ 
-					<a href="./panierGestion.php?quoiFaire=ajout&noProduit=<?php echo $value->getCodeProduit(); ?>" class="proCart">
-						<i class="fa fa-shopping-cart"></i>
+		<?php if(count($liste->getCatalogue()) > 0) : ?>
+			<?php foreach($liste->getCatalogue() as $value): ?>
+				<div class="col-md-4 panel panel-default produit">
+					<h4><?php echo $value->getNom(); ?></h4>
+					<a class="thumbnail imgProduitPetit" data-noProduit="<?php echo $value->getCodeProduit() ?>">
+						<img src="./img/produits/<?php echo $value->getCodeProduit(); ?>_small.png" alt="<?php echo $value->getNom(); ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_small.png';">
 					</a>
-				</h4>
-			</div>
-		<?php endforeach; ?>
+					<?php foreach($value->getCategories() as $categorie): ?>
+						<span class="label label-info proCategorie"><?php echo $categorie; ?></span>
+					<?php endforeach; ?>
+					<h4 class="proPrix">
+						<?php echo number_format($value->getPrix(), 2); ?>$ 
+						<a href="./panierGestion.php?quoiFaire=ajout&noProduit=<?php echo $value->getCodeProduit(); ?>" class="proCart">
+							<i class="fa fa-shopping-cart"></i>
+						</a>
+					</h4>
+				</div>
+			<?php endforeach; ?>
+		<?php else : ?>
+			<h1 id="aucunProduit">Aucun produit</h1>
+		<?php endif; ?>
 	</div> 	<!-- Fin des produits -->
 </div>	<!-- Fin section central col-md-9 -->
 <div class="col-md-1"> 	<!-- Début Section de droite central -->
