@@ -126,7 +126,10 @@ require_once("./sectionGauche.php");
 				</tfoot>
 			</table>
 	<?php else : ?>
-		<div class="alert alert-warning" role="alert">Votre panier est vide.</div>
+		<div class="alert alert-warning" role="alert">
+			<i class="fa fa-info-circle"></i>
+			Votre panier est vide.
+		</div>
 	<?php endif; ?>
 
 <!-- Contenu principal -->
