@@ -126,6 +126,7 @@ require_once("./sectionGauche.php");
 				</tfoot>
 			</table>
 	<?php else : ?>
+		<h2>Panier</h2>
 		<div class="alert alert-warning" role="alert">
 			<i class="fa fa-info-circle"></i>
 			Votre panier est vide.
