@@ -21,7 +21,7 @@ require_once("./sectionGauche.php");
 <!-- Début section central col-md-7 -->
 <div class="col-md-7" id="centre">
 	<div class="pub">
-		<img class="img-responsive" src="./img/LogiKek.png" alt="Logo LogiKek">
+		<img class="img-responsive" src="./img/LogiKek2.png" alt="Logo LogiKek">
 	</div>
 	<!-- Début des produits -->
 	<div class="row">
