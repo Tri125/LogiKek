@@ -116,6 +116,45 @@ Class Panier
 		else
 			return;
 	}
+	
+	//-----------------------------
+	//Function modifier qui modifie la quantité des Articles du panier selon les valeurs du tableau $tab
+	//-----------------------------
+	public function modifier($tab)
+	{
+		$nbAchats = count($this->tabAchats);
+
+		if (count($tab) != $nbAchats)
+			return; //erreur. Faut préparer un message d'erreur apparament.
+		
+		for($i = 0; $i < $nbAchats; $i++)
+		{
+			if (isset($tab["quantite".$i]) && ctype_digit($tab["quantite".$i]))
+				$this->tabAchats[$i]->setNombre($tab["quantite".$i]);
+			else
+				continue; //faudrait préparer un message d'erreur
+		}
+		
+		//Enregistre tabAchats du Panier dans la variable de session 'panier'
+		$_SESSION['panier'] = $this->tabAchats;
+		//Réduit du nombre de produits supprimés du Panier la variable de session 'panier-item'.
+		$_SESSION['panier-item'] = $this->getNbrProduit();
+	}
+	
+	
+	//-----------------------------
+	//Vide le contenu du panier en entier
+	//-----------------------------
+	public function vider()
+	{
+		unset($this->tabAchats);
+		
+		$this->tabAchats = array();
+			
+		$_SESSION['panier'] = $this->tabAchats;
+		$_SESSION['panier-item'] = 0;	
+	}
+
 
 	//-----------------------------
 	//Retourne vrai si tabAchats est égal à 0
@@ -132,6 +171,22 @@ Class Panier
 	{
 		return $this->tabAchats;
 	}
+	
+	//-----------------------------
+	//Retourne le nombre de Produits
+	//-----------------------------
+	public function getNbrProduit()
+	{
+		$nbr = 0;
+		
+		foreach($this->tabAchats as $value)
+		{
+			$nbr += (1 * $value->getNombre()); 
+		}
+		
+		return $nbr;
+	}
+	
 }
 
 ?>

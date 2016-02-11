@@ -15,13 +15,22 @@ if(isset($_GET['quoiFaire']))
 	{
 		case "ajout":
 			$panier->ajouter($_GET['noProduit']);
+			header('location:panierGestion.php');
 			break;
 		case "modification":
+			if(isset($_POST))
+			{
+				$panier->modifier($_POST);
+			}
+			header('location:panierGestion.php');
 			break;
 		case "suppression":
 			$panier->suppression($_GET['no']);
+			header('location:panierGestion.php');
 			break;
 		case "vider":
+			$panier->vider();
+			header('location:panierGestion.php');
 			break;
 		default: 
 			break;
@@ -52,6 +61,12 @@ require_once("./sectionGauche.php");
 					<tr>
 						<td colspan="3">
 							<h2>Panier</h2>
+							<div class="btn-toolbar" role="group" aria-label="...">
+								<form id="modifierForm" method="POST" action="./panierGestion.php?quoiFaire=modification">
+									<input type="submit" class="btn"" value="Modifier qté."> 
+								</form>
+								<a class="btn" role="button" href="./panierGestion.php?quoiFaire=vider">Vider</a>
+							</div>
 						</td>
 					</tr>
 				</thead>
@@ -72,7 +87,7 @@ require_once("./sectionGauche.php");
 							</div>
 						</td>
 						<td class="quantite"> <!-- Quantite -->
-							<input type="text" size="3" name="<?php echo ("quantite").$key ?>" value="<?php echo $value->getNombre(); ?>" maxlength="3"/>
+							<input type="text" form="modifierForm" size="3" name="<?php echo ("quantite").$key ?>" value="<?php echo $value->getNombre(); ?>" maxlength="3"/>
 							<div>Quantité</div>
 						</td>
 						<td class="prix-group"> <!-- Prix -->
@@ -125,6 +140,9 @@ require_once("./sectionGauche.php");
 					</tr>
 				</tfoot>
 			</table>
+			<div class="btn-toolbar pull-right" role="group" aria-label="...">
+				<a href="#" class="btn gtn-default" role="button">Commander</a>
+			</div>
 	<?php else : ?>
 		<h2>Panier</h2>
 		<div class="alert alert-warning" role="alert">
