@@ -26,6 +26,7 @@ require_once("./sectionGauche.php");
   					<p>Aucun remboursement ou échange.</p>
   					<p>Un code d'accès unique vous seras envoyé pour télécharger le produit acheté.</p>
   					<p>Un code égaré ne vous seras pas ré-envoyé.</p>
+  					<p>Un frais de génération de codes de 3.00$ est ajouté par commande.</p>
   				</div> <!-- Fin contenant de nos politiques -->
 			</div> <!-- Fin du jumbotron -->
 		</div> 	<!-- Fin de la ligne des politiques -->
