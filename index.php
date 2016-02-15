@@ -9,6 +9,7 @@ $js[] = 'index.js';
 //Variable pour que header.php charge une feuille de style spécifique à la page index.php
 $css = array();
 $css[] = 'index.css';
+$css[] = 'dirtyIndex.css';
 //Variable pour que header.php donne un titre de page spécifique à index.php
 $titre = 'LogiKek';
 //Variable pour que header.php donne une description spécifique à la page index.php
