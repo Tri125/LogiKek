@@ -56,15 +56,15 @@ if (isset($_SESSION['panier-item']))
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	
 	<link rel="stylesheet" href="./css/global.css">
-	<?php if(isset($css)) : //Chaque page inclus sont propre css/js avec les variable $css et $js. Si n'est pas set, alors l'html n'est pas généré. ?>
-		<link rel="stylesheet" href="./css/<?php echo $css; ?>">
-	<?php endif; ?>
+	<?php foreach($css as $value) : //Chaque page inclus sont propre css/js avec les variable $css et $js. Si n'est pas set, alors l'html n'est pas généré. ?>
+		<link rel="stylesheet" href="./css/<?php echo $value; ?>">
+	<?php endforeach; ?>
 	
 	<!-- Feuille de style contenant des modifications spécifiques d'alignement et de style sur certain éléments. -->
 	<link rel="stylesheet" href="./css/dirtyIndex.css">
-	<?php if(isset($js)) : ?>
-	<script src="./js/<?php echo $js; ?>"></script>
-	<?php endif; ?>
+	<?php foreach($js as $value) : ?>
+	<script src="./js/<?php echo $value; ?>"></script>
+	<?php endforeach; ?>
 </head>
 <body>
 	<div class="row" id="tete">

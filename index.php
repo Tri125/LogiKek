@@ -1,10 +1,14 @@
 <?php 
 require_once("./php/biblio/foncCommunes.php");
 
+
+
 //Variable pour que header.php charge un javascript spécifique à la page index.php
-$js = 'index.js';
+$js = array();
+$js[] = 'index.js';
 //Variable pour que header.php charge une feuille de style spécifique à la page index.php
-$css = 'index.css';
+$css = array();
+$css[] = 'index.css';
 //Variable pour que header.php donne un titre de page spécifique à index.php
 $titre = 'LogiKek';
 //Variable pour que header.php donne une description spécifique à la page index.php

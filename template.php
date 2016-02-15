@@ -1,7 +1,10 @@
 <?php 
 require_once("./php/biblio/foncCommunes.php");
 
-$css = 'index.css';
+$js = array();
+
+$css = array();
+$css[] = 'index.css';
 $titre = 'LogiKek';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';

@@ -37,9 +37,11 @@ if(isset($_GET['quoiFaire']))
 	}
 }
 
-
+$js = array();
 //$js = 'panierGestion.js';
-$css = 'panierGestion.css';
+$css = array();
+$css[] = 'panierGestion.css';
+
 $titre = 'LogiKek - Panier';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';

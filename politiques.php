@@ -1,8 +1,10 @@
 <?php 
 require_once("./php/biblio/foncCommunes.php");
 
+$js = array();
 //Variable pour que header.php charge une feuille de style spécifique à la page politiques.php
-$css = 'politiques.css';
+$css = array();
+$css[] = 'politiques.css';
 //Variable pour que header.php donne un titre de page spécifique à politiques.php
 $titre = 'LogiKek - Politiques';
 //Variable pour que header.php donne une description spécifique à la page politiques.php
