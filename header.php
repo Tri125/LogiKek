@@ -56,6 +56,7 @@ if (isset($_SESSION['panier-item']))
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	
 	<link rel="stylesheet" href="./css/global.css">
+	<link rel="stylesheet" href="./css/dirty.css">
 	<?php foreach($css as $value) : //Chaque page inclus sont propre css/js avec les variable $css et $js. Si le tableau est vide, alors l'html n'est pas généré. ?>
 		<link rel="stylesheet" href="./css/<?php echo $value; ?>">
 	<?php endforeach; ?>
