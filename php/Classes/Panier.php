@@ -122,23 +122,33 @@ Class Panier
 	//-----------------------------
 	public function modifier($tab)
 	{
+		$isGood = true;
+
 		$nbAchats = count($this->tabAchats);
 
 		if (count($tab) != $nbAchats)
-			return; //erreur. Faut préparer un message d'erreur apparament.
+		{
+			$isGood = false;
+			return $isGood; //erreur. Nombre innatendu.
+		}
 		
 		for($i = 0; $i < $nbAchats; $i++)
 		{
 			if (isset($tab["quantite".$i]) && ctype_digit($tab["quantite".$i]))
 				$this->tabAchats[$i]->setNombre($tab["quantite".$i]);
 			else
-				continue; //faudrait préparer un message d'erreur
+			{
+				$isGood = false;
+				continue; //Valeur de modification incorrect ou nom innatendu. On peut continuer avec les autres Achats.
+			}
 		}
 		
 		//Enregistre tabAchats du Panier dans la variable de session 'panier'
 		$_SESSION['panier'] = $this->tabAchats;
 		//Réduit du nombre de produits supprimés du Panier la variable de session 'panier-item'.
 		$_SESSION['panier-item'] = $this->getNbrProduit();
+
+		return $isGood;
 	}
 	
 	
