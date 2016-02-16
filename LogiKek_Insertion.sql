@@ -106,7 +106,7 @@ VALUES ('Gentoo', 3.99, 'Compiler votre sysème en entier avec Gentoo. Expérien
 10, 1);
 
 INSERT INTO Produits (nom, prix, description, quantite, quantiteMin)
-VALUES ('Windows 10', 0.00, 'Inclus plusieurs fonctionalités de surveillances. Parfait pour monsieurs et madame tout le monde, inutile pour le power user.',
+VALUES ('Windows 10', 0.00, 'Inclus plusieurs fonctionalités de surveillances. Parfait pour monsieurs et madame tout le monde, inutile pour l\'utilisateur chevronné.',
 10, 1);
 
 INSERT INTO Produits (nom, prix, description, quantite, quantiteMin)
