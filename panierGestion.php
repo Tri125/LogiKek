@@ -16,23 +16,29 @@ if(isset($_GET['quoiFaire']))
 		case "ajout":
 			$panier->ajouter($_GET['noProduit']);
 			header('location:panierGestion.php');
+			exit();
 			break;
 		case "modification":
 			if(isset($_POST))
 			{
-				$panier->modifier($_POST);
+				$_SESSION['panier-erreur'] = $panier->modifier($_POST);
 			}
 			header('location:panierGestion.php');
+			exit();
 			break;
 		case "suppression":
 			$panier->suppression($_GET['no']);
 			header('location:panierGestion.php');
+			exit();
 			break;
 		case "vider":
 			$panier->vider();
 			header('location:panierGestion.php');
+			exit();
 			break;
 		default: 
+			header('location:panierGestion.php');
+			exit();
 			break;
 	}
 }
@@ -63,12 +69,20 @@ require_once("./sectionGauche.php");
 					<tr>
 						<td colspan="3">
 							<h2>Panier</h2>
-							<div class="btn-toolbar" role="group" aria-label="...">
+							<div class="btn-toolbar" role="toolbar" aria-label="...">
 								<form id="modifierForm" method="POST" action="./panierGestion.php?quoiFaire=modification">
-									<input type="submit" class="btn"" value="Modifier qté."> 
+									<input type="submit" class="btn" value="Modifier qté."> 
 								</form>
-								<a class="btn" role="button" href="./panierGestion.php?quoiFaire=vider">Vider</a>
+								<form id="viderForm" method="POST" action="./panierGestion.php?quoiFaire=vider">
+									<input type="submit" class="btn" value="Vider"> 
+								</form>
 							</div>
+							<?php if(isset($_SESSION['panier-erreur']) && $_SESSION['panier-erreur'] === TRUE) : ?>
+							<div class="alert alert-danger" role="alert">
+								<i class="fa fa-exclamation-triangle"></i>
+								La quantité doit être numérique et positive. Pour supprimer un article du panier utilisez le bouton de corbeille.
+							</div>
+							<?php unset($_SESSION['panier-erreur']); endif; ?>
 						</td>
 					</tr>
 				</thead>
@@ -143,7 +157,9 @@ require_once("./sectionGauche.php");
 				</tfoot>
 			</table>
 			<div class="btn-toolbar pull-right" role="group" aria-label="...">
-				<a href="#" class="btn gtn-default" role="button">Commander</a>
+				<form id="commanderForm" method="POST" action="#">
+					<input type="submit" class="btn" value="Commander"> 
+				</form>
 			</div>
 	<?php else : ?>
 		<h2>Panier</h2>
