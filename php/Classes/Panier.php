@@ -134,7 +134,7 @@ Class Panier
 		
 		for($i = 0; $i < $nbAchats; $i++)
 		{
-			if (isset($tab["quantite".$i]) && ctype_digit($tab["quantite".$i]))
+			if (isset($tab["quantite".$i]) && ctype_digit($tab["quantite".$i]) && $tab["quantite".$i] != 0)
 			{
 				$this->tabAchats[$i]->setNombre($tab["quantite".$i]);
 			}
