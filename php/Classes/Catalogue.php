@@ -43,7 +43,7 @@ class Catalogue
 			//Index à 0, car un seul résultat
 			if (isset($tmp[0]))
 				$nomCategorie = $tmp[0]['nom'];
-			else //Erreur, la catégorie n'existe pas. Données erronnées.
+			else //Erreur, la catégorie n'existe pas. Données erronées.
 				return; 
 
 			$condition = " AND categories LIKE '%$nomCategorie%'";
