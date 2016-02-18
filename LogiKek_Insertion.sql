@@ -455,9 +455,21 @@ VALUES(
 );
 
 
-INSERT INTO Clients (genre, nom, prenom, courriel, adresse, ville, province, codePostal, telephone, usager, mdp)
+INSERT INTO Sexes (nom)
+VALUES
+(
+'M'
+);
+
+INSERT INTO Sexes (nom)
+VALUES
+(
+'F'
+);
+
+INSERT INTO Clients (idSexe, nom, prenom, courriel, adresse, ville, province, codePostal, telephone, usager, mdp)
 VALUES(
-'M', 
+(SELECT idSexe FROM Sexes WHERE nom = 'M'), 
 'Savaria', 
 'Tristan', 
 'qwerty@hotmail.com', 

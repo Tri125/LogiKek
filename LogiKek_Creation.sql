@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS ProduitsCategories;
 DROP TABLE IF EXISTS Produits;
 DROP TABLE IF EXISTS Categories;
 DROP TABLE IF EXISTS Clients;
+DROP TABLE IF EXISTS Sexes;
 
 
 CREATE TABLE IF NOT EXISTS Produits
@@ -58,10 +59,21 @@ ADD CONSTRAINT ProduitsCategories_Categories_FK
 FOREIGN KEY (idCategorie) REFERENCES Categories (idCategorie);
 
 
+CREATE TABLE IF NOT EXISTS Sexes
+(
+	idSexe INT PRIMARY KEY AUTO_INCREMENT
+    , nom VARCHAR(1) NOT NULL
+)
+CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+ALTER TABLE Sexes
+ADD CONSTRAINT Sexes_nom_UK
+Unique (nom);
+
 CREATE TABLE IF NOT EXISTS Clients
 (
 	idClient INT PRIMARY KEY AUTO_INCREMENT
-    , genre ENUM('M','F') NOT NULL DEFAULT 'M'
+    , idSexe INT NOT NULL
     , nom VARCHAR(20) NOT NULL
     , prenom VARCHAR(20) NOT NULL
     , courriel VARCHAR(30) NOT NULL
@@ -79,6 +91,12 @@ CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE Clients
 ADD CONSTRAINT Clients_usager_UK
 UNIQUE (usager);
+
+ALTER TABLE Clients
+ADD CONSTRAINT Clients_Sexes_FK
+FOREIGN KEY (idSexe) REFERENCES Sexes (idSexe);
+
+
 
 DELIMITER //
 
