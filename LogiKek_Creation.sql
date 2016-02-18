@@ -71,8 +71,8 @@ CREATE TABLE IF NOT EXISTS Clients
     , codePostal VARCHAR(6) NOT NULL
     , telephone VARCHAR(10) NOT NULL
     , usager VARCHAR(15) NOT NULL
-    , mdp VARCHAR(64) NOT NULL
-    , salt BINARY(16) NOT NULL
+    , mdp VARCHAR(128) NOT NULL
+    , salt BINARY(16)
 )
 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -82,11 +82,11 @@ UNIQUE (usager);
 
 DELIMITER //
 
-CREATE TRIGGER salt_generation 
+CREATE TRIGGER 1081849_LogiKek.salt_generation 
 BEFORE INSERT 
 	ON Clients FOR EACH ROW
 BEGIN
 	SET NEW.salt := (SELECT UUID());
-END
+END;//
 
 DELIMITER ;
