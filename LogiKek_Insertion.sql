@@ -455,4 +455,19 @@ VALUES(
 );
 
 
+INSERT INTO Clients (genre, nom, prenom, courriel, adresse, ville, province, codePostal, telephone, usager, mdp)
+VALUES(
+'M', 
+'Savaria', 
+'Tristan', 
+'qwerty@hotmail.com', 
+'34 Lolypop Street', 
+'Saint-Jerome', 
+'Québec',
+'F5C3L7',
+'4502627479',
+'tristan',
+(SHA2('1081849', 512))
+);
+
 COMMIT;

@@ -6,6 +6,7 @@ USE `1081849_LogiKek`;
 DROP TABLE IF EXISTS ProduitsCategories;
 DROP TABLE IF EXISTS Produits;
 DROP TABLE IF EXISTS Categories;
+DROP TABLE IF EXISTS Clients;
 
 
 CREATE TABLE IF NOT EXISTS Produits
@@ -55,3 +56,37 @@ FOREIGN KEY (idProduit) REFERENCES Produits (idProduit);
 ALTER TABLE ProduitsCategories
 ADD CONSTRAINT ProduitsCategories_Categories_FK
 FOREIGN KEY (idCategorie) REFERENCES Categories (idCategorie);
+
+
+CREATE TABLE IF NOT EXISTS Clients
+(
+	idClient INT PRIMARY KEY AUTO_INCREMENT
+    , genre ENUM('M','F') NOT NULL DEFAULT 'M'
+    , nom VARCHAR(20) NOT NULL
+    , prenom VARCHAR(20) NOT NULL
+    , courriel VARCHAR(30) NOT NULL
+    , adresse VARCHAR(20) NOT NULL
+    , ville VARCHAR(30) NOT NULL
+    , province VARCHAR(15) NOT NULL
+    , codePostal VARCHAR(6) NOT NULL
+    , telephone VARCHAR(10) NOT NULL
+    , usager VARCHAR(15) NOT NULL
+    , mdp VARCHAR(64) NOT NULL
+    , salt BINARY(16) NOT NULL
+)
+CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+ALTER TABLE Clients
+ADD CONSTRAINT Clients_usager_UK
+UNIQUE (usager);
+
+DELIMITER //
+
+CREATE TRIGGER salt_generation 
+BEFORE INSERT 
+	ON Clients FOR EACH ROW
+BEGIN
+	SET NEW.salt := (SELECT UUID());
+END
+
+DELIMITER ;
