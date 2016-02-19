@@ -58,7 +58,7 @@ ALTER TABLE ProduitsCategories
 ADD CONSTRAINT ProduitsCategories_Categories_FK
 FOREIGN KEY (idCategorie) REFERENCES Categories (idCategorie);
 
-
+/*
 CREATE TABLE IF NOT EXISTS Sexes
 (
 	idSexe INT PRIMARY KEY AUTO_INCREMENT
@@ -69,35 +69,36 @@ CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE Sexes
 ADD CONSTRAINT Sexes_nom_UK
 Unique (nom);
+*/
 
 CREATE TABLE IF NOT EXISTS Clients
 (
 	idClient INT PRIMARY KEY AUTO_INCREMENT
-    , idSexe INT NOT NULL
+    , sexe VARCHAR(1) NOT NULL
     , nom VARCHAR(20) NOT NULL
     , prenom VARCHAR(20) NOT NULL
     , courriel VARCHAR(30) NOT NULL
     , adresse VARCHAR(20) NOT NULL
     , ville VARCHAR(30) NOT NULL
-    , province VARCHAR(15) NOT NULL
+    , province VARCHAR(2) NOT NULL
     , codePostal VARCHAR(6) NOT NULL
     , telephone VARCHAR(10) NOT NULL
-    , usager VARCHAR(15) NOT NULL
-    , mdp VARCHAR(128) NOT NULL
+    , nomUtilisateur VARCHAR(15) NOT NULL
+    , motDePasse VARCHAR(128) NOT NULL
     , salt BINARY(16)
 )
 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 ALTER TABLE Clients
 ADD CONSTRAINT Clients_usager_UK
-UNIQUE (usager);
-
+UNIQUE (nomUtilisateur);
+/*
 ALTER TABLE Clients
 ADD CONSTRAINT Clients_Sexes_FK
 FOREIGN KEY (idSexe) REFERENCES Sexes (idSexe);
+*/
 
-
-
+/*
 DELIMITER //
 
 CREATE TRIGGER 1081849_LogiKek.salt_generation 
@@ -108,3 +109,5 @@ BEGIN
 END;//
 
 DELIMITER ;
+
+*/

@@ -454,7 +454,7 @@ VALUES(
 (SELECT idCategorie FROM Categories WHERE nom = 'Stable')
 );
 
-
+/*
 INSERT INTO Sexes (nom)
 VALUES
 (
@@ -466,10 +466,12 @@ VALUES
 (
 'F'
 );
+*/
 
-INSERT INTO Clients (idSexe, nom, prenom, courriel, adresse, ville, province, codePostal, telephone, usager, mdp)
+
+INSERT INTO Clients (sexe, nom, prenom, courriel, adresse, ville, province, codePostal, telephone, nomUtilisateur, motDePasse)
 VALUES(
-(SELECT idSexe FROM Sexes WHERE nom = 'M'), 
+'M', 
 'Savaria', 
 'Tristan', 
 'qwerty@hotmail.com', 
