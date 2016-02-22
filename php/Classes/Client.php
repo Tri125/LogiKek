@@ -15,6 +15,8 @@ class Client
 	protected $codePostal;
 	protected $telephone;
 	protected $nomUtilisateur;
+	protected $motDePasse;
+	protected $salt;
 	
 	public function __construct($tableau)
 	{
@@ -187,7 +189,7 @@ class Client
 	//-----------------------------
 	public function getMotDePasse()
 	{
-		return;
+		return $this->motDePasse;
 	}
 	
 	//-----------------------------

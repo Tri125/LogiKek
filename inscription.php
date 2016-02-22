@@ -30,6 +30,37 @@ else //Un nouveau client désire s'inscrire
 {
 	$client = new Client(array());
 }
+
+//-----------------------------
+//Function pour afficher la liste déroulante des provinces
+//-----------------------------
+function afficherProvince($provParam)
+{
+	$provinces = array(
+		'QC' => 'Québec', 'ON' => 'Ontario', 'AB' => 'Alberta'
+		, 'BC' => 'Colombie-Britannique', 'PE' => 'Ile-du-Prince-Édouard'
+		, 'MB' => 'Manitoba', 'NB' => 'Nouveau-Brunswick'
+		, 'NS' => 'Nouvelle-Écosse', 'NU' => 'Nunavut'
+		, 'SK' => 'Saskatchewan', 'NL' => 'Terre-Neuve et Labrador'
+		, 'NT' => 'Territoires du Nord-Ouest', 'YU' => 'Yukon');
+		
+		echo "<select name='province'>";
+		foreach ($provinces as $cle => $valeur)
+		{
+			echo "<option value='$cle'";
+			//Si le client à déjà une province, on le sélectionne
+			if ($provParam == $cle)
+				echo "selected";
+			echo ">$valeur</option>";
+		}
+		echo "</select>";
+}
+
+
+function validation()
+{
+	
+}
 ?>
 
 <!-- Début section central col-md-9 -->
@@ -37,7 +68,7 @@ else //Un nouveau client désire s'inscrire
 
 	<!-- Début des produits -->
 	<div class="row">
-		<form id="formInscription" action="inscription.php" method="POST">
+		<form id="formInscription" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
 			<input type="radio" name="sexe" value="F" <?php echo ( ($client->getSexe() == 'F') ? 'checked' : '' );?>>Femme<br>
 			<input type="radio" name="sexe" value="M" <?php echo ( ($client->getSexe() == 'M') ? 'checked' : '' );?>>Homme<br>
 			<input type="text" name="nom" value="<?php echo $client->getNom(); ?>">Nom<br>
@@ -46,21 +77,8 @@ else //Un nouveau client désire s'inscrire
 			<input type="text" name="adresse" value="<?php echo $client->getAdresse(); ?>">Adresse<br>
 			<input type="text" name="ville" value="<?php echo $client->getVille(); ?>">Ville<br>
 			<input type="text" name="codePostal" value="<?php echo $client->getCodePostal(); ?>">Code Postal<br>
-			<select name="province">
-				<option value="QC" <?php echo ( ($client->getProvince() == 'QC') ? 'selected' : '' );?>>Québec</option>
-				<option value="ON" <?php echo ( ($client->getProvince() == 'ON') ? 'selected' : '' );?>>Ontario</option>
-				<option value="AB" <?php echo ( ($client->getProvince() == 'AB') ? 'selected' : '' );?>>Alberta</option>
-				<option value="BC" <?php echo ( ($client->getProvince() == 'BC') ? 'selected' : '' );?>>Colombie-Britannique</option>
-				<option value="PE" <?php echo ( ($client->getProvince() == 'PE') ? 'selected' : '' );?>>Ile-du-Prince-Édouard</option>
-				<option value="MB" <?php echo ( ($client->getProvince() == 'MB') ? 'selected' : '' );?>>Manitoba</option>
-				<option value="NB" <?php echo ( ($client->getProvince() == 'NB') ? 'selected' : '' );?>>Nouveau-Brunswick</option>
-				<option value="NS" <?php echo ( ($client->getProvince() == 'NS') ? 'selected' : '' );?>>Nouvelle-Écosse</option>
-				<option value="NU" <?php echo ( ($client->getProvince() == 'NU') ? 'selected' : '' );?>>Nunavut</option>
-				<option value="SK" <?php echo ( ($client->getProvince() == 'SK') ? 'selected' : '' );?>>Saskatchewan</option>
-				<option value="NL" <?php echo ( ($client->getProvince() == 'NL') ? 'selected' : '' );?>>Terre-Neuve et Labrador</option>
-				<option value="NT" <?php echo ( ($client->getProvince() == 'NT') ? 'selected' : '' );?>>Territoires du Nord-Ouest</option>
-				<option value="YU" <?php echo ( ($client->getProvince() == 'YU') ? 'selected' : '' );?>>Yukon</option>
-             </select>Province<br>
+			<?php afficherProvince($client->getProvince()); ?>
+			Province<br>
 			<input type="text" name="telephone" value="<?php echo $client->getTelephone(); ?>">Numéro de téléphone<br>
 			<input type="text" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">Nom d'utilisateur<br>
 			<input type="password" name="motDePasse" maxlength="15">Mot de passe<br>
