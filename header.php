@@ -68,7 +68,7 @@ if (isset($_SESSION['panier-item']))
 <body>
 	<div class="row" id="tete">
 		<div class="col-md-4" id="nomLogiKek"> <!-- Nom de la compagnie -->
-			<a href="./?"><h1>LogiKek</h1></a>
+			<a href="./index.php"><h1>LogiKek</h1></a>
 		</div> <!-- Fin du nom de la compagnie -->
 		<div class="col-md-4"> <!-- Début de la section du form de recherche -->
 			<?php if($estIndex) : //Cache le form de recherche si nous sommes pas à l'index ?>

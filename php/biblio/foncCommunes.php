@@ -22,6 +22,20 @@ function ChargementClasses($nomClasse)
 	$chemin = './php/Classes/';
 	require_once($chemin.$nomClasse.'.php');
 }
+
+
+
+//-----------------------------
+//Fonction pour désinfecte les entrés utilisateur
+//-----------------------------
+function desinfecte($string)
+{
+	$string = trim($string);
+	$string = stripslashes($string);
+	$string = htmlspecialchars($string);
+	return $string;
+}
+
 //Un seul objet bdService nécessaire, on l'instancie donc dans ce script pour être utilisé ailleur.
 $maBD = new bdService();
 
