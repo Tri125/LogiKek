@@ -40,63 +40,115 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 	}
 
 	if (empty($tabClient['sexe']))
+	{
 		$msgSexe = $msgRequis;
+		$valide = false;
+	}
+	else
+	{
+		//N'est pas F ou M
+		if (!preg_match("/^[FM]$/", $tabClient['sexe']))
+		{
+			$msgSexe = 'Option invalide';
+			$valide = false;
+		}
+	}
 
 	if (empty($tabClient['nom']))
+	{
 		$msgNom = $msgRequis;
+		$valide = false;
+	}
 	else
 	{
 		//Nom et prénom: au moins 2 caractères parmi lettres, tiret, espace, apostrophe et point
-		if (!preg_match("/^[a-zA-Z -'`.]{2,}$/", $tabClient['nom']))
+		if (!preg_match("/^[a-zA-Z -'.]{2,}$/", $tabClient['nom']))
+		{
 			$msgNom = 'Min. 2 caractères valides';
+			$valide = false;
+		}
 	}
 
 	if (empty($tabClient['prenom']))
+	{
 		$msgPrenom = $msgRequis;
+		$valide = false;
+	}
 	else
 	{
 		//Nom et prénom: au moins 2 caractères parmi lettres, tiret, espace, apostrophe et point
-		if (!preg_match("/^[a-zA-Z -'`.]{2,}$/", $tabClient['prenom']))
+		if (!preg_match("/^[a-zA-Z -'.]{2,}$/", $tabClient['prenom']))
+		{
 			$msgPrenom = 'Min. 2 caractères valides';
+			$valide = false;
+		}
 	}
 
 	if (empty($tabClient['courriel']))
+	{
 		$msgCourriel = $msgRequis;
+		$valide = false;
+	}
 	else
 	{
 		if (!filter_var($tabClient['courriel'], FILTER_VALIDATE_EMAIL))
+		{
 			$msgCourriel = 'Courriel invalide';
+			$valide = false;
+		}
 	}
 
 	if (empty($tabClient['adresse']))
+	{
 		$msgAdresse = $msgRequis;
+		$valide = false;
+	}
 	else
 	{
 		//Adresse et ville: au moins 3 caractères parmi lettres, chiffres, tiret, espace, apostrophe et point
 		if (!preg_match("/^[a-zA-Z0-9 -'`.]{3,}$/", $tabClient['adresse']))
+		{
 			$msgAdresse = 'Min. 3 caractères valides';
+			$valide = false;
+		}
 	}
 
 	if (empty($tabClient['ville']))
+	{
 		$msgVille = $msgRequis;
+		$valide = false;
+	}
 	else
 	{
 		//Adresse et ville: au moins 3 caractères parmi lettres, chiffres, tiret, espace, apostrophe et point
 		if (!preg_match("/^[a-zA-Z0-9 -'`.]{3,}$/", $tabClient['ville']))
+		{
 			$msgVille = 'Min. 3 caractères valides';
+			$valide = false;
+		}
 	}
 
 	if (empty($tabClient['codePostal']))
+	{
 		$msgCodePostal = $msgRequis;
+		$valide = false;
+	}
 	else
 	{
 		//Code postal selon le modèle A9A9A9. Ne doit contenir aucune des lettres DFIOQU
+		//Look ahead negatif "?!" du groupe [DFIOQU], regarde si le prochain group ne contient pas un match de ce groupe.
 		if (!preg_match("/^((?![DFIOQU])([A-Z][0-9])){3}$/", $tabClient['codePostal']))
+		{
 			$msgCodePostal = 'Sans espace et modèle A9A9A9';
+			$valide = false;
+		}
 	}
 
 	if (empty($tabClient['telephone']))
+	{
 		$msgTelephone = $msgRequis;
+		$valide = false;
+	}
 	else
 	{
 		//Numéro de téléphone: 10 chiffres, optionnellement encadrés ainsi: (xxx)yyy-zzzz
@@ -106,38 +158,61 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 
 		*/
 		if (!preg_match("/^(\()?[0-9]{3}(?(1)\)( )?[0-9]{3}(-)?[0-9]{4}|(( )?)[0-9]{3}(-)?[0-9]{4})$/", $tabClient['telephone']))
+		{
 			$msgTelephone = 'Modèle invalide (xxx)yyy-zzzz)';
+			$valide = false;
+		}
 	}
 
 	if (empty($tabClient['nomUtilisateur']))
+	{
 		$msgNomUtilisateur = $msgRequis;
+		$valide = false;
+	}
 	else
 	{
 		//Nom d'usager et mot de passe: au moins 5 caractères parmi lettres et chiffres
 		if (!preg_match("/^[A-Za-z0-9]{5,}$/", $tabClient['nomUtilisateur']))
+		{
 			$msgNomUtilisateur = 'Min. 5 caractères valides';
+			$valide = false;
+		}
 	}
 
 	if (empty($tabClient['motDePasse']))
 	{
 		$msgMotDePasse = $msgRequis;
+		$valide = false;
 	}
 	else
 	{
 		//Nom d'usager et mot de passe: au moins 5 caractères parmi lettres et chiffres
 		if (!preg_match("/^[A-Za-z0-9]{5,}$/", $tabClient['motDePasse']))
+		{
 			$msgMotDePasse = 'Min. 5 caractères valides';
+			$valide = false;
+		}
 	}
 
 	if (empty($tabClient['confirm']))
 	{
 		$msgConfirm = $msgRequis;
+		$valide = false;
+	}
+	elseif (!preg_match("/^[A-Za-z0-9]{5,}$/", $tabClient['confirm']))
+	{
+		//Nom d'usager et mot de passe: au moins 5 caractères parmi lettres et chiffres
+		$msgConfirm = 'Min. 5 caractères valides';
+		$valide = false;
 	}
 	else
 	{
-		//Nom d'usager et mot de passe: au moins 5 caractères parmi lettres et chiffres
-		if (!preg_match("/^[A-Za-z0-9]{5,}$/", $tabClient['confirm']))
-			$msgConfirm = 'Min. 5 caractères valides';
+		//Mot de passe de confirmation n'est pas le même que le mot de passe
+		if ($tabClient['confirm'] != $tabClient['motDePasse'])
+		{
+			$msgConfirm = 'N\'est pas identique au mot de passe.';
+			$valide = false;
+		}
 	}
 
 
