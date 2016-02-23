@@ -15,20 +15,16 @@ require_once("./sectionGauche.php");
 $valide = true;
 $client;
 
-//Messages d'erreur
+$messages = array(
+	'sexe' => '', 'nom' => '', 'prenom' => ''
+	, 'courriel' => '', 'adresse' => ''
+	, 'ville' => '', 'codePostal' => ''
+	, 'telephone' => '', 'nomUtilisateur' => ''
+	, 'motDePasse' => '', 'confirm' => ''
+);
+
+//Messages d'erreur affiché pour un champs vide qui est requis.
 $msgRequis = "Champ requis";
-$msgSexe = "";
-$msgNom = "";
-$msgPrenom = "";
-$msgCourriel = "";
-$msgAdresse = "";
-$msgVille = "";
-$msgCodePostal = "";
-//$msgProvince = "";
-$msgTelephone = "";
-$msgNomUtilisateur = "";
-$msgMotDePasse = "";
-$msgConfirm = "";
 
 if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à valider.
 {
@@ -39,9 +35,11 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 		$tabClient[$cle] = desinfecte($valeur);
 	}
 
+	//Vérifie manuellement si le champs genre est set et non vide, car il n'est pas transmit dans le POST si l'utilisateur ne le choisit pas.
+	//Les autres champs sont vérifiés dans un foreach
 	if (empty($tabClient['sexe']))
 	{
-		$msgSexe = $msgRequis;
+		$messages['sexe'] = $msgRequis;
 		$valide = false;
 	}
 	else
@@ -49,160 +47,95 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 		//N'est pas F ou M
 		if (!preg_match("/^[FM]$/", $tabClient['sexe']))
 		{
-			$msgSexe = 'Option invalide';
+			$messages['sexe'] = 'Option invalide';
 			$valide = false;
 		}
 	}
 
-	if (empty($tabClient['nom']))
+
+	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
+	if (!preg_match("/^[a-zA-Z -'.]{2,20}$/", $tabClient['nom']))
 	{
-		$msgNom = $msgRequis;
+		$messages['nom'] = 'Min. 2 caractères valides';
 		$valide = false;
 	}
-	else
-	{
-		//Nom et prénom: au moins 2 caractères parmi lettres, tiret, espace, apostrophe et point
-		if (!preg_match("/^[a-zA-Z -'.]{2,}$/", $tabClient['nom']))
-		{
-			$msgNom = 'Min. 2 caractères valides';
-			$valide = false;
-		}
-	}
 
-	if (empty($tabClient['prenom']))
+
+	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
+	if (!preg_match("/^[a-zA-Z -'.]{2,20}$/", $tabClient['prenom']))
 	{
-		$msgPrenom = $msgRequis;
+		$messages['prenom'] = 'Min. 2 caractères valides';
 		$valide = false;
 	}
-	else
-	{
-		//Nom et prénom: au moins 2 caractères parmi lettres, tiret, espace, apostrophe et point
-		if (!preg_match("/^[a-zA-Z -'.]{2,}$/", $tabClient['prenom']))
-		{
-			$msgPrenom = 'Min. 2 caractères valides';
-			$valide = false;
-		}
-	}
 
-	if (empty($tabClient['courriel']))
+
+	if (!filter_var($tabClient['courriel'], FILTER_VALIDATE_EMAIL))
 	{
-		$msgCourriel = $msgRequis;
+		$messages['courriel'] = 'Courriel invalide';
 		$valide = false;
 	}
-	else
-	{
-		if (!filter_var($tabClient['courriel'], FILTER_VALIDATE_EMAIL))
-		{
-			$msgCourriel = 'Courriel invalide';
-			$valide = false;
-		}
-	}
 
-	if (empty($tabClient['adresse']))
+
+	//Adresse et ville: au moins 3 caractères parmi lettres, chiffres, tiret, espace, apostrophe et point, maximum 40.
+	if (!preg_match("/^[a-zA-Z0-9 -'.]{3,40}$/", $tabClient['adresse']))
 	{
-		$msgAdresse = $msgRequis;
+		$messages['adresse'] = 'Min. 3 caractères valides';
 		$valide = false;
 	}
-	else
-	{
-		//Adresse et ville: au moins 3 caractères parmi lettres, chiffres, tiret, espace, apostrophe et point
-		if (!preg_match("/^[a-zA-Z0-9 -'`.]{3,}$/", $tabClient['adresse']))
-		{
-			$msgAdresse = 'Min. 3 caractères valides';
-			$valide = false;
-		}
-	}
 
-	if (empty($tabClient['ville']))
+
+	//Adresse et ville: au moins 2 caractères max 20 parmi lettres, chiffres, tiret, espace, apostrophe et point
+	if (!preg_match("/^[a-zA-Z0-9 -'.]{2,20}$/", $tabClient['ville']))
 	{
-		$msgVille = $msgRequis;
+		$messages['ville'] = 'Min. 2 caractères valides';
 		$valide = false;
 	}
-	else
-	{
-		//Adresse et ville: au moins 3 caractères parmi lettres, chiffres, tiret, espace, apostrophe et point
-		if (!preg_match("/^[a-zA-Z0-9 -'`.]{3,}$/", $tabClient['ville']))
-		{
-			$msgVille = 'Min. 3 caractères valides';
-			$valide = false;
-		}
-	}
 
-	if (empty($tabClient['codePostal']))
+
+	//Code postal selon le modèle A9A9A9. Ne doit contenir aucune des lettres DFIOQU
+	//Look ahead negatif "?!" du groupe [DFIOQU], regarde si le prochain group ne contient pas un match de ce groupe.
+	if (!preg_match("/^((?![DFIOQU])([A-Z][0-9])){3}$/", $tabClient['codePostal']))
 	{
-		$msgCodePostal = $msgRequis;
+		$messages['codePostal'] = 'Sans espace et modèle A9A9A9';
 		$valide = false;
 	}
-	else
-	{
-		//Code postal selon le modèle A9A9A9. Ne doit contenir aucune des lettres DFIOQU
-		//Look ahead negatif "?!" du groupe [DFIOQU], regarde si le prochain group ne contient pas un match de ce groupe.
-		if (!preg_match("/^((?![DFIOQU])([A-Z][0-9])){3}$/", $tabClient['codePostal']))
-		{
-			$msgCodePostal = 'Sans espace et modèle A9A9A9';
-			$valide = false;
-		}
-	}
 
-	if (empty($tabClient['telephone']))
+
+	//Numéro de téléphone: 10 chiffres, optionnellement encadrés ainsi: (xxx)yyy-zzzz
+
+	/* Explication: Parenthèse et tiret optionnel sur tout le champ, avec espace optionnel après l'indicatif régionnal. (?(1)\) Regarde s'il y avait un match dans le premier group (première parenthèse ouvrante optionnel)
+	si oui, on fait un match sur la parenthèse fermante (IF ?(1) THEN \) ). Ensuite un espace optionnel après ce groupe et on écrit le reste du pattern.
+	À partir de la bar vertical "|" c'est la partie ELSE du conditionnel. Le deuxième groupe est déjà présent (le premier [0-9]), mais l'espace optionnel après la parenthèse fermante fait partie du conditionnel, que nous n'avons pas passé le teste. Donc, il faut mettre l'espace conditionnel au début cette fois. Après, match trivial de numéro et tirets et espaces optionnels.
+	*/
+	if (!preg_match("/^(\()?[0-9]{3}(?(1)\)[ -]?[0-9]{3}[- ]?[0-9]{4}|([ -]?)[0-9]{3}[ -]?[0-9]{4})$/", $tabClient['telephone']) || 
+		preg_match("/^[0-9]{6}[ -]{1}[0-9]{4}$/", $tabClient['telephone'])) 
+		//Plus simple d'avoir une autre regex pour vérifier le cas DDDDDD DDDD et DDDDDD-DDDD qu'on ne veux pas accepter.
 	{
-		$msgTelephone = $msgRequis;
+		$messages['telephone'] = 'Modèle invalide (xxx)yyy-zzzz)';
 		$valide = false;
 	}
-	else
-	{
-		//Numéro de téléphone: 10 chiffres, optionnellement encadrés ainsi: (xxx)yyy-zzzz
-		/* Explication: Parenthèse et tiret optionnel sur tout le champ, avec espace optionnel après l'indicatif régionnal. (?(1)\) Regarde s'il y avait un match dans le premier group (première parenthèse ouvrante optionnel)
-		si oui, on fait un match sur la parenthèse fermante (IF ?(1) THEN \) ). Ensuite un espace optionnel après ce groupe et on écrit le reste du pattern.
-		À partir de la bar vertical "|" c'est la partie ELSE du conditionnel. Le deuxième groupe est déjà présent (le premier [0-9]), mais l'espace optionnel après la parenthèse fermante fait partie du conditionnel, que nous n'avons pas passé le teste. Donc, il faut mettre l'espace conditionnel au début cette fois. Après, match trivial de numéro et tiret optionnel.
 
-		*/
-		if (!preg_match("/^(\()?[0-9]{3}(?(1)\)( )?[0-9]{3}(-)?[0-9]{4}|(( )?)[0-9]{3}(-)?[0-9]{4})$/", $tabClient['telephone']))
-		{
-			$msgTelephone = 'Modèle invalide (xxx)yyy-zzzz)';
-			$valide = false;
-		}
-	}
 
-	if (empty($tabClient['nomUtilisateur']))
+	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
+	if (!preg_match("/^[A-Za-z0-9]{5,10}$/", $tabClient['nomUtilisateur']))
 	{
-		$msgNomUtilisateur = $msgRequis;
+		$messages['nomUtilisateur'] = 'Min. 5 caractères valides';
 		$valide = false;
 	}
-	else
-	{
-		//Nom d'usager et mot de passe: au moins 5 caractères parmi lettres et chiffres
-		if (!preg_match("/^[A-Za-z0-9]{5,}$/", $tabClient['nomUtilisateur']))
-		{
-			$msgNomUtilisateur = 'Min. 5 caractères valides';
-			$valide = false;
-		}
-	}
 
-	if (empty($tabClient['motDePasse']))
+
+	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
+	if (!preg_match("/^[A-Za-z0-9]{5,10}$/", $tabClient['motDePasse']))
 	{
-		$msgMotDePasse = $msgRequis;
+		$messages['motDePasse'] = 'Min. 5 caractères valides';
 		$valide = false;
 	}
-	else
-	{
-		//Nom d'usager et mot de passe: au moins 5 caractères parmi lettres et chiffres
-		if (!preg_match("/^[A-Za-z0-9]{5,}$/", $tabClient['motDePasse']))
-		{
-			$msgMotDePasse = 'Min. 5 caractères valides';
-			$valide = false;
-		}
-	}
 
-	if (empty($tabClient['confirm']))
+
+	if (!preg_match("/^[A-Za-z0-9]{5,10}$/", $tabClient['confirm']))
 	{
-		$msgConfirm = $msgRequis;
-		$valide = false;
-	}
-	elseif (!preg_match("/^[A-Za-z0-9]{5,}$/", $tabClient['confirm']))
-	{
-		//Nom d'usager et mot de passe: au moins 5 caractères parmi lettres et chiffres
-		$msgConfirm = 'Min. 5 caractères valides';
+		//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
+		$messages['confirm'] = 'Min. 5 caractères valides';
 		$valide = false;
 	}
 	else
@@ -210,11 +143,21 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 		//Mot de passe de confirmation n'est pas le même que le mot de passe
 		if ($tabClient['confirm'] != $tabClient['motDePasse'])
 		{
-			$msgConfirm = 'N\'est pas identique au mot de passe.';
+			$messages['confirm'] = 'N\'est pas identique au mot de passe.';
 			$valide = false;
 		}
 	}
 
+	//Vérifie si chacun des champs est set et non vide.
+	//Si oui, on met le message correspondant qui signal un champs requis.
+	foreach ($tabClient as $key => $value) 
+	{
+		if (empty($value))
+		{
+			$messages[$key] = $msgRequis;
+			$valide = false;
+		}
+	}
 
 	//Sans mot de passe
 	$tabClient = array_slice($tabClient, 0, -3);
@@ -264,30 +207,30 @@ function afficherProvince($provParam)
 	<!-- Début des produits -->
 	<div class="row">
 		<form id="formInscription" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
-			<span class="error">* <?php echo $msgSexe;?></span><br>
+			<span class="error">* <?php echo $messages['sexe'];?></span><br>
 			<input type="radio" name="sexe" value="F" <?php echo ( ($client->getSexe() == 'F') ? 'checked' : '' );?>>Femme<br>
 			<input type="radio" name="sexe" value="M" <?php echo ( ($client->getSexe() == 'M') ? 'checked' : '' );?>>Homme<br>
-			<span class="error">* <?php echo $msgNom;?></span><br>
+			<span class="error">* <?php echo $messages['nom'];?></span><br>
 			<input type="text" name="nom" value="<?php echo $client->getNom(); ?>">Nom<br>
-			<span class="error">* <?php echo $msgPrenom;?></span><br>
+			<span class="error">* <?php echo $messages['prenom'];?></span><br>
 			<input type="text" name="prenom" value="<?php echo $client->getPrenom(); ?>">Prenom<br>
-			<span class="error">* <?php echo $msgCourriel;?></span><br>
+			<span class="error">* <?php echo $messages['courriel'];?></span><br>
 			<input type="text" name="courriel" value="<?php echo $client->getCourriel(); ?>">Courriel<br>
-			<span class="error">* <?php echo $msgAdresse;?></span><br>
+			<span class="error">* <?php echo $messages['adresse'];?></span><br>
 			<input type="text" name="adresse" value="<?php echo $client->getAdresse(); ?>">Adresse<br>
-			<span class="error">* <?php echo $msgVille;?></span><br>
+			<span class="error">* <?php echo $messages['ville'];?></span><br>
 			<input type="text" name="ville" value="<?php echo $client->getVille(); ?>">Ville<br>
-			<span class="error">* <?php echo $msgCodePostal;?></span><br>
+			<span class="error">* <?php echo $messages['codePostal'];?></span><br>
 			<input type="text" name="codePostal" value="<?php echo $client->getCodePostal(); ?>">Code Postal<br>
 			<?php afficherProvince($client->getProvince()); ?>
 			Province<br>
-			<span class="error">* <?php echo $msgTelephone;?></span><br>
+			<span class="error">* <?php echo $messages['telephone'];?></span><br>
 			<input type="text" name="telephone" value="<?php echo $client->getTelephone(); ?>">Numéro de téléphone<br>
-			<span class="error">* <?php echo $msgNomUtilisateur;?></span><br>
+			<span class="error">* <?php echo $messages['nomUtilisateur'];?></span><br>
 			<input type="text" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">Nom d'utilisateur<br>
-			<span class="error">* <?php echo $msgMotDePasse;?></span><br>
+			<span class="error">* <?php echo $messages['motDePasse'];?></span><br>
 			<input type="password" name="motDePasse" maxlength="15">Mot de passe<br>
-			<span class="error">* <?php echo $msgConfirm;?></span><br>
+			<span class="error">* <?php echo $messages['confirm'];?></span><br>
 			<input type="password" name="confirm" maxlength="15">Confirmation du mot de passe<br>
 			<input type="submit" name="valider" value="S'inscrire">
 		</form>
