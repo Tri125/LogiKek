@@ -9,7 +9,7 @@ class bdService
 	{
 		//Parse le fichier de configuration de bd config.ini
 		$config = parse_ini_file('./config.ini');
-		//Crée un objet mysqli selon les paramêtres du fichier de config.
+		//CrÃ©e un objet mysqli selon les paramÃ¨tres du fichier de config.
 		$this->BDInterne = new mysqli($config['ip'], $config['username'], $config['password'], $config['dbname']);
 		if (!mysqli_connect_errno())
 		{
@@ -17,15 +17,15 @@ class bdService
 		}
 		else
 		{
-			throw(new Exception("Échec de connexion."));
+			throw(new Exception("Ã‰chec de connexion."));
 		}
-		//Spécifie le charset pour ne pas avoir de problème si Apache est configuré différament sous un autre système.
+		//SpÃ©cifie le charset pour ne pas avoir de problÃ¨me si Apache est configurÃ© diffÃ©rament sous un autre systÃ¨me.
 		if (!$this->BDInterne->set_charset("utf8")) {
     		printf("Error loading character set utf8: %s\n", $this->BDInterne->error);
     	}
 	}
 	//-----------------------------
-	//Lance la requête $ins comme insert en bd et retourne le résultat (l'id du dernier élément rajouté)
+	//Lance la requÃ¨te $ins comme insert en bd et retourne le rÃ©sultat (l'id du dernier Ã©lÃ©ment rajoutÃ©)
 	//-----------------------------
 	function insert($ins)
 	{
@@ -37,23 +37,23 @@ class bdService
 	}
 
 	//-----------------------------
-	//Insert un client passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//Insert un client passÃ© en paramÃ¨tre dans la BD Ã  l'aide d'une dÃ©claration prÃ©parÃ©
 	//-----------------------------
 	function insertClient($client)
 	{
-		//Requête qui sera préparé
+		//RequÃªte qui sera prÃ©parÃ©
 		$requete = "INSERT INTO Clients (sexe, nom, prenom, courriel, adresse, ville, province, codePostal, telephone, nomUtilisateur, motDePasse) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		//retourne faux si une erreur c'est produit
 		if($stmt = $this->BDInterne->prepare($requete))
 		{
-			//Binding des paramètres de la déclaration préparé aux paramètres du client. s pour type string
+			//Binding des paramÃ¨tres de la dÃ©claration prÃ©parÃ© aux paramÃ¨tres du client. s pour type string
 			$stmt->bind_param("sssssssssss", $client->getSexe(), $client->getNom(), $client->getPrenom()
 				, $client->getCourriel(), $client->getAdresse(), $client->getVille()
 				, $client->getProvince(), $client->getCodePostal(), $client->getTelephone()
 				, $client->getNomUtilisateur(), $client->getMotDePasse());
 			
-			//Exécute la requête. Si vrai, réussite, sinon faux.
+			//ExÃ©cute la requÃ¨te. Si vrai, rÃ©ussite, sinon faux.
 			if($stmt->execute())
 			{
 				$nouveau_id = $this->BDInterne->insert_id;
@@ -61,35 +61,32 @@ class bdService
 			//Lance une exception avec le code d'erreur.
 			else
 				throw(new Exception($this->BDInterne->errno));
-			//Ferme la déclaration préparé pour permettre les requêtes avenir.
+			//Ferme la dÃ©claration prÃ©parÃ© pour permettre les requÃªtes avenir.
 			$stmt->close();
 
 			return $nouveau_id;
 		}
 		else
 		{
-			throw (new Exception("Erreur lors de l'envois de la déclaration préparé au serveur"));
+			throw (new Exception("Erreur lors de l'envois de la dÃ©claration prÃ©parÃ© au serveur"));
 		}
 	}
-
+	
+	
 	//-----------------------------
-	//Update un client passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//Update en BD avec une dÃ©claration prÃ©parÃ©
 	//-----------------------------
-	function updateClient($client)
+	function updatePrepared($requete, $args, $values)
 	{
-		//Requête qui sera préparé
-		$requete = "UPDATE Clients SET sexe = ?, nom = ?, prenom = ?, courriel = ?, adresse = ?, ville = ?, province = ?, codePostal = ?, telephone = ?, nomUtilisateur = ?, motDePasse = ? WHERE nomUtilisateur = ?";
-
+		$params = array_merge($args, $values);
+		var_dump($params);
 		//retourne faux si une erreur c'est produit
 		if($stmt = $this->BDInterne->prepare($requete))
 		{
-			//Binding des paramètres de la déclaration préparé aux paramètres du client. s pour type string
-			$stmt->bind_param("ssssssssssss", $client->getSexe(), $client->getNom(), $client->getPrenom()
-				, $client->getCourriel(), $client->getAdresse(), $client->getVille()
-				, $client->getProvince(), $client->getCodePostal(), $client->getTelephone()
-				, $client->getNomUtilisateur(), $client->getMotDePasse() , $client->getNomUtilisateur());
+			//Binding des paramÃ¨tres de la dÃ©claration prÃ©parÃ© aux paramÃ¨tres du client. s pour type string
+			call_user_func_array(array($stmt, 'bind_param'), $params);
 			
-			//Exécute la requête. Si vrai, réussite, sinon faux.
+			//ExÃ©cute la requÃªte. Si vrai, rÃ©ussite, sinon faux.
 			if($stmt->execute())
 			{
 				$nouveau_id = $this->BDInterne->insert_id;
@@ -99,19 +96,57 @@ class bdService
 			//Lance une exception avec le code d'erreur.
 			else
 				throw(new Exception($this->BDInterne->errno));
-			//Ferme la déclaration préparé pour permettre les requêtes avenir.
+			//Ferme la dÃ©claration prÃ©parÃ© pour permettre les requÃªtes avenir.
 			$stmt->close();
 
 			return $nbrLigneModifier;
 		}
 		else
 		{
-			throw (new Exception("Erreur lors de l'envois de la déclaration préparé au serveur"));
+			throw (new Exception("Erreur lors de l'envois de la dÃ©claration prÃ©parÃ© au serveur"));
+		}
+	}
+
+	//-----------------------------
+	//Update un client passÃ© en paramÃ¨tre dans la BD Ã  l'aide d'une dÃ©claration prÃ©parÃ©
+	//-----------------------------
+	function updateClient($client)
+	{
+		//RequÃªte qui sera prÃ©parÃ©
+		$requete = "UPDATE Clients SET sexe = ?, nom = ?, prenom = ?, courriel = ?, adresse = ?, ville = ?, province = ?, codePostal = ?, telephone = ?, nomUtilisateur = ?, motDePasse = ? WHERE nomUtilisateur = ?";
+
+		//retourne faux si une erreur c'est produit
+		if($stmt = $this->BDInterne->prepare($requete))
+		{
+			//Binding des paramÃ¨tres de la dÃ©claration prÃ©parÃ© aux paramÃ¨tres du client. s pour type string
+			$stmt->bind_param("ssssssssssss", $client->getSexe(), $client->getNom(), $client->getPrenom()
+				, $client->getCourriel(), $client->getAdresse(), $client->getVille()
+				, $client->getProvince(), $client->getCodePostal(), $client->getTelephone()
+				, $client->getNomUtilisateur(), $client->getMotDePasse() , $client->getNomUtilisateur());
+			
+			//ExÃ©cute la requÃªte. Si vrai, rÃ©ussite, sinon faux.
+			if($stmt->execute())
+			{
+				$nouveau_id = $this->BDInterne->insert_id;
+
+				$nbrLigneModifier = $stmt->affected_rows;
+			}
+			//Lance une exception avec le code d'erreur.
+			else
+				throw(new Exception($this->BDInterne->errno));
+			//Ferme la dÃ©claration prÃ©parÃ© pour permettre les requÃªtes avenir.
+			$stmt->close();
+
+			return $nbrLigneModifier;
+		}
+		else
+		{
+			throw (new Exception("Erreur lors de l'envois de la dÃ©claration prÃ©parÃ© au serveur"));
 		}
 	}
 	
 	//-----------------------------
-	//Lance la requête de select $sel et retourne le résultat comme tableau.
+	//Lance la requÃªte de select $sel et retourne le rÃ©sultat comme tableau.
 	//-----------------------------
 	function select($sel)
 	{
@@ -119,10 +154,10 @@ class bdService
 		$Res = $this->BDInterne->query($sel);
 		// ASSOC pour le nom des champs
 		// NUM pour les index
-		// BOTH pour les deux à la fois
+		// BOTH pour les deux Ã  la fois
 		if (empty($Res))
 		{
-			throw(new Exception("Erreur de sélection ".$this->BDInterne->errno));
+			throw(new Exception("Erreur de sÃ©lection ".$this->BDInterne->errno));
 		}
 		while($ligne = $Res->fetch_array(MYSQL_ASSOC))
 		{
