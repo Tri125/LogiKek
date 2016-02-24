@@ -9,12 +9,15 @@ $titre = 'LogiKek';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
-$client = $_SESSION['client'];
+
 
 global $maBD;
 
-
-$maBD->updateClient($client);
+if (isset($_SESSION['client']))
+{
+	$client = $_SESSION['client'];
+	$maBD->updateClient($client);
+}
 
 require_once("./header.php");
 require_once("./sectionGauche.php");

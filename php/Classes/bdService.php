@@ -77,16 +77,34 @@ class bdService
 	
 	//-----------------------------
 	//Update en BD avec une déclaration préparé
+	//
+	// $requete est la requête qui sera préparé
+	// $args est un array contenant le type de données de la requête
+	// ie: 'ss'
+	//$values Est un array des données à modifier.
 	//-----------------------------
 	function updatePrepared($requete, $args, $values)
 	{
+		//Fusionne les arrays en un seul
 		$params = array_merge($args, $values);
-		var_dump($params);
+ 
+		//Transforme les éléments du tableau en référence plutôt qu'en valeur
+		foreach($params as $key => &$value)
+		{
+			$params[$key] = &$value;
+		}
 		//retourne faux si une erreur c'est produit
 		if($stmt = $this->BDInterne->prepare($requete))
 		{
-			//Binding des paramètres de la déclaration préparé aux paramètres du client. s pour type string
-			call_user_func_array(array($stmt, 'bind_param'), $params);
+			//Par réflection, obtient une référence à la classe stmt de mysqli
+			$ref = new ReflectionClass('mysqli_stmt');
+			//Par réflection, obtient une référence à la méthode bind_param.
+			$method = $ref->getMethod("bind_param");
+			
+			//Invoque la méthode bind_param par réflection sur l'objet $stmt et la tableau $params comme paramètre.
+			$method->invokeArgs($stmt, $params); 
+			
+			//call_user_func_array(array($stmt, 'bind_param'), $params);
 			
 			//Exécute la requête. Si vrai, réussite, sinon faux.
 			if($stmt->execute())
@@ -116,7 +134,7 @@ class bdService
 	{
 		//Requête qui sera préparé
 		$requete = "UPDATE Clients SET sexe = ?, nom = ?, prenom = ?, courriel = ?, adresse = ?, ville = ?, province = ?, codePostal = ?, telephone = ?, nomUtilisateur = ?, motDePasse = ? WHERE nomUtilisateur = ?";
-		$args[] = array('ssssssssssss');
+		$args = array('ssssssssssss');
 		
 		$values = array($client->getSexe(), $client->getNom(), $client->getPrenom()
 				, $client->getCourriel(), $client->getAdresse(), $client->getVille()
