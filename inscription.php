@@ -4,7 +4,7 @@ require_once("./php/biblio/foncCommunes.php");
 $js = array();
 
 $css = array();
-$css[] = 'index.css';
+$css[] = 'inscription.css';
 $titre = 'LogiKek - inscription';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
@@ -54,7 +54,7 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 
 
 	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
-	if (!preg_match("/^[a-zA-Z -'.]{2,20}$/", $tabClient['nom']))
+	if (!preg_match("/^[a-zA-Z \-'.]{2,20}$/", $tabClient['nom']))
 	{
 		$messages['nom'] = 'Min. 2 caractères valides';
 		$valide = false;
@@ -62,7 +62,7 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 
 
 	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
-	if (!preg_match("/^[a-zA-Z -'.]{2,20}$/", $tabClient['prenom']))
+	if (!preg_match("/^[a-zA-Z \-'.]{2,20}$/", $tabClient['prenom']))
 	{
 		$messages['prenom'] = 'Min. 2 caractères valides';
 		$valide = false;
@@ -77,7 +77,7 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 
 
 	//Adresse et ville: au moins 3 caractères parmi lettres, chiffres, tiret, espace, apostrophe et point, maximum 40.
-	if (!preg_match("/^[a-zA-Z0-9 -'.]{3,40}$/", $tabClient['adresse']))
+	if (!preg_match("/^[a-zA-Z0-9 \-'.]{3,40}$/", $tabClient['adresse']))
 	{
 		$messages['adresse'] = 'Min. 3 caractères valides';
 		$valide = false;
@@ -85,7 +85,7 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 
 
 	//Adresse et ville: au moins 2 caractères max 20 parmi lettres, chiffres, tiret, espace, apostrophe et point
-	if (!preg_match("/^[a-zA-Z0-9 -'.]{2,20}$/", $tabClient['ville']))
+	if (!preg_match("/^[a-zA-Z0-9 \-'.]{2,20}$/", $tabClient['ville']))
 	{
 		$messages['ville'] = 'Min. 2 caractères valides';
 		$valide = false;
@@ -94,7 +94,7 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 
 	//Code postal selon le modèle A9A9A9. Ne doit contenir aucune des lettres DFIOQU
 	//Look ahead negatif "?!" du groupe [DFIOQU], regarde si le prochain group ne contient pas un match de ce groupe.
-	if (!preg_match("/^((?![DFIOQU])([A-Z][0-9])){3}$/", $tabClient['codePostal']))
+	if (!preg_match("/^((?![DdFfIiOoQqUu])([A-Za-z][0-9])){3}$/", $tabClient['codePostal']))
 	{
 		$messages['codePostal'] = 'Sans espace et modèle A9A9A9';
 		$valide = false;
@@ -159,10 +159,17 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 		}
 	}
 
-	//Sans mot de passe
+	//Sans champs de confirmation du mot de passe et sans le bouton valider dans le POST.
 	$tabClient = array_slice($tabClient, 0, -2);
 
 	$client = new Client($tabClient);
+
+	if ($valide)
+	{
+		$_SESSION['client'] = $client;	
+		header("location:confirmation.php");
+		//echo "<meta http-equiv='Refresh' content='0;url=confirmation.php' />";
+	}
 }
 elseif (isset($_SESSION['client'])) //Client déjà authentifié
 {
@@ -207,30 +214,30 @@ function afficherProvince($provParam)
 	<!-- Début des produits -->
 	<div class="row">
 		<form id="formInscription" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
-			<span class="error">* <?php echo $messages['sexe'];?></span><br>
+			<span class="erreur">* <?php echo $messages['sexe'];?></span><br>
 			<input type="radio" name="sexe" value="F" <?php echo ( ($client->getSexe() == 'F') ? 'checked' : '' );?>>Femme<br>
 			<input type="radio" name="sexe" value="M" <?php echo ( ($client->getSexe() == 'M') ? 'checked' : '' );?>>Homme<br>
-			<span class="error">* <?php echo $messages['nom'];?></span><br>
+			<span class="erreur">* <?php echo $messages['nom'];?></span><br>
 			<input type="text" name="nom" value="<?php echo $client->getNom(); ?>">Nom<br>
-			<span class="error">* <?php echo $messages['prenom'];?></span><br>
+			<span class="erreur">* <?php echo $messages['prenom'];?></span><br>
 			<input type="text" name="prenom" value="<?php echo $client->getPrenom(); ?>">Prenom<br>
-			<span class="error">* <?php echo $messages['courriel'];?></span><br>
+			<span class="erreur">* <?php echo $messages['courriel'];?></span><br>
 			<input type="text" name="courriel" value="<?php echo $client->getCourriel(); ?>">Courriel<br>
-			<span class="error">* <?php echo $messages['adresse'];?></span><br>
+			<span class="erreur">* <?php echo $messages['adresse'];?></span><br>
 			<input type="text" name="adresse" value="<?php echo $client->getAdresse(); ?>">Adresse<br>
-			<span class="error">* <?php echo $messages['ville'];?></span><br>
+			<span class="erreur">* <?php echo $messages['ville'];?></span><br>
 			<input type="text" name="ville" value="<?php echo $client->getVille(); ?>">Ville<br>
-			<span class="error">* <?php echo $messages['codePostal'];?></span><br>
+			<span class="erreur">* <?php echo $messages['codePostal'];?></span><br>
 			<input type="text" name="codePostal" value="<?php echo $client->getCodePostal(); ?>">Code Postal<br>
 			<?php afficherProvince($client->getProvince()); ?>
 			Province<br>
-			<span class="error">* <?php echo $messages['telephone'];?></span><br>
+			<span class="erreur">* <?php echo $messages['telephone'];?></span><br>
 			<input type="text" name="telephone" value="<?php echo $client->getTelephone(); ?>">Numéro de téléphone<br>
-			<span class="error">* <?php echo $messages['nomUtilisateur'];?></span><br>
+			<span class="erreur">* <?php echo $messages['nomUtilisateur'];?></span><br>
 			<input type="text" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">Nom d'utilisateur<br>
-			<span class="error">* <?php echo $messages['motDePasse'];?></span><br>
+			<span class="erreur">* <?php echo $messages['motDePasse'];?></span><br>
 			<input type="password" name="motDePasse" maxlength="15">Mot de passe<br>
-			<span class="error">* <?php echo $messages['confirm'];?></span><br>
+			<span class="erreur">* <?php echo $messages['confirm'];?></span><br>
 			<input type="password" name="confirm" maxlength="15">Confirmation du mot de passe<br>
 			<input type="submit" name="valider" value="S'inscrire">
 		</form>

@@ -1,0 +1,108 @@
+/*
+Style inspiré de Newegg.ca
+*/
+
+.produit{
+    overflow: hidden;
+}
+
+.supprimer{
+    margin-top: 5px;
+    margin-right: 10px;
+    font-size: 140%;
+    color: inherit;
+}
+
+.supprimer:hover, .supprimer:link .supprimer:active, .supprimer:visited{
+    color: inherit;
+    text-decoration:none;
+}
+
+
+.produit img{
+    display: block;
+    max-width: 60px;
+    max-height: 45px;
+}
+
+.nomProduit{
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.wrapper{
+    padding-left: 70px;
+}
+
+
+.left{
+    float: left;
+}
+
+.fraisPrix td{
+    text-align: right;
+}
+
+tbody{
+    display: table-row-group;
+    vertical-align: middle;
+}
+
+.fraisPrix tr {
+    background: #f1f1f1;
+   
+}
+
+table{
+    text-align: left;
+    empty-cells: show;
+    border-collapse: collapse;
+    border-color: grey;
+    table-layout: fixed;
+}
+
+table tr{
+    max-width: 100px;
+}
+
+
+#total{
+    border-top: 1px solid black;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+td .label{
+    color: black;
+    font-size: 12px;
+    display: inline-block;
+}
+
+
+input[type=checkbox] {
+    margin: 15px auto;
+    display: table;
+}
+
+.prix-group{
+    text-align: right;
+}
+
+.prix-group ul{
+    list-style: none;
+}
+
+.prix{
+    font-size: 26px;
+    margin: 0 0 5px 0;
+}
+
+.quantite{
+    width: 50px;
+}
+
+.quantite div{
+    font-size: 86%;
+
+}
