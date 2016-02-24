@@ -160,7 +160,7 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 	}
 
 	//Sans mot de passe
-	$tabClient = array_slice($tabClient, 0, -3);
+	$tabClient = array_slice($tabClient, 0, -2);
 
 	$client = new Client($tabClient);
 }

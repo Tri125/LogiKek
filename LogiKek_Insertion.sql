@@ -477,11 +477,11 @@ VALUES(
 'qwerty@hotmail.com', 
 '34 Lolypop Street', 
 'Saint-Jerome', 
-'Québec',
+'QC',
 'F5C3L7',
 '4502627479',
 'tristan',
-(SHA2('1081849', 512))
+'1081849'
 );
 
 COMMIT;

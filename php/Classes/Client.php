@@ -16,12 +16,13 @@ class Client
 	protected $telephone;
 	protected $nomUtilisateur;
 	protected $motDePasse;
-	protected $salt;
 	
 	public function __construct($tableau)
 	{
 		foreach ($tableau as $cle => $valeur)
 			$this->$cle = $valeur;
+
+		//$this->setCryptoPassword($this->motDePasse);
 	}
 
 	//-----------------------------
@@ -197,7 +198,21 @@ class Client
 	//-----------------------------
 	public function setMotDePasse($motDePasse)
 	{
-		return;
+		$this->motDePasse = $motDePasse;
+	}
+
+
+	//-----------------------------
+	// Retourne vrai si le mot de passe (plaintext) en paramètre correspond au hash du mot de passe du client
+	//-----------------------------
+	public function isPasswordMatch($motDePasse)
+	{
+		return password_verify($this->motDePasse, $motDePasse);
+	}
+
+	public function setCryptoPassword($motDePasse)
+	{
+		$this->motDePasse = password_hash($motDePasse, PASSWORD_BCRYPT);
 	}
 
 }
