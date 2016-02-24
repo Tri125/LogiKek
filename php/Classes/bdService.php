@@ -44,14 +44,16 @@ class bdService
 		//Requête qui sera préparé
 		$requete = "INSERT INTO Clients (sexe, nom, prenom, courriel, adresse, ville, province, codePostal, telephone, nomUtilisateur, motDePasse) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+		$values = array($client->getSexe(), $client->getNom(), $client->getPrenom()
+			, $client->getCourriel(), $client->getAdresse(), $client->getVille()
+			, $client->getProvince(), $client->getCodePostal(), $client->getTelephone()
+			, $client->getNomUtilisateur(), $client->getMotDePasse() , $client->getNomUtilisateur());
 		//retourne faux si une erreur c'est produit
 		if($stmt = $this->BDInterne->prepare($requete))
 		{
 			//Binding des paramètres de la déclaration préparé aux paramètres du client. s pour type string
-			$stmt->bind_param("sssssssssss", $client->getSexe(), $client->getNom(), $client->getPrenom()
-				, $client->getCourriel(), $client->getAdresse(), $client->getVille()
-				, $client->getProvince(), $client->getCodePostal(), $client->getTelephone()
-				, $client->getNomUtilisateur(), $client->getMotDePasse());
+			$stmt->bind_param("sssssssssss", $values[0], $values[1], $values[2], $values[3], $values[4], $values[5], $values[6]
+			, $values[7], $values[8], $values[9], $values[10]);
 			
 			//Exécute la requète. Si vrai, réussite, sinon faux.
 			if($stmt->execute())
@@ -114,35 +116,14 @@ class bdService
 	{
 		//Requête qui sera préparé
 		$requete = "UPDATE Clients SET sexe = ?, nom = ?, prenom = ?, courriel = ?, adresse = ?, ville = ?, province = ?, codePostal = ?, telephone = ?, nomUtilisateur = ?, motDePasse = ? WHERE nomUtilisateur = ?";
-
-		//retourne faux si une erreur c'est produit
-		if($stmt = $this->BDInterne->prepare($requete))
-		{
-			//Binding des paramètres de la déclaration préparé aux paramètres du client. s pour type string
-			$stmt->bind_param("ssssssssssss", $client->getSexe(), $client->getNom(), $client->getPrenom()
+		$args[] = array('ssssssssssss');
+		
+		$values = array($client->getSexe(), $client->getNom(), $client->getPrenom()
 				, $client->getCourriel(), $client->getAdresse(), $client->getVille()
 				, $client->getProvince(), $client->getCodePostal(), $client->getTelephone()
 				, $client->getNomUtilisateur(), $client->getMotDePasse() , $client->getNomUtilisateur());
-			
-			//Exécute la requête. Si vrai, réussite, sinon faux.
-			if($stmt->execute())
-			{
-				$nouveau_id = $this->BDInterne->insert_id;
 
-				$nbrLigneModifier = $stmt->affected_rows;
-			}
-			//Lance une exception avec le code d'erreur.
-			else
-				throw(new Exception($this->BDInterne->errno));
-			//Ferme la déclaration préparé pour permettre les requêtes avenir.
-			$stmt->close();
-
-			return $nbrLigneModifier;
-		}
-		else
-		{
-			throw (new Exception("Erreur lors de l'envois de la déclaration préparé au serveur"));
-		}
+		return $this->updatePrepared($requete, $args, $values);
 	}
 	
 	//-----------------------------

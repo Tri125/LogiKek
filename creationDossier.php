@@ -14,7 +14,7 @@ $client = $_SESSION['client'];
 global $maBD;
 
 
-$maBD->insertClient($client);
+$maBD->updateClient($client);
 
 require_once("./header.php");
 require_once("./sectionGauche.php");
