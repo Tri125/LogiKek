@@ -94,7 +94,7 @@ if (isset($_SESSION['panier-item']))
 
 		<div class="col-md-3 text-right" id="logCart"> <!-- Section de connexion et navigation vers le panier -->
 			<div class="row"> <!-- Lien connexion avec image symbolique -->
-				<a href="#">
+				<a href="./authentification.php">
 					<i class="fa fa-user">
 						Se connecter
 					</i>

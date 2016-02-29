@@ -54,7 +54,7 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 
 
 	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
-	if (!preg_match("/^[a-zA-Z \-'.]{2,20}$/", $tabClient['nom']))
+	if (!preg_match("/^[a-zA-Z \-\'.]{2,20}$/", $tabClient['nom']))
 	{
 		$messages['nom'] = 'Min. 2 caractères valides';
 		$valide = false;
@@ -168,6 +168,7 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 	{
 		$_SESSION['client'] = $client;	
 		header("location:confirmation.php");
+		exit;
 		//echo "<meta http-equiv='Refresh' content='0;url=confirmation.php' />";
 	}
 }
@@ -213,6 +214,12 @@ function afficherProvince($provParam)
 
 	<!-- Début des produits -->
 	<div class="row">
+	<?php if (isset($_GET['erreur']) && $_GET['erreur'] == 'doublon'): ?>
+		<div class="alert alert-danger" role="alert">
+			<i class="fa fa-exclamation-triangle"></i>
+			Nom d'utilisateur déjà existant.
+		</div>
+	<?php endif; ?>
 		<form id="formInscription" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
 			<span class="erreur">* <?php echo $messages['sexe'];?></span><br>
 			<input type="radio" name="sexe" value="F" <?php echo ( ($client->getSexe() == 'F') ? 'checked' : '' );?>>Femme<br>

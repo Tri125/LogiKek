@@ -33,6 +33,7 @@ function desinfecte($string)
 	$string = trim($string);
 	$string = stripslashes($string);
 	$string = htmlspecialchars($string);
+	//$string = htmlentities($string, ENT_QUOTES);
 	return $string;
 }
 

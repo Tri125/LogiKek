@@ -15,10 +15,7 @@ require_once("./sectionGauche.php");
 ?>
 
 <!-- Début section central col-md-9 -->
-<div class="col-md-8" id="centre">
-	<div class="pub">
-		<img class="img-responsive" src="./img/DealArchEdit.png" alt="Publicité de Arch Linux.">
-	</div>
+<div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
 
