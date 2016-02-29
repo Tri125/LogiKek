@@ -96,7 +96,11 @@ if (isset($_SESSION['panier-item']))
 			<div class="row"> <!-- Lien connexion avec image symbolique -->
 				<a href="./authentification.php">
 					<i class="fa fa-user">
+					<?php if (isset($_SESSION['authentification'])): ?>
+						<?php echo $_SESSION['authentification']; ?>
+					<?php else: ?>
 						Se connecter
+					<?php endif; ?>
 					</i>
 				</a>
 			</div>

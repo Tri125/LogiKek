@@ -26,17 +26,17 @@ if (isset($_SESSION['client']))
 		if ($e->getMessage() == 1062)
 		{
 			header("location:inscription.php?erreur=doublon");
-			exit;
+			exit();
 		}
 		else
-			exit;
+			exit();
 	}
 	$_SESSION['authentification'] = $client->getNomUtilisateur();
 }
 else
 {
 	header("location:inscription.php");
-	exit;
+	exit();
 }
 
 require_once("./header.php");

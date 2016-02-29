@@ -15,6 +15,12 @@ require_once("./sectionGauche.php");
 
 global $maBD;
 
+if (isset($_SESSION['authentification']))
+{
+	header("location:./inscription.php");
+	exit();
+}
+
 if (isset($_POST['valider']))
 {
 	$tabClient = array();
@@ -36,12 +42,12 @@ if (isset($_POST['valider']))
 		$_SESSION['authentification'] = $_POST['nomUtilisateur'];
 
 		header("location:./");
-		exit;
+		exit();
 	}
 	else
 	{
-		header("location:./authentification.php?erreur");
-		exit;
+		header("location:./authentification.php?erreur=auth");
+		exit();
 	}
 }
 
@@ -51,7 +57,7 @@ if (isset($_POST['valider']))
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
-	<?php if (isset($_GET['erreur'])): ?>
+	<?php if (isset($_GET['erreur']) && $_GET['erreur'] == 'auth'): ?>
 		<div class="alert alert-danger" role="alert">
 			<i class="fa fa-exclamation-triangle"></i>
 			Nom d'utilisateur ou mot de passe incorrect.

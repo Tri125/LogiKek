@@ -168,7 +168,7 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 	{
 		$_SESSION['client'] = $client;	
 		header("location:confirmation.php");
-		exit;
+		exit();
 		//echo "<meta http-equiv='Refresh' content='0;url=confirmation.php' />";
 	}
 }
