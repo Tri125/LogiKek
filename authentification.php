@@ -21,6 +21,11 @@ if (isset($_SESSION['authentification']))
 	exit();
 }
 
+if (isset($_GET['prov']))
+{
+	$_SESSION['prov'] = 'dossier';
+}
+
 if (isset($_POST['valider']))
 {
 	$tabClient = array();
@@ -40,8 +45,22 @@ if (isset($_POST['valider']))
 
 		$_SESSION['client'] = $client;
 		$_SESSION['authentification'] = $_POST['nomUtilisateur'];
-
-		header("location:./");
+		//Ne sera jamais exécuté
+		if (isset($_SESSION['prov']) && $_SESSION['prov'] == 'dossier')
+		{
+			unset($_SESSION['prov']);
+			header("location:./authentification.php");
+		}
+		elseif (isset($_SESSION['prov']) && $_SESSION['prov'] == 'commander')
+		{
+			unset($_SESSION['prov']);
+			header("location:./commander.php");
+		}
+		else
+		{
+			unset($_SESSION['prov']);
+			header("location:./");
+		}
 		exit();
 	}
 	else

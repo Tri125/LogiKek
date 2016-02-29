@@ -94,20 +94,31 @@ if (isset($_SESSION['panier-item']))
 
 		<div class="col-md-3 text-right" id="logCart"> <!-- Section de connexion et navigation vers le panier -->
 			<div class="row"> <!-- Lien connexion avec image symbolique -->
-				<a href="./authentification.php">
+			<?php if (isset($_SESSION['authentification'])): ?>
+				<a href="./authentification.php?prov=dossier">
 					<i class="fa fa-user">
-					<?php if (isset($_SESSION['authentification'])): ?>
 						<?php echo $_SESSION['authentification']; ?>
-					<?php else: ?>
-						Se connecter
-					<?php endif; ?>
 					</i>
 				</a>
+			<?php else: ?>
+				<a href="./authentification.php">
+					<i class="fa fa-user">
+						Se connecter
+					</i>
+				</a>
+			<?php endif; ?>
 			</div>
 			<div class="row"> <!-- Lien vers le panier avec image symbolique -->
 				<a href="./panierGestion.php">
 					<i class="fa fa-shopping-cart">
 						<ins><?php echo $nbrArticle ?> Articles</ins>
+					</i>
+				</a>
+			</div>
+			<div class="row"> <!-- Lien vers la page commander -->
+				<a href="#">
+					<i class="fa fa-truck">
+						Commander
 					</i>
 				</a>
 			</div>
