@@ -159,6 +159,7 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 		}
 	}
 
+	$tabClient['codePostal'] = strToUpper($tabClient['codePostal']);
 	//Sans champs de confirmation du mot de passe et sans le bouton valider dans le POST.
 	$tabClient = array_slice($tabClient, 0, -2);
 
@@ -240,6 +241,13 @@ function afficherProvince($provParam)
 			Province<br>
 			<span class="erreur">* <?php echo $messages['telephone'];?></span><br>
 			<input type="text" name="telephone" value="<?php echo $client->getTelephone(); ?>">Numéro de téléphone<br>
+		<?php if (isset($_SESSION['client'])): ?>
+			<span class="label"><?php echo $client->getNomUtilisateur(); ?></span>Nom d'utilisateur<br>
+			<input type="hidden" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">
+			<input type="hidden" name="motDePasse" maxlength="15" value="<?php echo $client->getMotDePasse(); ?>">
+			<input type="hidden" name="confirm" maxlength="15" value="<?php echo $client->getMotDePasse(); ?>">
+			<input type="submit" name="valider" value="Modifier">
+		<?php else: ?>
 			<span class="erreur">* <?php echo $messages['nomUtilisateur'];?></span><br>
 			<input type="text" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">Nom d'utilisateur<br>
 			<span class="erreur">* <?php echo $messages['motDePasse'];?></span><br>
@@ -247,6 +255,7 @@ function afficherProvince($provParam)
 			<span class="erreur">* <?php echo $messages['confirm'];?></span><br>
 			<input type="password" name="confirm" maxlength="15">Confirmation du mot de passe<br>
 			<input type="submit" name="valider" value="S'inscrire">
+		<?php endif; ?>
 		</form>
 
 

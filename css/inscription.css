@@ -1,3 +1,9 @@
 .erreur{
 	color: red;
 }
+
+.label{
+    color: black;
+    font-size: 12px;
+    display: inline-block;
+}

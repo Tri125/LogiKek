@@ -78,9 +78,10 @@ require_once("./sectionGauche.php");
 					<i class="fa fa-info-circle"></i>
 					<?php echo $message;?>
 				</div>
-			<?php endif; ?>
+			<?php else: ?>
 			<h3><?php echo $client->getPrenom().' '.$client->getNom(); ?></h3>
   			<p>Votre dossier a été mit à jour avec succès.</p>
+  			<?php endif; ?>
 		<?php elseif (isset($_SESSION['authentification'])): ?>
 			<h3><?php echo $client->getPrenom().' '.$client->getNom(); ?></h3>
   			<p>Votre dossier a été créé avec succès, vous pouvez dorénavant commander des produits.</p>
