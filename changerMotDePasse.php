@@ -119,6 +119,11 @@ else
 				<p><?php echo $message; ?></p>
 			<?php endforeach; ?>
 		</div>
+	<?php elseif(isset($_POST['valider'])): ?>
+		<div class="alert alert-success" role="alert">
+			<i class="fa fa fa-check"></i>
+			<p>Changement de mot de passe fait avec succès.</p>
+		</div>
 	<?php endif; ?>	
 		<form id="formChangementMotDePasse" onsubmit="return validerChamps(this);" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
 			<table>
