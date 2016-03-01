@@ -23,7 +23,7 @@ require_once("./sectionGauche.php");
 			<table>
 				<tbody>
 					<tr>
-						<td colspan="3">
+						<td colspan="2">
 							<label>Saisissez les données</label>
 						</td>
 					</tr>
@@ -52,10 +52,10 @@ require_once("./sectionGauche.php");
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3">&nbsp;</td>
+						<td colspan="2">&nbsp;</td>
 					</tr>
 					<tr>
-						<td colspan="3">
+						<td colspan="2">
 							<input type="submit" name="valider" value="Changer le mot de passe">
 						</td>
 					</tr>
@@ -65,9 +65,28 @@ require_once("./sectionGauche.php");
 		</form>
 
 
+<!-- Modal -->
+<div id="modalErreur" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Erreur</h4>
+      </div>
+      <div class="modal-body">
+        <p id="modalMessage"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+
+
 <!-- Contenu principal -->
-
-
 	</div> 	<!-- Fin des produits -->
 </div>	<!-- Fin section central col-md-9 -->
 <div class="col-md-1"> 	<!-- Début Section de droite central -->
