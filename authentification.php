@@ -35,9 +35,9 @@ if (isset($_POST['valider']))
 		$tabClient[$cle] = desinfecte($valeur);
 	}
 
-	$tmp = $maBD->selectClient($tabClient['nomUtilisateur']);
+	$tmp = $maBD->selectClientMotDePasse($tabClient['nomUtilisateur'], $tabClient['motDePasse']);
 
-	if (isset($tmp) && $tmp['motDePasse'] == $tabClient['motDePasse'])
+	if (isset($tmp))
 	{
 		//Enlève le champs id qui se situe à l'index 0.
 		array_shift($tmp);

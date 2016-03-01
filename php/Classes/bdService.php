@@ -265,6 +265,18 @@ class bdService
 		return $resultats[0];
 	}
 	
+	
+	function selectClientMotDePasse($nomUtilisateur, $motDePasse)
+	{
+		//Requête qui sera préparé
+		$requete = "SELECT * FROM Clients WHERE nomUtilisateur = ? AND motDePasse = ?";
+		$args = array('ss');
+		
+		$values = array($nomUtilisateur, $motDePasse);
+		$resultats = $this->selectPrepared($requete, $args, $values);
+		return $resultats[0];
+	}
+	
 	//-----------------------------
 	//Lance la requête de select $sel et retourne le résultat comme tableau.
 	//-----------------------------
