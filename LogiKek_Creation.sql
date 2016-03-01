@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS Clients
     , sexe VARCHAR(1) NOT NULL
     , nom VARCHAR(20) NOT NULL
     , prenom VARCHAR(20) NOT NULL
-    , courriel VARCHAR(30) NOT NULL
+    , courriel VARCHAR(255) NOT NULL
     , adresse VARCHAR(20) NOT NULL
     , ville VARCHAR(30) NOT NULL
     , province VARCHAR(2) NOT NULL
