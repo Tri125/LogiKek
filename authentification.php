@@ -23,7 +23,7 @@ if (isset($_SESSION['authentification']))
 
 if (isset($_GET['prov']))
 {
-	$_SESSION['prov'] = 'dossier';
+	$_SESSION['prov'] = $_GET['prov'];
 }
 
 if (isset($_POST['valider']))
@@ -55,6 +55,11 @@ if (isset($_POST['valider']))
 		{
 			unset($_SESSION['prov']);
 			header("location:./commander.php");
+		}
+		elseif (isset($_SESSION['prov']) && $_SESSION['prov'] == 'changerMotDePasse')
+		{
+			unset($_SESSION['prov']);
+			header("location:./changerMotDePasse.php");
 		}
 		else
 		{

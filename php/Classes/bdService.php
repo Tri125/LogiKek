@@ -172,6 +172,19 @@ class bdService
 
 		return $this->updatePrepared($requete, $args, $values);
 	}
+	
+	//-----------------------------
+	//Update le mot de passe du client passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//-----------------------------
+	function updateMotDePasse($client)
+	{
+		$requete = "UPDATE Clients SET motDePasse = ? WHERE nomUtilisateur = ?";
+		$args = array('ss');
+		
+		$values = array($client->getMotDePasse(), $client->getNomUtilisateur());
+		
+		return $this->updatePrepared($requete, $args, $values);
+	}
 
 
 	//-----------------------------
