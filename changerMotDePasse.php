@@ -32,7 +32,7 @@ require_once("./sectionGauche.php");
 							<label for="mdpActuel">Mot de passe actuel:</label>
 						</td>
 						<td>
-							<input type="password" required id="mdpActuel" name="mdpActuel">
+							<input type="password" id="mdpActuel" name="mdpActuel">
 						</td>
 					</tr>
 					<tr>
@@ -40,7 +40,7 @@ require_once("./sectionGauche.php");
 							<label for="mdpNouveau">Nouveau mot de passe:</label>
 						</td>
 						<td>
-							<input type="password" required id="mdpNouveau" name="mdpNouveau">
+							<input type="password" id="mdpNouveau" name="mdpNouveau">
 						</td>
 					</tr>
 					<tr>
@@ -48,7 +48,7 @@ require_once("./sectionGauche.php");
 							<label for="mdpConfirmer">Confirmation du mot de passe:</label>
 						</td>
 						<td>
-							<input type="password" required id="mdpConfirmer" name="mdpConfirmer">
+							<input type="password" id="mdpConfirmer" name="mdpConfirmer">
 						</td>
 					</tr>
 					<tr>
@@ -76,7 +76,6 @@ require_once("./sectionGauche.php");
         <h4 class="modal-title">Erreur</h4>
       </div>
       <div class="modal-body">
-        <p id="modalMessage"></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
