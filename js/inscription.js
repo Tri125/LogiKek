@@ -1,4 +1,4 @@
-var nomUtilisateurUnique = true;
+var nomUtilisateurUnique = false;
 
 
 $(document).ready(function(){
