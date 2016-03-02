@@ -3,6 +3,7 @@ require_once("./php/biblio/foncCommunes.php");
 
 $js = array();
 
+$js[] = 'inscription.js';
 $css = array();
 $css[] = 'inscription.css';
 $titre = 'LogiKek - inscription';
@@ -195,13 +196,13 @@ function afficherProvince($provParam)
 		, 'SK' => 'Saskatchewan', 'NL' => 'Terre-Neuve et Labrador'
 		, 'NT' => 'Territoires du Nord-Ouest', 'YU' => 'Yukon');
 		
-		echo "<select name='province'>";
+		echo "<select id='province' name='province'>";
 		foreach ($provinces as $cle => $valeur)
 		{
 			echo "<option value='$cle'";
 			//Si le client à déjà une province, on le sélectionne
 			if ($provParam == $cle)
-				echo "selected";
+				echo " selected";
 			echo ">$valeur</option>";
 		}
 		echo "</select>";
@@ -222,40 +223,188 @@ function afficherProvince($provParam)
 		</div>
 	<?php endif; ?>
 		<form id="formInscription" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
-			<span class="erreur">* <?php echo $messages['sexe'];?></span><br>
-			<input type="radio" name="sexe" value="F" <?php echo ( ($client->getSexe() == 'F') ? 'checked' : '' );?>>Femme<br>
-			<input type="radio" name="sexe" value="M" <?php echo ( ($client->getSexe() == 'M') ? 'checked' : '' );?>>Homme<br>
-			<span class="erreur">* <?php echo $messages['nom'];?></span><br>
-			<input type="text" name="nom" value="<?php echo $client->getNom(); ?>">Nom<br>
-			<span class="erreur">* <?php echo $messages['prenom'];?></span><br>
-			<input type="text" name="prenom" value="<?php echo $client->getPrenom(); ?>">Prenom<br>
-			<span class="erreur">* <?php echo $messages['courriel'];?></span><br>
-			<input type="text" name="courriel" value="<?php echo $client->getCourriel(); ?>">Courriel<br>
-			<span class="erreur">* <?php echo $messages['adresse'];?></span><br>
-			<input type="text" name="adresse" value="<?php echo $client->getAdresse(); ?>">Adresse<br>
-			<span class="erreur">* <?php echo $messages['ville'];?></span><br>
-			<input type="text" name="ville" value="<?php echo $client->getVille(); ?>">Ville<br>
-			<span class="erreur">* <?php echo $messages['codePostal'];?></span><br>
-			<input type="text" name="codePostal" value="<?php echo $client->getCodePostal(); ?>">Code Postal<br>
-			<?php afficherProvince($client->getProvince()); ?>
-			Province<br>
-			<span class="erreur">* <?php echo $messages['telephone'];?></span><br>
-			<input type="text" name="telephone" value="<?php echo $client->getTelephone(); ?>">Numéro de téléphone<br>
-		<?php if (isset($_SESSION['client'])): ?>
-			<span class="label"><?php echo $client->getNomUtilisateur(); ?></span>Nom d'utilisateur<br>
-			<input type="hidden" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">
-			<input type="hidden" name="motDePasse" value="<?php echo $client->getMotDePasse(); ?>">
-			<input type="hidden" name="confirm" value="<?php echo $client->getMotDePasse(); ?>">
-			<input type="submit" name="valider" value="Modifier">
-		<?php else: ?>
-			<span class="erreur">* <?php echo $messages['nomUtilisateur'];?></span><br>
-			<input type="text" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">Nom d'utilisateur<br>
-			<span class="erreur">* <?php echo $messages['motDePasse'];?></span><br>
-			<input type="password" name="motDePasse">Mot de passe<br>
-			<span class="erreur">* <?php echo $messages['confirm'];?></span><br>
-			<input type="password" name="confirm">Confirmation du mot de passe<br>
-			<input type="submit" name="valider" value="S'inscrire">
-		<?php endif; ?>
+			<table>
+				<tbody>
+					<tr>
+						<td colspan="3">
+							<h3>Création de compte</h3>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">&nbsp;</td>
+					</tr>
+					<tr>
+						<td>
+							<label>Genre</label>				
+						</td>
+						<td>
+							<input type="radio" name="sexe" value="F" <?php echo ( ($client->getSexe() == 'F') ? 'checked' : '' );?>>Femme
+							<input type="radio" name="sexe" value="M" <?php echo ( ($client->getSexe() == 'M') ? 'checked' : '' );?>>Homme			
+						</td>
+						<td>
+							<span class="erreur">* <?php echo $messages['sexe'];?></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="nom">Nom</label>
+						</td>
+						<td>
+							<input id="nom" type="text" name="nom" value="<?php echo $client->getNom(); ?>">
+						</td>
+						<td>
+							<span class="erreur">* <?php echo $messages['nom'];?></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="prenom">Prenom</label>
+						</td>
+						<td>
+							<input id="prenom" type="text" name="prenom" value="<?php echo $client->getPrenom(); ?>">
+						</td>
+						<td>
+							<span class="erreur">* <?php echo $messages['prenom'];?></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="courriel">Courriel</label>
+						</td>
+						<td>
+							<input id="courriel" type="text" name="courriel" value="<?php echo $client->getCourriel(); ?>">
+						</td>
+						<td>
+							<span class="erreur">* <?php echo $messages['courriel'];?></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="adresse">Adresse</label>
+						</td>
+						<td>
+							<input id="adresse" type="text" name="adresse" value="<?php echo $client->getAdresse(); ?>">
+						</td>
+						<td>
+							<span class="erreur">* <?php echo $messages['adresse'];?></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="ville">Ville</label>
+						</td>
+						<td>
+							<input id="ville" type="text" name="ville" value="<?php echo $client->getVille(); ?>">
+						</td>
+						<td>
+							<span class="erreur">* <?php echo $messages['ville'];?></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="codePostal">Code postal</label>
+						</td>
+						<td>
+							<input id="codePostal" type="text" name="codePostal" value="<?php echo $client->getCodePostal(); ?>">
+						</td>
+						<td>
+							<span class="erreur">* <?php echo $messages['codePostal'];?></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<label for="province">Province</label>
+						</td>
+						<td colspan="2">
+							<?php afficherProvince($client->getProvince()); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="telephone">Numéro de téléphone</label>
+						</td>
+						<td>
+							<input id="telephone" type="text" name="telephone" value="<?php echo $client->getTelephone(); ?>">
+						</td>
+						<td>
+							<span class="erreur">* <?php echo $messages['telephone'];?></span>
+						</td>
+					</tr>
+				<?php if (isset($_SESSION['authentification'])): ?>
+					<tr>
+						<td>
+							<label>Nom d'utilisateur</label>
+						</td>
+						<td colspan="2">
+							<input type="hidden" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">
+							<span class="label"><?php echo $client->getNomUtilisateur(); ?></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<input type="hidden" name="motDePasse" value="<?php echo $client->getMotDePasse(); ?>">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<input type="hidden" name="confirm" value="<?php echo $client->getMotDePasse(); ?>">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<input type="submit" name="valider" value="Modifier">
+						</td>
+					</tr>
+				<?php else: ?>	
+					<tr>
+						<td>
+							<label for="nomUtilisateur">Nom d'utilisateur</label>
+						</td>
+						<td>
+							<input id="nomUtilisateur" type="text" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">
+						</td>
+						<td>
+							<i id="utilisateurUnique" class="fa fa-check-circle vert">Nom libre</i>
+							<i id="utilisateurNonUnique" class="fa fa-exclamation-triangle rouge">Nom déjà utilisé</i>
+							<span class="erreur">* <?php echo $messages['nomUtilisateur'];?></span>
+						</td>
+					</tr>	
+					<tr>
+						<td>
+							<label for="motDePasse">Mot de passe</label>
+						</td>
+						<td>
+							<input id="motDePasse" type="password" name="motDePasse">
+						</td>
+						<td>
+							<span class="erreur">* <?php echo $messages['motDePasse'];?></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="confirm">Confirmation du mot de passe</label>
+						</td>
+						<td>
+							<input id="confirm" type="password" name="confirm">
+						</td>
+						<td>
+							<span class="erreur">* <?php echo $messages['confirm'];?></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<input type="submit" name="valider" value="S'inscrire">
+						</td>
+					</tr>	
+				<?php endif; ?>	
+				</tbody>
+			</table>
 		</form>
 
 
