@@ -7,7 +7,14 @@ if(!empty($_GET['nomUtilisateur']))
 
 	$nomUtilisateur = desinfecte($_GET['nomUtilisateur']);
 
-	$client = $maBD->selectClient($nomUtilisateur);
+	try
+	{
+		$client = $maBD->selectClient($nomUtilisateur);
+	}
+	catch (Exception $e)
+	{
+		exit();
+	}
 
 	if (isset($client))
 		echo 0;
