@@ -24,15 +24,25 @@ global $maBD;
 //Tableau contenant les différents messages d'erreur qui seront affichés.
 $messages = array();
 
-
+//-----------------------------
+// Fonction qui valide des données selon le patron
+// spécifié par une regex.
+// 
+// $regex est la regex, $champ la donnée à validé
+// $message un message d'erreur à afficher lorsque la validation échoue
+//
+// Retourne false si la validation échoue, true dans le cas contraire. 
+//-----------------------------
 function validationChamp($regex, $champ, $message)
 {
+	//Teste le champ avec la regex, s'il échoue:
 	if (!preg_match($regex, $champ))
 	{	
 		global $messages;
 		global $valide;
-
+		//Rajoute un message d'erreur à l'array messages.
 		$messages[] = $message;
+		//La validation du formulaire à échoué.
 		$valide = false;
 		return false;
 	}

@@ -29,13 +29,44 @@ $messages = array(
 	, 'motDePasse' => '', 'confirm' => ''
 );
 
+
+
+
+//-----------------------------
+// Fonction qui valide des données selon le patron
+// spécifié par une regex.
+// 
+// $regex est la regex, $donne la donnée à validé, $donne spécifie pour quel champ du formulaire,
+// $message un message d'erreur à afficher lorsque la validation échoue
+//
+// Retourne false si la validation échoue, true dans le cas contraire. 
+//-----------------------------
+function validationChamp($regex, $donne, $champ, $message)
+{
+	//Teste la donnée avec la regex, s'il échoue:
+	if (!preg_match($regex, $donne))
+	{	
+		global $messages;
+		global $valide;
+		//Assigne le message d'erreur au array des messages d'erreur au bon contrôle
+		//du formulaire.
+		$messages[$champ] = $message;
+		//La validation du formulaire à échoué.
+		$valide = false;
+		return false;
+	}
+	return true;
+}
+
 //Messages d'erreur affiché pour un champs vide qui est requis.
 $msgRequis = "Champ requis";
 
-if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à valider.
+//On arrive du bouton Valider, inscription à valider.
+if (isset($_POST['valider']))
 {
 	$tabClient = array();
 
+	//Récupère les champs du POST et désinfecte les données de l'utilisateur.
 	foreach ($_POST as $cle => $valeur)
 	{
 		$tabClient[$cle] = desinfecte($valeur);
@@ -46,35 +77,24 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 	if (empty($tabClient['sexe']))
 	{
 		$messages['sexe'] = $msgRequis;
+		//Le formulaire à échoué la validation.
 		$valide = false;
 	}
 	else
 	{
 		//N'est pas F ou M
-		if (!preg_match("/^[FM]$/", $tabClient['sexe']))
-		{
-			$messages['sexe'] = 'Option invalide';
-			$valide = false;
-		}
+		validationChamp("/^[FM]$/", $tabClient['sexe'], 'sexe', 'Option invalide');
 	}
 
 
 	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
-	if (!preg_match("/^[a-zA-Z \-\'.]{2,20}$/", $tabClient['nom']))
-	{
-		$messages['nom'] = 'Min. 2 caractères valides';
-		$valide = false;
-	}
+	validationChamp("/^[a-zA-Z \-\'.]{2,20}$/", $tabClient['nom'], 'nom', 'Min. 2 caractères valides');
 
 
 	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
-	if (!preg_match("/^[a-zA-Z \-'.]{2,20}$/", $tabClient['prenom']))
-	{
-		$messages['prenom'] = 'Min. 2 caractères valides';
-		$valide = false;
-	}
+	validationChamp("/^[a-zA-Z \-'.]{2,20}$/", $tabClient['prenom'], 'prenom', 'Min. 2 caractères valides');
 
-
+	//Valide le champs de courriel selon la syntaxe spécifié par RFC 822.
 	if (!filter_var($tabClient['courriel'], FILTER_VALIDATE_EMAIL))
 	{
 		$messages['courriel'] = 'Courriel invalide';
@@ -83,29 +103,14 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 
 
 	//Adresse et ville: au moins 3 caractères parmi lettres, chiffres, tiret, espace, apostrophe et point, maximum 40.
-	if (!preg_match("/^[a-zA-Z0-9 \-'.]{3,40}$/", $tabClient['adresse']))
-	{
-		$messages['adresse'] = 'Min. 3 caractères valides';
-		$valide = false;
-	}
-
+	validationChamp("/^[a-zA-Z0-9 \-'.]{3,40}$/", $tabClient['adresse'], 'adresse', 'Min. 3 caractères valides');
 
 	//Adresse et ville: au moins 2 caractères max 20 parmi lettres, chiffres, tiret, espace, apostrophe et point
-	if (!preg_match("/^[a-zA-Z0-9 \-'.]{2,20}$/", $tabClient['ville']))
-	{
-		$messages['ville'] = 'Min. 2 caractères valides';
-		$valide = false;
-	}
-
+	validationChamp("/^[a-zA-Z0-9 \-'.]{2,20}$/", $tabClient['ville'], 'ville', 'Min. 2 caractères valides');
 
 	//Code postal selon le modèle A9A9A9. Ne doit contenir aucune des lettres DFIOQU
 	//Look ahead negatif "?!" du groupe [DFIOQU], regarde si le prochain group ne contient pas un match de ce groupe.
-	if (!preg_match("/^((?![DdFfIiOoQqUu])([A-Za-z][0-9])){3}$/", $tabClient['codePostal']))
-	{
-		$messages['codePostal'] = 'Sans espace et modèle A9A9A9';
-		$valide = false;
-	}
-
+	validationChamp("/^((?![DdFfIiOoQqUu])([A-Za-z][0-9])){3}$/", $tabClient['codePostal'], 'codePostal', 'Sans espace et modèle A9A9A9');
 
 	//Numéro de téléphone: 10 chiffres, optionnellement encadrés ainsi: (xxx)yyy-zzzz
 
@@ -113,6 +118,11 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 	si oui, on fait un match sur la parenthèse fermante (IF ?(1) THEN \) ). Ensuite un espace optionnel après ce groupe et on écrit le reste du pattern.
 	À partir de la bar vertical "|" c'est la partie ELSE du conditionnel. Le deuxième groupe est déjà présent (le premier [0-9]), mais l'espace optionnel après la parenthèse fermante fait partie du conditionnel, que nous n'avons pas passé le teste. Donc, il faut mettre l'espace conditionnel au début cette fois. Après, match trivial de numéro et tirets et espaces optionnels.
 	*/
+	
+	
+	
+	
+	//validationChamp($regex, $donne, $champ, $message);
 	if (!preg_match("/^(\()?[0-9]{3}(?(1)\)[ -]?[0-9]{3}[- ]?[0-9]{4}|([ -]?)[0-9]{3}[ -]?[0-9]{4})$/", $tabClient['telephone']) || 
 		preg_match("/^[0-9]{6}[ -]{1}[0-9]{4}$/", $tabClient['telephone'])) 
 		//Plus simple d'avoir une autre regex pour vérifier le cas DDDDDD DDDD et DDDDDD-DDDD qu'on ne veux pas accepter.
@@ -123,35 +133,20 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 
 
 	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
-	if (!preg_match("/^[A-Za-z0-9]{5,10}$/", $tabClient['nomUtilisateur']))
-	{
-		$messages['nomUtilisateur'] = 'Min. 5 caractères valides';
-		$valide = false;
-	}
-
+	validationChamp("/^[A-Za-z0-9]{5,10}$/", $tabClient['nomUtilisateur'], 'nomUtilisateur', 'Min. 5 caractères valides');
 
 	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
-	if (!preg_match("/^[A-Za-z0-9]{5,10}$/", $tabClient['motDePasse']))
-	{
-		$messages['motDePasse'] = 'Min. 5 caractères valides';
-		$valide = false;
-	}
+	validationChamp("/^[A-Za-z0-9]{5,10}$/", $tabClient['motDePasse'], 'motDePasse', 'Min. 5 caractères valides');
 
-
-	if (!preg_match("/^[A-Za-z0-9]{5,10}$/", $tabClient['confirm']))
-	{
-		//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
-		$messages['confirm'] = 'Min. 5 caractères valides';
-		$valide = false;
-	}
-	else
+	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
+	if(validationChamp("/^[A-Za-z0-9]{5,10}$/", $tabClient['confirm'], 'confirm', 'Min. 5 caractères valides'))
 	{
 		//Mot de passe de confirmation n'est pas le même que le mot de passe
 		if ($tabClient['confirm'] != $tabClient['motDePasse'])
 		{
 			$messages['confirm'] = 'N\'est pas identique au mot de passe.';
 			$valide = false;
-		}
+		}	
 	}
 
 	//Vérifie si chacun des champs est set et non vide.
@@ -165,34 +160,44 @@ if (isset($_POST['valider'])) //On arrive du bouton Valider, inscription à vali
 		}
 	}
 
+	//Rend en majuscule le code postal
 	$tabClient['codePostal'] = strToUpper($tabClient['codePostal']);
 	//Sans champs de confirmation du mot de passe et sans le bouton valider dans le POST.
 	$tabClient = array_slice($tabClient, 0, -2);
 
+	//Instanciation d'un nouveau objet client.
 	$client = new Client($tabClient);
 
+	//Si le formulaire à passé les validations
 	if ($valide)
 	{
+		//Enregistre l'objet client dans la variable de session
 		$_SESSION['client'] = $client;	
+		//Redirection vers la page de confirmation des informations du compte.
 		header("location:confirmation.php");
 		exit();
 		//echo "<meta http-equiv='Refresh' content='0;url=confirmation.php' />";
 	}
 }
-elseif (isset($_SESSION['client'])) //Client déjà authentifié
+//Client déjà authentifié
+elseif (isset($_SESSION['client']))
 {
+	//On le récupère
 	$client = $_SESSION['client'];
 }
-else //Un nouveau client désire s'inscrire
+//Un nouveau client désire s'inscrire
+else
 {
 	$client = new Client(array());
 }
 
 //-----------------------------
-//Fonction pour afficher la liste déroulante des provinces
+// Fonction pour afficher la liste déroulante des provinces
+// Le paramètre $provParam est le code de la province déjà sélectionné
 //-----------------------------
 function afficherProvince($provParam)
 {
+	//Array comme clé le code des provinces et le nom complet comme valeur
 	$provinces = array(
 		'QC' => 'Québec', 'ON' => 'Ontario', 'AB' => 'Alberta'
 		, 'BC' => 'Colombie-Britannique', 'PE' => 'Ile-du-Prince-Édouard'
@@ -200,16 +205,18 @@ function afficherProvince($provParam)
 		, 'NS' => 'Nouvelle-Écosse', 'NU' => 'Nunavut'
 		, 'SK' => 'Saskatchewan', 'NL' => 'Terre-Neuve et Labrador'
 		, 'NT' => 'Territoires du Nord-Ouest', 'YU' => 'Yukon');
-		
+		//Début de la combobox
 		echo "<select id='province' name='province'>";
 		foreach ($provinces as $cle => $valeur)
 		{
+			//Une province dans la combobox
 			echo "<option value='$cle'";
 			//Si le client à déjà une province, on le sélectionne
 			if ($provParam == $cle)
 				echo " selected";
 			echo ">$valeur</option>";
 		}
+		//Fin de la combobox
 		echo "</select>";
 }
 
