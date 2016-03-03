@@ -1,5 +1,6 @@
 <?php
 
+define ("NOM_SESSION", "LogiKek");
 define ("TPS", 0.05);
 define ("TVQ", 0.09975);
 //Frais du magasin par transaction.
@@ -8,7 +9,7 @@ define ("FRAIS_CODE", 3.00);
 //Enregistre la fonction ChargementClasses pour activé la queue de chargement des classes.
 spl_autoload_register('ChargementClasses');
 
-session_name('LogiKek');
+session_name(NOM_SESSION);
 //Commence la session pour enregistrer des variables persistantes entre fenêtres de navigations.
 session_start();
 
@@ -37,7 +38,25 @@ function desinfecte($string)
 	return $string;
 }
 
+//-----------------------------
+//Fonction pour déconnecter un utilisateur de son compte client.
+//-----------------------------
+function deconnexionUsager()
+{
+	session_name(NOM_SESSION);
+	//Récupère la session/commence une nouvelle
+	session_start();
+	//Met à jour l'id de session à une nouvelle valeur pour mitiger les attaques.
+	//Supprime l'ancien fichier de session associé.
+	session_regenerate_id(true);
+	$_SESSION = array();
+	header("location:./");
+	exit();
+}
+
+
 //Un seul objet bdService nécessaire, on l'instancie donc dans ce script pour être utilisé ailleur.
 $maBD = new bdService();
+
 
 ?>

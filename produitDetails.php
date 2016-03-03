@@ -1,4 +1,8 @@
 <?php 
+
+/*
+Page qui récupère un produit dans la base de donnée et affiche ses informations détaillés.
+*/
 require_once("./php/biblio/foncCommunes.php");
 
 

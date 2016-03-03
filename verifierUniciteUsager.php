@@ -13,6 +13,7 @@ if(!empty($_GET['nomUtilisateur']))
 	}
 	catch (Exception $e)
 	{
+		echo 'Erreur du test d\'unicité';
 		exit();
 	}
 

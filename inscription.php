@@ -216,10 +216,14 @@ function afficherProvince($provParam)
 
 	<!-- Début des produits -->
 	<div class="row">
-	<?php if (isset($_GET['erreur']) && $_GET['erreur'] == 'doublon'): ?>
+	<?php if (isset($_GET['erreur'])): ?>
 		<div class="alert alert-danger" role="alert">
 			<i class="fa fa-exclamation-triangle"></i>
+			<?php if($_GET['erreur'] == 'doublon'): ?>
 			Nom d'utilisateur déjà existant.
+			<?php else: ?>
+			Erreur lors du traitement.
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 		<form id="formInscription" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">

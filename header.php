@@ -10,7 +10,7 @@ $recherche = '';
 $nbrArticle = 0;
 
 //Pour savoir si nous sommes à la page index.php (le catalogue) pour afficher les éléments de recherche.
-$estIndex = preg_match('@^[a-z/]*index.php$@', $_SERVER['PHP_SELF']);
+$estIndex = preg_match('@^[a-z/]*index.php$@', htmlspecialchars($_SERVER['PHP_SELF']));
 
 //Paramètre GET pour le code de catégorie pour la recherche.
 if(isset($_GET['listeCategorie']))

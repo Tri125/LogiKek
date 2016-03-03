@@ -1,12 +1,11 @@
+/*
+CSS pour la page inscription.php
+*/
+
 .erreur{
 	color: red;
 }
 
-.label{
-    color: black;
-    font-size: 12px;
-    display: inline-block;
-}
 
 .vert{
 	color: green;

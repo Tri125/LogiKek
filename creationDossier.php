@@ -56,9 +56,10 @@ if (isset($_SESSION['client']))
 		{
 			//Exception d'insertion d'un doublon dans la base de données.
 			if ($e->getMessage() == 1062)
-			{
 				header("location:inscription.php?erreur=doublon");
-			}
+			//Autre exception
+			else
+				header("location:inscription.php?erreur=".$e->getMessage());
 			exit();
 		}
 		//Met le nom d'utilisateur dans la variable de session.

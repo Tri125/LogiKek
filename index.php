@@ -1,4 +1,9 @@
 <?php 
+
+/*
+Page principal du site web, le catalogue.
+*/
+
 require_once("./php/biblio/foncCommunes.php");
 
 
