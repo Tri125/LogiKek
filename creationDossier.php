@@ -1,9 +1,9 @@
 <?php 
 
-/*
-Script qui crée/modifie le compte client sur la base de données et affiche un message à l'utilisateur concernant
-le succès de l'opération.
-*/
+//-----------------------------
+// Script qui crée/modifie le compte client sur la base de données et affiche un message à l'utilisateur concernant
+// le succès de l'opération.
+//-----------------------------
 
 require_once("./php/biblio/foncCommunes.php");
 

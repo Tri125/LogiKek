@@ -1,9 +1,9 @@
 <?php
 
-/*
-Script d'authentification qui gère la connexion au compte client
-et la circulation entre certaines pages
-*/
+//-----------------------------
+// Script d'authentification qui gère la connexion au compte client
+// et la circulation entre certaines pages
+//-----------------------------
 
 require_once("./php/biblio/foncCommunes.php");
 

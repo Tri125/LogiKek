@@ -1,10 +1,10 @@
 <?php 
 
 
-/*
-Script pour présenté une confirmation des données d'un compte client
-avant de sa création/modification.
-*/
+//-----------------------------
+// Script pour présenté une confirmation des données d'un compte client
+// avant de sa création/modification.
+//-----------------------------
 
 require_once("./php/biblio/foncCommunes.php");
 

@@ -1,4 +1,8 @@
 <?php
+
+//-----------------------------
+// Classe de service de base de données pour les diverses opérations en BD.
+//-----------------------------
 class bdService
 {
 	private $BDInterne;

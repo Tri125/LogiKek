@@ -1,8 +1,8 @@
 <?php 
 
-/*
-Page affichant les politiques de notre entreprise.
-*/
+//-----------------------------
+// Page affichant les politiques de notre entreprise.
+//-----------------------------
 
 require_once("./php/biblio/foncCommunes.php");
 

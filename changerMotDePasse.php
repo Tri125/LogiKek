@@ -1,8 +1,8 @@
 <?php 
 
-/*
-Script pour le changement de mot de passe d'un compte d'utilisateur.
-*/
+//-----------------------------
+// Script pour le changement de mot de passe d'un compte d'utilisateur.
+//-----------------------------
 
 require_once("./php/biblio/foncCommunes.php");
 

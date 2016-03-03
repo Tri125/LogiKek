@@ -1,4 +1,9 @@
 <?php 
+
+//-----------------------------
+// Script contenant le formulaire de création et de modification d'un compte client.
+// Procède au diverses validations nécessaires.
+//-----------------------------
 require_once("./php/biblio/foncCommunes.php");
 
 $js = array();
@@ -6,7 +11,7 @@ $js = array();
 $js[] = 'inscription.js';
 $css = array();
 $css[] = 'inscription.css';
-$titre = 'LogiKek - inscription';
+$titre = 'LogiKek - Inscription';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 

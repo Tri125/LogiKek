@@ -1,8 +1,8 @@
 <?php
 
-/*
-Page qui gère le panier de commande du client et affiche le prix.
-*/
+//-----------------------------
+// Page qui gère le panier de commande du client et affiche le prix.
+//-----------------------------
 
 require_once("./php/biblio/foncCommunes.php");
 
