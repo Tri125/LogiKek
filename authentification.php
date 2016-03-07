@@ -129,7 +129,7 @@ if (isset($_POST['valider']))
 					</tr>
 					<!-- Nom d'utilisateur -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="nomUtilisateur">Nom d'utilisateur:</label>
 						</td>
 						<td>
@@ -138,7 +138,7 @@ if (isset($_POST['valider']))
 					</tr>
 					<!-- Mot de passe -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="motDePasse">Mot de passe:</label>
 						</td>
 						<td>

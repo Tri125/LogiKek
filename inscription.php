@@ -248,7 +248,7 @@ function afficherProvince($provParam)
 					</tr>
 					<!-- Genre -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label>Genre:</label>				
 						</td>
 						<td>
@@ -261,7 +261,7 @@ function afficherProvince($provParam)
 					</tr>
 					<!-- Nom -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="nom">Nom:</label>
 						</td>
 						<td>
@@ -273,7 +273,7 @@ function afficherProvince($provParam)
 					</tr>
 					<!-- Prénom -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="prenom">Prénom:</label>
 						</td>
 						<td>
@@ -285,7 +285,7 @@ function afficherProvince($provParam)
 					</tr>
 					<!-- Courriel -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="courriel">Courriel:</label>
 						</td>
 						<td>
@@ -297,7 +297,7 @@ function afficherProvince($provParam)
 					</tr>
 					<!-- Adresse -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="adresse">Adresse:</label>
 						</td>
 						<td>
@@ -309,7 +309,7 @@ function afficherProvince($provParam)
 					</tr>
 					<!-- Ville -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="ville">Ville:</label>
 						</td>
 						<td>
@@ -321,7 +321,7 @@ function afficherProvince($provParam)
 					</tr>
 					<!-- Code postal -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="codePostal">Code postal:</label>
 						</td>
 						<td>
@@ -333,7 +333,7 @@ function afficherProvince($provParam)
 					</tr>
 					<!-- Province -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="province">Province:</label>
 						</td>
 						<td colspan="2">
@@ -342,7 +342,7 @@ function afficherProvince($provParam)
 					</tr>
 					<!-- Téléphone -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="telephone">Numéro de téléphone:</label>
 						</td>
 						<td>
@@ -355,13 +355,13 @@ function afficherProvince($provParam)
 				<?php if (isset($_SESSION['authentification'])): //Si déjà authentifié, contexte de modification du profil?>
 					<!-- Nom d'utilisateur -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label>Nom d'utilisateur:</label>
 						</td>
 						<td colspan="2">
 							<!-- Champs d'entré caché -->
 							<input type="hidden" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">
-							<label><?php echo $client->getNomUtilisateur(); ?></label>
+							<span class="label"><?php echo $client->getNomUtilisateur(); ?></span>
 						</td>
 					</tr>
 					<!-- Mot de passe caché -->
@@ -388,7 +388,7 @@ function afficherProvince($provParam)
 				<?php else: //Si dans le contexte de création de nouveau compte?>	
 					<!-- Nom d'utilisateur -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="nomUtilisateur">Nom d'utilisateur:</label>
 						</td>
 						<td>
@@ -403,7 +403,7 @@ function afficherProvince($provParam)
 					</tr>	
 					<!-- Mot de passe -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="motDePasse">Mot de passe:</label>
 						</td>
 						<td>
@@ -415,7 +415,7 @@ function afficherProvince($provParam)
 					</tr>
 					<!-- Confirmation du mot de passe -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="confirm">Confirmation du mot de passe:</label>
 						</td>
 						<td>

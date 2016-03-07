@@ -11,7 +11,7 @@ require_once("./php/biblio/foncCommunes.php");
 $js = array();
 
 $css = array();
-$css[] = 'confirmation.css';
+$css[] = 'formulaire.css';
 $titre = 'LogiKek - Confirmation';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
@@ -41,13 +41,13 @@ require_once("./sectionGauche.php");
 	<div class="row">
 		<table>
 			<tr>
-				<td colspan="2">
+				<td class="centrer" colspan="2">
 					<h3>Voici les données fournies</h3>
 				</td>
 			</tr>
 			<!-- Genre -->
 			<tr>
-				<td>
+				<td class="droit">
 					<label>Genre:</label>
 				</td>
 				<td>
@@ -56,7 +56,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Nom -->
 			<tr>
-				<td>
+				<td class="droit">
 					<label>Nom:</label>
 				</td>
 				<td>
@@ -65,7 +65,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Prénom -->
 			<tr>
-				<td>
+				<td class="droit">
 					<label>Prénom:</label>
 				</td>
 				<td>
@@ -74,7 +74,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Courriel -->
 			<tr>
-				<td>
+				<td class="droit">
 					<label>Courriel:</label>
 				</td>
 				<td>
@@ -83,7 +83,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Adresse -->
 			<tr>
-				<td>
+				<td class="droit">
 					<label>Adresse:</label>
 				</td>
 				<td>
@@ -92,7 +92,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Ville -->
 			<tr>
-				<td>
+				<td class="droit">
 					<label>Ville:</label>			
 				</td>
 				<td>
@@ -101,7 +101,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Code postal -->
 			<tr>
-				<td>
+				<td class="droit">
 					<label>Code postal:</label>
 				</td>
 				<td>
@@ -110,7 +110,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Province -->
 			<tr>
-				<td>
+				<td class="droit">
 					<label>Province:</label>
 				</td>
 				<td>
@@ -119,7 +119,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Téléphone -->
 			<tr>
-				<td>
+				<td class="droit">
 					<label>Téléphone:</label>
 				</td>
 				<td>
@@ -128,7 +128,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Nom d'utilisateur -->
 			<tr>
-				<td>
+				<td class="droit">
 					<label>Nom d'utilisateur:</label>
 				</td>
 				<td>
@@ -140,7 +140,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Bouton pour soumettre -->
 			<tr>
-				<td colspan="2">
+				<td class="centrer" colspan="2">
 					<form id="confirmerForm" method="POST" action="./creationDossier.php">
 						<input type="submit" name="valider" value="Confirmer">
 					</form>
@@ -151,7 +151,7 @@ require_once("./sectionGauche.php");
 			</tr>
 			<!-- Lien pour retourner à la page d'inscription pour modifier le compte client. -->
 			<tr>
-				<td colspan="2">
+				<td class="centrer" colspan="2">
 					<a href="./inscription.php">Retour à la page d'inscription</a>
 				</td>
 			</tr>

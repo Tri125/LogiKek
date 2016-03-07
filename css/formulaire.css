@@ -1,0 +1,45 @@
+/*
+CSS pour les pages avec des formulaires
+*/
+
+.erreur{
+	color: red;
+}
+
+
+.vert{
+	color: green;
+}
+
+.rouge{
+	color: red;
+}
+
+.enTete{
+	vertical-align: middle;
+}
+
+.centrer{
+	text-align:center;
+}
+
+.droit{
+	text-align: right;
+}
+
+table{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+td {
+	padding-right: 10%;
+	padding-top: 2%;
+}
+
+
+td .label{
+    color: black;
+    font-size: 12px;
+    display: inline-block;
+}

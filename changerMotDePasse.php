@@ -176,7 +176,7 @@ else
 					</tr>
 					<!-- Mot de passe actuel -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="mdpActuel">Mot de passe actuel:</label>
 						</td>
 						<td>
@@ -185,7 +185,7 @@ else
 					</tr>
 					<!-- Nouveau mot de passe -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="mdpNouveau">Nouveau mot de passe:</label>
 						</td>
 						<td>
@@ -194,7 +194,7 @@ else
 					</tr>
 					<!-- Confirmation du nouveau mot de passe -->
 					<tr>
-						<td class="gauche">
+						<td class="droit">
 							<label for="mdpConfirmer">Confirmation du mot de passe:</label>
 						</td>
 						<td>
