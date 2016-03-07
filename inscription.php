@@ -10,7 +10,7 @@ $js = array();
 
 $js[] = 'inscription.js';
 $css = array();
-$css[] = 'inscription.css';
+$css[] = 'formulaire.css';
 $titre = 'LogiKek - Inscription';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
@@ -220,16 +220,17 @@ function afficherProvince($provParam)
 ?>
 
 <!-- Début section central col-md-9 -->
-<div class="col-md-8" id="centre">
+<div class="col-md-7" id="centre">
 
-	<!-- Début des produits -->
+	<!-- Début du formulaire -->
 	<div class="row">
-	<?php if (isset($_GET['erreur'])): ?>
+	<?php if (isset($_GET['erreur'])): //Si le drapeau d'erreur a été envoyé dans le GET?>
+		<!-- Message d'erreur -->
 		<div class="alert alert-danger" role="alert">
 			<i class="fa fa-exclamation-triangle"></i>
-			<?php if($_GET['erreur'] == 'doublon'): ?>
+			<?php if($_GET['erreur'] == 'doublon'): //Erreur de doublon en base de données?>
 			Nom d'utilisateur déjà existant.
-			<?php else: ?>
+			<?php else: //Pour tout autre erreur?>
 			Erreur lors du traitement.
 			<?php endif; ?>
 		</div>
@@ -237,7 +238,7 @@ function afficherProvince($provParam)
 		<form id="formInscription" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
 			<table>
 				<tbody>
-					<tr>
+					<tr class="centrer">
 						<td colspan="3">
 							<h3>Création de compte</h3>
 						</td>
@@ -245,118 +246,131 @@ function afficherProvince($provParam)
 					<tr>
 						<td colspan="3">&nbsp;</td>
 					</tr>
+					<!-- Genre -->
 					<tr>
-						<td>
-							<label>Genre</label>				
+						<td class="gauche">
+							<label>Genre:</label>				
 						</td>
 						<td>
-							<input type="radio" name="sexe" value="F" <?php echo ( ($client->getSexe() == 'F') ? 'checked' : '' );?>>Femme
-							<input type="radio" name="sexe" value="M" <?php echo ( ($client->getSexe() == 'M') ? 'checked' : '' );?>>Homme			
+							<input type="radio" name="sexe" value="F" <?php echo ( ($client->getSexe() == 'F') ? 'checked' : '' ); //Ternary pour la valeur sélectionné?>>Femme
+							<input type="radio" name="sexe" value="M" <?php echo ( ($client->getSexe() == 'M') ? 'checked' : '' ); //Ternary pour la valeur sélectionné?>>Homme			
 						</td>
 						<td>
-							<span class="erreur">* <?php echo $messages['sexe'];?></span>
+							<span class="erreur"><?php echo $messages['sexe'];?></span>
 						</td>
 					</tr>
+					<!-- Nom -->
 					<tr>
-						<td>
-							<label for="nom">Nom</label>
+						<td class="gauche">
+							<label for="nom">Nom:</label>
 						</td>
 						<td>
 							<input id="nom" type="text" name="nom" value="<?php echo $client->getNom(); ?>">
 						</td>
 						<td>
-							<span class="erreur">* <?php echo $messages['nom'];?></span>
+							<span class="erreur"><?php echo $messages['nom'];?></span>
 						</td>
 					</tr>
+					<!-- Prénom -->
 					<tr>
-						<td>
-							<label for="prenom">Prenom</label>
+						<td class="gauche">
+							<label for="prenom">Prénom:</label>
 						</td>
 						<td>
 							<input id="prenom" type="text" name="prenom" value="<?php echo $client->getPrenom(); ?>">
 						</td>
 						<td>
-							<span class="erreur">* <?php echo $messages['prenom'];?></span>
+							<span class="erreur"><?php echo $messages['prenom'];?></span>
 						</td>
 					</tr>
+					<!-- Courriel -->
 					<tr>
-						<td>
-							<label for="courriel">Courriel</label>
+						<td class="gauche">
+							<label for="courriel">Courriel:</label>
 						</td>
 						<td>
 							<input id="courriel" type="text" name="courriel" value="<?php echo $client->getCourriel(); ?>">
 						</td>
 						<td>
-							<span class="erreur">* <?php echo $messages['courriel'];?></span>
+							<span class="erreur"><?php echo $messages['courriel'];?></span>
 						</td>
 					</tr>
+					<!-- Adresse -->
 					<tr>
-						<td>
-							<label for="adresse">Adresse</label>
+						<td class="gauche">
+							<label for="adresse">Adresse:</label>
 						</td>
 						<td>
 							<input id="adresse" type="text" name="adresse" value="<?php echo $client->getAdresse(); ?>">
 						</td>
 						<td>
-							<span class="erreur">* <?php echo $messages['adresse'];?></span>
+							<span class="erreur"><?php echo $messages['adresse'];?></span>
 						</td>
 					</tr>
+					<!-- Ville -->
 					<tr>
-						<td>
-							<label for="ville">Ville</label>
+						<td class="gauche">
+							<label for="ville">Ville:</label>
 						</td>
 						<td>
 							<input id="ville" type="text" name="ville" value="<?php echo $client->getVille(); ?>">
 						</td>
 						<td>
-							<span class="erreur">* <?php echo $messages['ville'];?></span>
+							<span class="erreur"><?php echo $messages['ville'];?></span>
 						</td>
 					</tr>
+					<!-- Code postal -->
 					<tr>
-						<td>
-							<label for="codePostal">Code postal</label>
+						<td class="gauche">
+							<label for="codePostal">Code postal:</label>
 						</td>
 						<td>
 							<input id="codePostal" type="text" name="codePostal" value="<?php echo $client->getCodePostal(); ?>">
 						</td>
 						<td>
-							<span class="erreur">* <?php echo $messages['codePostal'];?></span>
+							<span class="erreur"><?php echo $messages['codePostal'];?></span>
 						</td>
 					</tr>
+					<!-- Province -->
 					<tr>
-						<td>
-						<label for="province">Province</label>
+						<td class="gauche">
+							<label for="province">Province:</label>
 						</td>
 						<td colspan="2">
-							<?php afficherProvince($client->getProvince()); ?>
+							<?php afficherProvince($client->getProvince()); //Fonction pour générer la combobox des provinces?>
 						</td>
 					</tr>
+					<!-- Téléphone -->
 					<tr>
-						<td>
-							<label for="telephone">Numéro de téléphone</label>
+						<td class="gauche">
+							<label for="telephone">Numéro de téléphone:</label>
 						</td>
 						<td>
 							<input id="telephone" type="text" name="telephone" value="<?php echo $client->getTelephone(); ?>">
 						</td>
 						<td>
-							<span class="erreur">* <?php echo $messages['telephone'];?></span>
+							<span class="erreur"><?php echo $messages['telephone'];?></span>
 						</td>
 					</tr>
-				<?php if (isset($_SESSION['authentification'])): ?>
+				<?php if (isset($_SESSION['authentification'])): //Si déjà authentifié, contexte de modification du profil?>
+					<!-- Nom d'utilisateur -->
 					<tr>
-						<td>
-							<label>Nom d'utilisateur</label>
+						<td class="gauche">
+							<label>Nom d'utilisateur:</label>
 						</td>
 						<td colspan="2">
+							<!-- Champs d'entré caché -->
 							<input type="hidden" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">
-							<span class="label"><?php echo $client->getNomUtilisateur(); ?></span>
+							<label><?php echo $client->getNomUtilisateur(); ?></label>
 						</td>
 					</tr>
+					<!-- Mot de passe caché -->
 					<tr>
 						<td colspan="3">
 							<input type="hidden" name="motDePasse" value="<?php echo $client->getMotDePasse(); ?>">
 						</td>
 					</tr>
+					<!-- Confirmation du mot de passe caché-->
 					<tr>
 						<td colspan="3">
 							<input type="hidden" name="confirm" value="<?php echo $client->getMotDePasse(); ?>">
@@ -365,52 +379,58 @@ function afficherProvince($provParam)
 					<tr>
 						<td colspan="3">&nbsp;</td>
 					</tr>
+					<!-- Boutton de modification -->
 					<tr>
-						<td colspan="3">
+						<td class="centrer" colspan="3">
 							<input type="submit" name="valider" value="Modifier">
 						</td>
 					</tr>
-				<?php else: ?>	
+				<?php else: //Si dans le contexte de création de nouveau compte?>	
+					<!-- Nom d'utilisateur -->
 					<tr>
-						<td>
-							<label for="nomUtilisateur">Nom d'utilisateur</label>
+						<td class="gauche">
+							<label for="nomUtilisateur">Nom d'utilisateur:</label>
 						</td>
 						<td>
 							<input id="nomUtilisateur" type="text" name="nomUtilisateur" value="<?php echo $client->getNomUtilisateur(); ?>">
 						</td>
+						<!-- Message indiquant si le nom d'utilisateur est libre ou non -->
 						<td>
 							<i id="utilisateurUnique" class="fa fa-check-circle vert">Nom libre</i>
 							<i id="utilisateurNonUnique" class="fa fa-exclamation-triangle rouge">Nom déjà utilisé</i>
-							<span class="erreur">* <?php echo $messages['nomUtilisateur'];?></span>
+							<span class="erreur"><?php echo $messages['nomUtilisateur'];?></span>
 						</td>
 					</tr>	
+					<!-- Mot de passe -->
 					<tr>
-						<td>
-							<label for="motDePasse">Mot de passe</label>
+						<td class="gauche">
+							<label for="motDePasse">Mot de passe:</label>
 						</td>
 						<td>
 							<input id="motDePasse" type="password" name="motDePasse">
 						</td>
 						<td>
-							<span class="erreur">* <?php echo $messages['motDePasse'];?></span>
+							<span class="erreur"><?php echo $messages['motDePasse'];?></span>
 						</td>
 					</tr>
+					<!-- Confirmation du mot de passe -->
 					<tr>
-						<td>
-							<label for="confirm">Confirmation du mot de passe</label>
+						<td class="gauche">
+							<label for="confirm">Confirmation du mot de passe:</label>
 						</td>
 						<td>
 							<input id="confirm" type="password" name="confirm">
 						</td>
 						<td>
-							<span class="erreur">* <?php echo $messages['confirm'];?></span>
+							<span class="erreur"><?php echo $messages['confirm'];?></span>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="3">&nbsp;</td>
 					</tr>
+					<!-- Boutton d'inscription -->
 					<tr>
-						<td colspan="3">
+						<td class="centrer" colspan="3">
 							<input type="submit" name="valider" value="S'inscrire">
 						</td>
 					</tr>	
@@ -418,12 +438,7 @@ function afficherProvince($provParam)
 				</tbody>
 			</table>
 		</form>
-
-
-<!-- Contenu principal -->
-
-
-	</div> 	<!-- Fin des produits -->
+	</div> 	<!-- Fin du formulaire d'inscription -->
 </div>	<!-- Fin section central col-md-9 -->
 <div class="col-md-1"> 	<!-- Début Section de droite central -->
 </div>

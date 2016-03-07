@@ -10,7 +10,7 @@ require_once("./php/biblio/foncCommunes.php");
 $js = array();
 
 $css = array();
-$css[] = 'index.css';
+$css[] = 'formulaire.css';
 $titre = 'LogiKek - authentification';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
@@ -119,21 +119,26 @@ if (isset($_POST['valider']))
 		<form id="formConnexion" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
 			<table>
 				<tbody>
+					<tr>
+						<td class="centrer" colspan="2">
+							<h3>Authentification</h3>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">&nbsp;</td>
+					</tr>
 					<!-- Nom d'utilisateur -->
 					<tr>
-						<td>
+						<td class="gauche">
 							<label for="nomUtilisateur">Nom d'utilisateur:</label>
 						</td>
 						<td>
 							<input id="nomUtilisateur" type="text" name="nomUtilisateur">
 						</td>
 					</tr>
-					<tr>
-						<td colspan="2">&nbsp;</td>
-					</tr>
 					<!-- Mot de passe -->
 					<tr>
-						<td>
+						<td class="gauche">
 							<label for="motDePasse">Mot de passe:</label>
 						</td>
 						<td>
@@ -145,7 +150,7 @@ if (isset($_POST['valider']))
 					</tr>
 					<!-- Bouton pour envoyer le formulaire -->
 					<tr>
-						<td colspan="2">
+						<td class="centrer" colspan="2">
 							<input type="submit" name="valider" value="Connecter">
 						</td>
 					</tr>
@@ -154,7 +159,7 @@ if (isset($_POST['valider']))
 					</tr>
 					<!-- Lien pour aller à la page de création d'un nouveau compte -->
 					<tr>
-						<td colspan="2">
+						<td class="centrer" colspan="2">
 							<a href="./inscription.php">Créer un nouveau compte</a>
 						</td>
 					</tr>

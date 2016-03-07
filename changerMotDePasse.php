@@ -9,7 +9,7 @@ require_once("./php/biblio/foncCommunes.php");
 $js = array();
 
 $css = array();
-$css[] = 'inscription.css';
+$css[] = 'formulaire.css';
 $js[] = 'changerMotDePasse.js';
 $titre = 'LogiKek - Changement de mot de passe';
 $description = 'Site de vente de système d\'exploitation';
@@ -167,13 +167,16 @@ else
 			<table>
 				<tbody>
 					<tr>
-						<td colspan="2">
+						<td class="centrer" colspan="2">
 							<h3>Saisissez les données</h3>
 						</td>
 					</tr>
+					<tr>
+						<td colspan="3">&nbsp;</td>
+					</tr>
 					<!-- Mot de passe actuel -->
 					<tr>
-						<td>
+						<td class="gauche">
 							<label for="mdpActuel">Mot de passe actuel:</label>
 						</td>
 						<td>
@@ -182,7 +185,7 @@ else
 					</tr>
 					<!-- Nouveau mot de passe -->
 					<tr>
-						<td>
+						<td class="gauche">
 							<label for="mdpNouveau">Nouveau mot de passe:</label>
 						</td>
 						<td>
@@ -191,7 +194,7 @@ else
 					</tr>
 					<!-- Confirmation du nouveau mot de passe -->
 					<tr>
-						<td>
+						<td class="gauche">
 							<label for="mdpConfirmer">Confirmation du mot de passe:</label>
 						</td>
 						<td>
@@ -202,7 +205,7 @@ else
 						<td colspan="2">&nbsp;</td>
 					</tr>
 					<tr>
-						<td colspan="2">
+						<td class="centrer" colspan="2">
 							<input type="submit" name="valider" value="Changer le mot de passe">
 						</td>
 					</tr>
