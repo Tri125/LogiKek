@@ -118,11 +118,7 @@ if (isset($_POST['valider']))
 	si oui, on fait un match sur la parenthèse fermante (IF ?(1) THEN \) ). Ensuite un espace optionnel après ce groupe et on écrit le reste du pattern.
 	À partir de la bar vertical "|" c'est la partie ELSE du conditionnel. Le deuxième groupe est déjà présent (le premier [0-9]), mais l'espace optionnel après la parenthèse fermante fait partie du conditionnel, que nous n'avons pas passé le teste. Donc, il faut mettre l'espace conditionnel au début cette fois. Après, match trivial de numéro et tirets et espaces optionnels.
 	*/
-	
-	
-	
-	
-	//validationChamp($regex, $donne, $champ, $message);
+
 	if (!preg_match("/^(\()?[0-9]{3}(?(1)\)[ -]?[0-9]{3}[- ]?[0-9]{4}|([ -]?)[0-9]{3}[ -]?[0-9]{4})$/", $tabClient['telephone']) || 
 		preg_match("/^[0-9]{6}[ -]{1}[0-9]{4}$/", $tabClient['telephone'])) 
 		//Plus simple d'avoir une autre regex pour vérifier le cas DDDDDD DDDD et DDDDDD-DDDD qu'on ne veux pas accepter.

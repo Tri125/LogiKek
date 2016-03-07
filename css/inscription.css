@@ -14,3 +14,7 @@ CSS pour la page inscription.php
 .rouge{
 	color: red;
 }
+
+.enTete{
+	vertical-align: middle;
+}
