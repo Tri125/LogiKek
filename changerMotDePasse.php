@@ -172,7 +172,7 @@ else
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3">&nbsp;</td>
+						<td colspan="2">&nbsp;</td>
 					</tr>
 					<!-- Mot de passe actuel -->
 					<tr>
