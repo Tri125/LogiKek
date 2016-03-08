@@ -1,4 +1,9 @@
 <?php 
+
+//---------------------------------------
+// Page de la section d'entête du site web.
+//---------------------------------------
+
 require_once("./php/biblio/foncCommunes.php");
 
 //code de catégorie pour la recherche. Par défault à 0 pour tout inclure.

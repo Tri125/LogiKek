@@ -1,3 +1,10 @@
+//---------------------------------
+// Script permettant de faire une validation
+// côté client de l'unicité du nom d'utilisateur lors
+// de la création d'un nouveau compte client.
+//---------------------------------
+
+
 //Variable de validation
 var nomUtilisateurUnique = true;
 
