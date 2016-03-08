@@ -484,4 +484,20 @@ VALUES(
 '1081849'
 );
 
+
+INSERT INTO Clients (sexe, nom, prenom, courriel, adresse, ville, province, codePostal, telephone, nomUtilisateur, motDePasse)
+VALUES(
+'M', 
+'Dusseault', 
+'Jeffrey', 
+'jeff@hotmail.com', 
+'36 Lolypop Street', 
+'Saint-Jerome', 
+'QC',
+'J7Z4V2',
+'4502627474',
+'admin',
+'admin'
+);
+
 COMMIT;
