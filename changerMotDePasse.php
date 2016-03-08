@@ -68,9 +68,9 @@ if (isset($_SESSION['authentification']))
 		}
 		
 		//Mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
-		validationChamp("/^[A-Za-z0-9]{5,10}$/", $tabMotPasse['mdpNouveau'], 'Nouveau mot de passe: Min. 5 caractères valides');
+		validationChamp("/^[a-zàáâéèêîíìôòóùúû0-9]{5,10}$/iu", $tabMotPasse['mdpNouveau'], 'Nouveau mot de passe: entre 5 et 10 caractères. Lettre et chiffres seulement.');
 
-		if(validationChamp("/^[A-Za-z0-9]{5,10}$/", $tabMotPasse['mdpConfirmer'], 'Confirmation du nouveau mot de passe: Min. 5 caractères valides'))
+		if(validationChamp("/^[a-zàáâéèêîíìôòóùúû0-9]{5,10}$/iu", $tabMotPasse['mdpConfirmer'], 'Confirmation du nouveau mot de passe: entre 5 et 10 caractères. Lettre et chiffres seulement.'))
 		{
 			//Mot de passe de confirmation n'est pas le même que le mot de passe
 			if ($tabMotPasse['mdpConfirmer'] != $tabMotPasse['mdpNouveau'])

@@ -78,14 +78,14 @@ CREATE TABLE IF NOT EXISTS Clients
     , nom VARCHAR(20) NOT NULL
     , prenom VARCHAR(20) NOT NULL
     , courriel VARCHAR(255) NOT NULL
-    , adresse VARCHAR(20) NOT NULL
+    , adresse VARCHAR(40) NOT NULL
     , ville VARCHAR(30) NOT NULL
     , province VARCHAR(2) NOT NULL
     , codePostal VARCHAR(6) NOT NULL
     , telephone VARCHAR(10) NOT NULL
-    , nomUtilisateur VARCHAR(15) NOT NULL
-    , motDePasse VARCHAR(255) NOT NULL
-    , cryptMotDePasse VARCHAR(255)
+    , nomUtilisateur VARCHAR(15) BINARY NOT NULL
+    , motDePasse VARCHAR(255) BINARY NOT NULL
+    , cryptMotDePasse VARCHAR(255) BINARY
 )
 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 

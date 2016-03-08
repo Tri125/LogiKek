@@ -88,29 +88,29 @@ if (isset($_POST['valider']))
 
 
 	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
-	validationChamp("/^[a-zA-Z \-\'.]{2,20}$/", $tabClient['nom'], 'nom', 'Min. 2 caractères valides');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúû \-\'.]{2,20}$/iu", $tabClient['nom'], 'nom', 'Entre 2 et 20 lettres');
 
 
 	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
-	validationChamp("/^[a-zA-Z \-'.]{2,20}$/", $tabClient['prenom'], 'prenom', 'Min. 2 caractères valides');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúû \-\'.]{2,20}$/iu", $tabClient['prenom'], 'prenom', 'Entre 2 et 20 lettres');
 
 	//Valide le champs de courriel selon la syntaxe spécifié par RFC 822.
 	if (!filter_var($tabClient['courriel'], FILTER_VALIDATE_EMAIL))
 	{
-		$messages['courriel'] = 'Courriel invalide';
+		$messages['courriel'] = 'Courriel invalide: adresse@domaine.com';
 		$valide = false;
 	}
 
 
 	//Adresse et ville: au moins 3 caractères parmi lettres, chiffres, tiret, espace, apostrophe et point, maximum 40.
-	validationChamp("/^[a-zA-Z0-9 \-'.]{3,40}$/", $tabClient['adresse'], 'adresse', 'Min. 3 caractères valides');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúû0-9 \-'.]{3,40}$/iu", $tabClient['adresse'], 'adresse', 'Entre 3 et 40 caractères.');
 
 	//Adresse et ville: au moins 2 caractères max 20 parmi lettres, chiffres, tiret, espace, apostrophe et point
-	validationChamp("/^[a-zA-Z0-9 \-'.]{2,20}$/", $tabClient['ville'], 'ville', 'Min. 2 caractères valides');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúû \-\'.]{2,20}$/iu", $tabClient['ville'], 'ville', 'Entre 2 et 20 lettres');
 
 	//Code postal selon le modèle A9A9A9. Ne doit contenir aucune des lettres DFIOQU
 	//Look ahead negatif "?!" du groupe [DFIOQU], regarde si le prochain group ne contient pas un match de ce groupe.
-	validationChamp("/^((?![DdFfIiOoQqUu])([A-Za-z][0-9])){3}$/", $tabClient['codePostal'], 'codePostal', 'Sans espace et modèle A9A9A9');
+	validationChamp("/^((?![DdFfIiOoQqUu])([A-Za-z][0-9])){3}$/", $tabClient['codePostal'], 'codePostal', 'Sans espace: A9A9A9');
 
 	//Numéro de téléphone: 10 chiffres, optionnellement encadrés ainsi: (xxx)yyy-zzzz
 
@@ -123,19 +123,19 @@ if (isset($_POST['valider']))
 		preg_match("/^[0-9]{6}[ -]{1}[0-9]{4}$/", $tabClient['telephone'])) 
 		//Plus simple d'avoir une autre regex pour vérifier le cas DDDDDD DDDD et DDDDDD-DDDD qu'on ne veux pas accepter.
 	{
-		$messages['telephone'] = 'Modèle invalide (xxx)yyy-zzzz)';
+		$messages['telephone'] = 'Parenthèse, tiret et espace optionnels: (xxx)yyy-zzzz)';
 		$valide = false;
 	}
 
 
 	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
-	validationChamp("/^[A-Za-z0-9]{5,10}$/", $tabClient['nomUtilisateur'], 'nomUtilisateur', 'Min. 5 caractères valides');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúû0-9]{5,10}$/iu", $tabClient['nomUtilisateur'], 'nomUtilisateur', 'Entre 5 et 10 caractères. Lettre et chiffres seulement.');
 
 	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
-	validationChamp("/^[A-Za-z0-9]{5,10}$/", $tabClient['motDePasse'], 'motDePasse', 'Min. 5 caractères valides');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúû0-9]{5,10}$/iu", $tabClient['motDePasse'], 'motDePasse', 'Entre 5 et 10 caractères. Lettre et chiffres seulement.');
 
 	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
-	if(validationChamp("/^[A-Za-z0-9]{5,10}$/", $tabClient['confirm'], 'confirm', 'Min. 5 caractères valides'))
+	if(validationChamp("/^[a-zàáâéèêîíìôòóùúû0-9]{5,10}$/iu", $tabClient['confirm'], 'confirm', 'Entre 5 et 10 caractères. Lettre et chiffres seulement.'))
 	{
 		//Mot de passe de confirmation n'est pas le même que le mot de passe
 		if ($tabClient['confirm'] != $tabClient['motDePasse'])
