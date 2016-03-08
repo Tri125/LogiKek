@@ -15,9 +15,6 @@ $titre = 'LogiKek - authentification';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
-require_once("./header.php");
-require_once("./sectionGauche.php");
-
 
 global $maBD;
 
@@ -101,6 +98,9 @@ if (isset($_POST['valider']))
 		exit();
 	}
 }
+
+require_once("./header.php");
+require_once("./sectionGauche.php");
 
 ?>
 

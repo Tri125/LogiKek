@@ -15,9 +15,6 @@ $titre = 'LogiKek - Changement de mot de passe';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
-require_once("./header.php");
-require_once("./sectionGauche.php");
-
 $valide = true;
 global $maBD;
 
@@ -144,6 +141,10 @@ else
 	header("location:./authentification.php?prov=changerMotDePasse");
 	exit();
 }
+
+require_once("./header.php");
+require_once("./sectionGauche.php");
+
 ?>
 
 <!-- Début section central col-md-9 -->

@@ -16,6 +16,12 @@ $estIndex = preg_match('@^[a-z/]*index.php$@', htmlspecialchars($_SERVER['PHP_SE
 if(isset($_GET['deconnexion']))
 	deconnexionUsager();
 
+if(isset($_GET['changerMotDePasse']))
+{
+	header('location:./changerMotDePasse.php');
+	exit();
+}
+
 //Paramètre GET pour le code de catégorie pour la recherche.
 if(isset($_GET['listeCategorie']))
 	$categorie = $_GET['listeCategorie'];
@@ -104,6 +110,11 @@ if (isset($_SESSION['panier-item']))
 						<?php echo $_SESSION['authentification']; ?>
 					</i>
 				</a>
+				<a href="./?changerMotDePasse">
+					<i class="fa fa-lock">
+						Changer de mot de passe
+					</i>
+				</a>
 				<a href="./?deconnexion">
 					<i class="fa fa-user">
 						Déconnexion
@@ -117,8 +128,8 @@ if (isset($_SESSION['panier-item']))
 				</a>
 			<?php endif; ?>
 				<a href="./authentification.php?prov=dossier">
-					<i class="fa fa-user">
-						Dossier
+					<i class="fa fa-file">
+						Mon Dossier
 					</i>
 				</a>
 			</div>
