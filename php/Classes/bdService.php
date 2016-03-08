@@ -302,6 +302,10 @@ class bdService
 		return $tabRetour;
 	}
 
+	//-----------------------------
+	// Fonction qui neutralise le texte passé en paramètre
+	// pour une base de donnée mysql et le retourne.
+	//-----------------------------
 	public function neutralise($info)
 	{
 		return $this->BDInterne->real_escape_string($info);
