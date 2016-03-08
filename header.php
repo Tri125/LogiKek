@@ -12,6 +12,10 @@ $nbrArticle = 0;
 //Pour savoir si nous sommes à la page index.php (le catalogue) pour afficher les éléments de recherche.
 $estIndex = preg_match('@^[a-z/]*index.php$@', htmlspecialchars($_SERVER['PHP_SELF']));
 
+//Paramètre GET pour l'action de déconnexion du compte client.
+if(isset($_GET['deconnexion']))
+	deconnexionUsager();
+
 //Paramètre GET pour le code de catégorie pour la recherche.
 if(isset($_GET['listeCategorie']))
 	$categorie = $_GET['listeCategorie'];
@@ -95,9 +99,14 @@ if (isset($_SESSION['panier-item']))
 		<div class="col-md-3 text-right" id="logCart"> <!-- Section de connexion et navigation vers le panier -->
 			<div class="row"> <!-- Lien connexion avec image symbolique -->
 			<?php if (isset($_SESSION['authentification'])): ?>
-				<a href="./authentification.php?prov=dossier">
+				<a href="./authentification.php">
 					<i class="fa fa-user">
 						<?php echo $_SESSION['authentification']; ?>
+					</i>
+				</a>
+				<a href="./?deconnexion">
+					<i class="fa fa-user">
+						Déconnexion
 					</i>
 				</a>
 			<?php else: ?>
@@ -107,6 +116,11 @@ if (isset($_SESSION['panier-item']))
 					</i>
 				</a>
 			<?php endif; ?>
+				<a href="./authentification.php?prov=dossier">
+					<i class="fa fa-user">
+						Dossier
+					</i>
+				</a>
 			</div>
 			<div class="row"> <!-- Lien vers le panier avec image symbolique -->
 				<a href="./panierGestion.php">
