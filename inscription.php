@@ -86,11 +86,11 @@ if (isset($_POST['valider']))
 
 
 	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
-	validationChamp("/^[a-zàáâéèêîíìôòóùúû \-\'.]{2,20}$/iu", $tabClient['nom'], 'nom', 'Entre 2 et 20 lettres');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúûç \-\'.]{2,20}$/iu", $tabClient['nom'], 'nom', 'Entre 2 et 20 lettres');
 
 
 	//Nom et prénom: au moins 2 max 20 caractères parmi lettres, tiret, espace, apostrophe et point
-	validationChamp("/^[a-zàáâéèêîíìôòóùúû \-\'.]{2,20}$/iu", $tabClient['prenom'], 'prenom', 'Entre 2 et 20 lettres');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúûç \-\'.]{2,20}$/iu", $tabClient['prenom'], 'prenom', 'Entre 2 et 20 lettres');
 
 	//Valide le champs de courriel selon la syntaxe spécifié par RFC 822.
 	if (!filter_var($tabClient['courriel'], FILTER_VALIDATE_EMAIL))
@@ -101,10 +101,10 @@ if (isset($_POST['valider']))
 
 
 	//Adresse et ville: au moins 3 caractères parmi lettres, chiffres, tiret, espace, apostrophe et point, maximum 40.
-	validationChamp("/^[a-zàáâéèêîíìôòóùúû0-9 \-'.]{3,40}$/iu", $tabClient['adresse'], 'adresse', 'Entre 3 et 40 caractères.');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúûç0-9 \-'.]{3,40}$/iu", $tabClient['adresse'], 'adresse', 'Entre 3 et 40 caractères.');
 
 	//Adresse et ville: au moins 2 caractères max 20 parmi lettres, chiffres, tiret, espace, apostrophe et point
-	validationChamp("/^[a-zàáâéèêîíìôòóùúû \-\'.]{2,20}$/iu", $tabClient['ville'], 'ville', 'Entre 2 et 20 lettres');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúûç \-\'.]{2,20}$/iu", $tabClient['ville'], 'ville', 'Entre 2 et 20 lettres');
 
 	//Code postal selon le modèle A9A9A9. Ne doit contenir aucune des lettres DFIOQU
 	//Look ahead negatif "?!" du groupe [DFIOQU], regarde si le prochain group ne contient pas un match de ce groupe.
@@ -127,13 +127,13 @@ if (isset($_POST['valider']))
 
 
 	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
-	validationChamp("/^[a-zàáâéèêîíìôòóùúû0-9]{5,10}$/iu", $tabClient['nomUtilisateur'], 'nomUtilisateur', 'Entre 5 et 10 caractères. Lettre et chiffres seulement.');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúûç0-9]{5,10}$/iu", $tabClient['nomUtilisateur'], 'nomUtilisateur', 'Entre 5 et 10 caractères. Lettre et chiffres seulement.');
 
 	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
-	validationChamp("/^[a-zàáâéèêîíìôòóùúû0-9]{5,10}$/iu", $tabClient['motDePasse'], 'motDePasse', 'Entre 5 et 10 caractères. Lettre et chiffres seulement.');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúûç0-9]{5,10}$/iu", $tabClient['motDePasse'], 'motDePasse', 'Entre 5 et 10 caractères. Lettre et chiffres seulement.');
 
 	//Nom d'usager et mot de passe: au moins 5 caractères max 10 parmi lettres et chiffres
-	if(validationChamp("/^[a-zàáâéèêîíìôòóùúû0-9]{5,10}$/iu", $tabClient['confirm'], 'confirm', 'Entre 5 et 10 caractères. Lettre et chiffres seulement.'))
+	if(validationChamp("/^[a-zàáâéèêîíìôòóùúûç0-9]{5,10}$/iu", $tabClient['confirm'], 'confirm', 'Entre 5 et 10 caractères. Lettre et chiffres seulement.'))
 	{
 		//Mot de passe de confirmation n'est pas le même que le mot de passe
 		if ($tabClient['confirm'] != $tabClient['motDePasse'])
