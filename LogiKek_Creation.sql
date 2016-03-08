@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS Clients
     , ville VARCHAR(30) NOT NULL
     , province VARCHAR(2) NOT NULL
     , codePostal VARCHAR(6) NOT NULL
-    , telephone VARCHAR(10) NOT NULL
+    , telephone VARCHAR(20) NOT NULL
     , nomUtilisateur VARCHAR(15) BINARY NOT NULL
     , motDePasse VARCHAR(255) BINARY NOT NULL
     , cryptMotDePasse VARCHAR(255) BINARY

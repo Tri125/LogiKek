@@ -407,7 +407,7 @@ function afficherProvince($provParam)
 							<label for="motDePasse">Mot de passe:</label>
 						</td>
 						<td>
-							<input id="motDePasse" type="password" name="motDePasse">
+							<input id="motDePasse" type="password" name="motDePasse" value="<?php echo $client->getMotDePasse(); ?>">
 						</td>
 						<td>
 							<span class="erreur"><?php echo $messages['motDePasse'];?></span>
