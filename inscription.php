@@ -101,7 +101,7 @@ if (isset($_POST['valider']))
 
 
 	//Adresse et ville: au moins 3 caractères parmi lettres, chiffres, tiret, espace, apostrophe et point, maximum 40.
-	validationChamp("/^[a-zàáâéèêîíìôòóùúûç0-9 \-'.]{3,40}$/iu", $tabClient['adresse'], 'adresse', 'Entre 3 et 40 caractères.');
+	validationChamp("/^[a-zàáâéèêîíìôòóùúûç0-9 \-\'.]{3,40}$/iu", $tabClient['adresse'], 'adresse', 'Entre 3 et 40 caractères.');
 
 	//Adresse et ville: au moins 2 caractères max 20 parmi lettres, chiffres, tiret, espace, apostrophe et point
 	validationChamp("/^[a-zàáâéèêîíìôòóùúûç \-\'.]{2,20}$/iu", $tabClient['ville'], 'ville', 'Entre 2 et 20 lettres');
