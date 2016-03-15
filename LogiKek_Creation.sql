@@ -3,11 +3,12 @@ CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 USE `1081849_LogiKek`;
 
+DROP TABLE IF EXISTS CommandesProduits;
+DROP TABLE IF EXISTS Commandes;
 DROP TABLE IF EXISTS ProduitsCategories;
 DROP TABLE IF EXISTS Produits;
 DROP TABLE IF EXISTS Categories;
 DROP TABLE IF EXISTS Clients;
-DROP TABLE IF EXISTS Sexes;
 
 
 CREATE TABLE IF NOT EXISTS Produits
@@ -92,6 +93,38 @@ CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE Clients
 ADD CONSTRAINT Clients_usager_UK
 UNIQUE (nomUtilisateur);
+
+
+CREATE TABLE IF NOT EXISTS Commandes
+(
+	idCommande INT PRIMARY KEY AUTO_INCREMENT
+    , idClient INT NOT NULL
+    , dateCommande TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+)
+CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+
+ALTER TABLE Commandes
+ADD CONSTRAINT Commandes_Clients_FK
+FOREIGN KEY (idClient) REFERENCES Clients (idClient);
+
+
+CREATE TABLE IF NOT EXISTS CommandesProduits
+(
+	idCommandeProduit INT PRIMARY KEY AUTO_INCREMENT
+    , idCommande INT NOT NULL
+    , idProduit INT NOT NULL
+)
+CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+ALTER TABLE CommandesProduits
+ADD CONSTRAINT CommandesProduits_Commandes_FK
+FOREIGN KEY (idCommande) REFERENCES Commandes (idCommande);
+
+ALTER TABLE CommandesProduits
+ADD CONSTRAINT CommandesProduits_Produits_FK
+FOREIGN KEY (idProduit) REFERENCES Produits (idProduit);
+
 /*
 ALTER TABLE Clients
 ADD CONSTRAINT Clients_Sexes_FK
