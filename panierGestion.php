@@ -173,7 +173,7 @@ require_once("./sectionGauche.php");
 				</tfoot>
 			</table>
 			<div class="btn-toolbar pull-right" role="group" aria-label="...">
-				<form id="commanderForm" method="POST" action="#"> <!-- Formulaire commander -->
+				<form id="commanderForm" method="POST" action="./commander.php"> <!-- Formulaire commander -->
 					<input type="submit" class="btn" value="Commander"> 
 				</form>
 			</div>

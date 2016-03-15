@@ -71,7 +71,7 @@ if (isset($_POST['valider']))
 					header("location:./authentification.php");
 					break;
 
-				case 'commander':
+				case 'commande':
 					unset($_SESSION['prov']);
 					header("location:./commander.php");
 					break;
