@@ -103,6 +103,9 @@ CREATE TABLE IF NOT EXISTS Commandes
 )
 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
+ALTER TABLE Commandes
+ADD CONSTRAINT Commandes_dateCommande_UK
+UNIQUE (dateCommande);
 
 ALTER TABLE Commandes
 ADD CONSTRAINT Commandes_Clients_FK
@@ -116,6 +119,10 @@ CREATE TABLE IF NOT EXISTS CommandesProduits
     , idProduit INT NOT NULL
 )
 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+ALTER TABLE CommandesProduits
+ADD CONSTRAINT CommandesProduits_Commandes_Produits_UK
+UNIQUE (idCommande, idProduit);
 
 ALTER TABLE CommandesProduits
 ADD CONSTRAINT CommandesProduits_Commandes_FK
