@@ -146,7 +146,7 @@ if (isset($_SESSION['panier-item']))
 				</a>
 			</div>
 			<div class="row"> <!-- Lien vers la page commander -->
-				<a href="#">
+				<a href="./commander.php">
 					<i class="fa fa-truck">
 						Commander
 					</i>
