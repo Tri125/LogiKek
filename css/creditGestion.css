@@ -1,0 +1,12 @@
+/*
+CSS de la page creditGestion.php
+*/
+
+#cartes img {
+	width: 10%;
+	height: 10%;
+}
+
+tr > td {
+	text-align: center;
+}

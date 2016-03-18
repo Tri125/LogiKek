@@ -46,13 +46,18 @@ else
 		<?php if($panier->isEmpty()) : ?>
 			<div class="alert alert-warning" role="alert"> <!-- Message indiquant un panier vide. -->
 				<i class="fa fa-info-circle"></i>
-				Votre panier est vide.
+				Aucun article dans votre commande.
 				<a href="./">Continuer votre magasinage</a>
 			</div>
-		<?php endif; ?>
+		<?php else: ?>
 		<h2>Votre commande</h2>
 		<table class="table">
 			<thead>
+				<tr>
+					<td>
+						<a href="./panierGestion.php">Retourner au panier</a>
+					</td>
+				</tr>
 				<tr>
 					<td class="nomProduit">Titre</td>
 					<td class="nomProduit">Quantité</td>
@@ -105,6 +110,12 @@ else
 					</tr>
 				</tfoot>
 		</table>
+		<div class="btn-toolbar pull-right" role="group" aria-label="...">
+			<form id="confirmerForm" method="POST" action="./creditGestion.php"> <!-- Formulaire commander -->
+				<input type="submit" class="btn" value="Confirmer"> 
+			</form>
+		</div>
+		<?php endif; ?>
 <!-- Contenu principal -->
 
 
