@@ -16,10 +16,7 @@ global $maBD;
 
 try
 {
-	//Modifie la quantité en inventaire des articles commandés.
-	$nbrLigneJour =	$maBD->updateQteStock($panier);
-	//Crée une commande et l'associe au client.
-	$numCommande = $maBD->insertCommande($client);
+	$resultat = $maBD->PasserCommande($client, $panier);
 }
 catch (Exception $e)
 {
@@ -27,9 +24,13 @@ catch (Exception $e)
 	exit();
 }
 
+unset($_SESSION['panier']);
+unset($_SESSION['panier-item']);
+
 require_once("./header.php");
 require_once("./sectionGauche.php");
 
+var_dump($resultat);
 ?>
 
 <!-- Début section central col-md-9 -->

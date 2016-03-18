@@ -125,6 +125,40 @@ class bdService
 
 
 	//-----------------------------
+	//Insert une commandeProduit avec un achat passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//-----------------------------
+	function insertCommandeProduit($idCommande, $achat)
+	{
+		//Requête qui sera préparé
+		$requete = "INSERT INTO CommandesProduits (idCommande, idProduit, quantite) VALUES ( ?, (SELECT idProduit From Produits WHERE nom = ?), ? )";
+		$args = array('isi');
+		
+		$values = array($idCommande, $achat->getNom(), $achat->getNombre());
+
+		return $this->insertPrepared($requete, $args, $values);
+	}
+
+	//-----------------------------
+	//Responsable de compléter une transaction d'une commande en BD
+	//-----------------------------
+	function PasserCommande($client, $panier)
+	{
+		$resultat = array();
+
+		$resultat['idCommandeProduit'] = array();
+		$resultat['updateQte'] = $this->updateQteStock($panier);
+		$resultat['idCommande'] = $this->insertCommande($client);
+
+		foreach ($panier->getTabAchats() as $achat)
+		{
+			$resultat['idCommandeProduit'][] = $this->insertCommandeProduit($resultat['idCommande'], $achat);
+		}
+
+		return $resultat;
+	}	
+
+
+	//-----------------------------
 	//Update en BD avec une déclaration préparé
 	//
 	// $requete est la requête qui sera préparé
