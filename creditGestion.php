@@ -43,7 +43,7 @@ require_once("./sectionGauche.php");
 	<!-- Début des produits -->
 	<div class="row">
 		<h3>Complétez les informations</h3>
-		<form method="POST" action="#" onsubmit="return ValiderCarte();">
+		<form method="POST" action="./facture.php" onsubmit="return ValiderCarte();">
 		<table>
 			<tr>
 				<td id="cartes">

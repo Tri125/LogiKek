@@ -110,6 +110,21 @@ class bdService
 
 
 	//-----------------------------
+	//Insert une commande avec un client passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//-----------------------------
+	function insertCommande($client)
+	{
+		//Requête qui sera préparé
+		$requete = "INSERT INTO Commandes (idClient) VALUES ( (SELECT idClient From Clients WHERE nom = ?) )";
+		$args = array('s');
+		
+		$values = array($client->getNom());
+
+		return $this->insertPrepared($requete, $args, $values);
+	}
+
+
+	//-----------------------------
 	//Update en BD avec une déclaration préparé
 	//
 	// $requete est la requête qui sera préparé
@@ -175,6 +190,25 @@ class bdService
 				, $client->getNomUtilisateur(), $client->getMotDePasse() , $client->getNomUtilisateur());
 
 		return $this->updatePrepared($requete, $args, $values);
+	}
+
+	//-----------------------------
+	//Update la quantité en inventaire en BD des articles commandé dans un objet Panier passé en paramètre à l'aide d'une déclaration préparé
+	//-----------------------------
+	function updateQteStock($panier)
+	{
+		//Requête qui sera préparé
+		$requete = "UPDATE Produits SET quantite = quantite - ? WHERE nom = ?";
+		$args = array('is');
+		$nbrLigneModifier = 0;
+
+		foreach ($panier->getTabAchats() as $achat)
+		{
+			$values = array($achat->getNombre(), $achat->getNom());
+			$nbrLigneModifier += $this->updatePrepared($requete, $args, $values);
+		}
+
+		return $nbrLigneModifier;
 	}
 	
 	//-----------------------------
