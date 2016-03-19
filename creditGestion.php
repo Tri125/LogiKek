@@ -33,8 +33,24 @@ function AnneeSelect()
 	echo "</select>";
 }
 
-require_once("./header.php");
-require_once("./sectionGauche.php");
+if(isset($_POST['achat']))
+{
+	$_SESSION['achat'] = true;
+	header("location:./commander.php");
+	exit();
+}
+
+if (isset($_SESSION['authentification']) && isset($_POST['confirmer']))
+{
+
+	require_once("./header.php");
+	require_once("./sectionGauche.php");
+}
+else
+{
+	header("location:./commander.php");
+	exit();
+}
 
 ?>
 
@@ -43,47 +59,47 @@ require_once("./sectionGauche.php");
 	<!-- Début des produits -->
 	<div class="row">
 		<h3>Complétez les informations</h3>
-		<form method="POST" action="./facture.php" onsubmit="return ValiderCarte();">
-		<table>
-			<tr>
-				<td id="cartes">
-					<input type="radio" name="carte" value="visa">
-					<img src="./img/cartes/visa.svg" alt="Image Visa">
-					<input type="radio" name="carte" value="mastercard">
-					<img src="./img/cartes/mastercard.svg" alt="Image Mastercard">
-					<input type="radio" name="carte" value="amex">
-					<img src="./img/cartes/amex.svg" alt="Image Amex">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="txtNumero">Saisissez le numéro sans espace</label>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input id="txtNumero" type="text" name="numero">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>Date d'expiration</label>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>Mois:</label>
-					<?php MoisSelect(); ?>
-					<label>Année:</label>
-					<?php AnneeSelect(); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="submit" value="Confirmer">
-				</td>
-			</tr>
-		</table>
+		<form method="POST" action="./creditGestion.php" onsubmit="return ValiderCarte();">
+			<table>
+				<tr>
+					<td id="cartes">
+						<input type="radio" name="carte" value="visa">
+						<img src="./img/cartes/visa.svg" alt="Image Visa">
+						<input type="radio" name="carte" value="mastercard">
+						<img src="./img/cartes/mastercard.svg" alt="Image Mastercard">
+						<input type="radio" name="carte" value="amex">
+						<img src="./img/cartes/amex.svg" alt="Image Amex">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="txtNumero">Saisissez le numéro sans espace</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input id="txtNumero" type="text" name="numero">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Date d'expiration</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Mois:</label>
+						<?php MoisSelect(); ?>
+						<label>Année:</label>
+						<?php AnneeSelect(); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" name="achat" value="Confirmer">
+					</td>
+				</tr>
+			</table>
 		</form>
 
 

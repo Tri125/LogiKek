@@ -16,13 +16,38 @@ $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
 $panier = new Panier();
+$client = $_SESSION['client'];
+$achat = false;
+
+if (isset($_SESSION['achat']))
+{
+	$achat = $_SESSION['achat'];
+	unset($_SESSION['achat']);
+}
 
 $sousTotal = 0.00;
 $tvq = 0.00;
 $tps = 0.00;
 $total = 0.00;
 
-global $maBD;
+
+function Commander($client, $panier)
+{
+	global $maBD;
+
+	try
+	{
+		$resultat = $maBD->PasserCommande($client, $panier);
+	}
+	catch (Exception $e)
+	{
+		exit();
+	}
+
+	unset($_SESSION['panier']);
+	unset($_SESSION['panier-item']);
+	return $resultat['idCommande'];
+}
 
 if (!isset($_SESSION['authentification']))
 {
@@ -32,8 +57,14 @@ if (!isset($_SESSION['authentification']))
 }
 else
 {
+	if (!empty($achat))
+	{
+		$numCommande = Commander($client, $panier);
+	}
+
 	require_once("./header.php");
 	require_once("./sectionGauche.php");
+
 }
 
 ?>
@@ -43,21 +74,47 @@ else
 <div class="col-md-7" id="centre">
 	<!-- D?ut des produits -->
 	<div class="row">
-		<?php if($panier->isEmpty()) : ?>
-			<div class="alert alert-warning" role="alert"> <!-- Message indiquant un panier vide. -->
-				<i class="fa fa-info-circle"></i>
-				Aucun article dans votre commande.
-				<a href="./">Continuer votre magasinage</a>
-			</div>
+	<?php if($panier->isEmpty()) : ?>
+		<div class="alert alert-warning" role="alert"> <!-- Message indiquant un panier vide. -->
+			<i class="fa fa-info-circle"></i>
+			Aucun article dans votre commande.
+			<a href="./">Continuer votre magasinage</a>
+		</div>
+	<?php else: ?>
+		<?php if (!empty($achat)) : ?>
+		<h2>Facture</h2>
+		<table class="pull-left">
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td><?php echo "<label>", $client->getPrenom(), " ", $client->getNom(), "</label>"; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo "<label>", $client->getAdresse(), ", ", $client->getVille(), "</label>"; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo "<label>", $client->getProvince(), "</label>"; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo "<label>", $client->getcodePostal(), "</label>"; ?></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
 		<?php else: ?>
 		<h2>Votre commande</h2>
+		<?php endif; ?>
 		<table class="table">
 			<thead>
+				<?php if (empty($achat)) : ?>
 				<tr>
-					<td>
+					<td colspan="4">
 						<a href="./panierGestion.php">Retourner au panier</a>
 					</td>
 				</tr>
+				<?php endif; ?>
 				<tr>
 					<td class="nomProduit">Produit</td>
 					<td class="nomProduit">Quantité</td>
@@ -110,12 +167,26 @@ else
 					</tr>
 				</tfoot>
 		</table>
+		<?php if (!empty($achat)) : ?>
 		<div class="btn-toolbar pull-right" role="group" aria-label="...">
 			<form id="confirmerForm" method="POST" action="./creditGestion.php"> <!-- Formulaire commander -->
-				<input type="submit" class="btn" value="Confirmer"> 
+				<input type="hidden" class="btn" name="confirmer" value="Confirmer"> 
+			</form>
+		</div>
+		<div>
+			<p>
+				Votre numéro de commande est le <label><?php echo $numCommande; ?></label>.
+			</p>
+			<p>Pour retourner au catalogue cliquez <a href="./">ici</a>.</p>
+		</div>
+		<?php else: ?>
+		<div class="btn-toolbar pull-right" role="group" aria-label="...">
+			<form id="confirmerForm" method="POST" action="./creditGestion.php"> <!-- Formulaire commander -->
+				<input type="submit" class="btn" name="confirmer" value="Confirmer"> 
 			</form>
 		</div>
 		<?php endif; ?>
+	<?php endif; ?>
 <!-- Contenu principal -->
 
 
