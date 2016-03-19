@@ -59,7 +59,7 @@ else
 					</td>
 				</tr>
 				<tr>
-					<td class="nomProduit">Titre</td>
+					<td class="nomProduit">Produit</td>
 					<td class="nomProduit">Quantité</td>
 					<td class="nomProduit">Prix unit.</td>
 					<td class="nomProduit prix-group">Prix</td>

@@ -115,10 +115,10 @@ class bdService
 	function insertCommande($client)
 	{
 		//Requête qui sera préparé
-		$requete = "INSERT INTO Commandes (idClient) VALUES ( (SELECT idClient From Clients WHERE nom = ?) )";
+		$requete = "INSERT INTO Commandes (idClient) VALUES ( (SELECT idClient From Clients WHERE nomUtilisateur = ?) )";
 		$args = array('s');
 		
-		$values = array($client->getNom());
+		$values = array($client->getNomUtilisateur());
 
 		return $this->insertPrepared($requete, $args, $values);
 	}
