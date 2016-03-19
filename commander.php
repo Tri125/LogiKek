@@ -168,11 +168,6 @@ else
 				</tfoot>
 		</table>
 		<?php if (!empty($achat)) : ?>
-		<div class="btn-toolbar pull-right" role="group" aria-label="...">
-			<form id="confirmerForm" method="POST" action="./creditGestion.php"> <!-- Formulaire commander -->
-				<input type="hidden" class="btn" name="confirmer" value="Confirmer"> 
-			</form>
-		</div>
 		<div>
 			<p>
 				Votre numéro de commande est le <label><?php echo $numCommande; ?></label>.
