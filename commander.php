@@ -43,9 +43,8 @@ function Commander($client, $panier)
 	{
 		exit();
 	}
+	$panier->vider();
 
-	unset($_SESSION['panier']);
-	unset($_SESSION['panier-item']);
 	return $resultat['idCommande'];
 }
 
@@ -59,7 +58,10 @@ else
 {
 	if (!empty($achat))
 	{
+		$tmp = unserialize(serialize($panier));
 		$numCommande = Commander($client, $panier);
+		$panier = $tmp;
+		$panier->actualiseQteInventaire();
 	}
 
 	require_once("./header.php");
@@ -168,6 +170,14 @@ else
 				</tfoot>
 		</table>
 		<?php if (!empty($achat)) : ?>
+			<?php foreach($panier->getTabAchats() as $value) : ?>
+				<?php if ($value->getQuantite() < 0) : ?>
+					<div class="alert alert-warning" role="alert"> <!-- Message indiquant une rupture de stock. -->
+						<i class="fa fa-exclamation-triangle"></i>
+							<?php echo "<label>", $value->getNom(), "</label>"; ?> est en rupture de stock. Votre commande sera envoyé aussi tôt que possible.
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>			
 		<div>
 			<p>
 				Votre numéro de commande est le <label><?php echo $numCommande; ?></label>.

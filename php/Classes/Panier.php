@@ -152,6 +152,29 @@ Class Panier
 
 		return $erreur;
 	}
+
+	//-----------------------------
+	//Function qui actualise les produits du panier selon les valeurs en BD.
+	//Lors d'une commande, pour savoir si toujours en stock ou non.
+	//-----------------------------
+	public function actualiseQteInventaire()
+	{
+		global $maBD;
+
+		foreach ($this->tabAchats as $key => $value) 
+		{
+			try
+			{
+				$articleData = $maBD->selectProduit($value->getNom());
+				$quantite = $articleData['quantite'];
+				$this->tabAchats[$key]->setQuantite($quantite);
+			}
+			catch (Exception $e)
+			{
+				die();
+			}
+		}
+	}
 	
 	
 	//-----------------------------

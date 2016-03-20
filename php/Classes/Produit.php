@@ -65,6 +65,15 @@ class Produit
 	}
 
 	//-----------------------------
+	//Set la quantité en inventaire du produit
+	//-----------------------------
+	public function setQuantite($qte)
+	{
+		$this->quantite = $qte;
+	}
+
+
+	//-----------------------------
 	//Retourne la quantité en inventaire du produit
 	//-----------------------------
 	public function getQuantite()

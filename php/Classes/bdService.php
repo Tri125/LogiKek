@@ -337,7 +337,11 @@ class bdService
 		return $resultats[0];
 	}
 	
-	
+
+	//-----------------------------
+	//Select un client avec son nom d'utilisateur passé en paramètre et son mot de passe dans la BD à l'aide d'une déclaration préparé
+	// pour la connexion.
+	//-----------------------------
 	function selectClientMotDePasse($nomUtilisateur, $motDePasse)
 	{
 		//Requête qui sera préparé
@@ -347,6 +351,20 @@ class bdService
 		$values = array($nomUtilisateur, $motDePasse);
 		$resultats = $this->selectPrepared($requete, $args, $values);
 		return $resultats[0];
+	}
+
+	//-----------------------------
+	//Select un produit avec son nom passé en paramètre dans la BD à l'aide d'une déclaration préparé.
+	//-----------------------------
+	function selectProduit($nom)
+	{
+		//Requête qui sera préparé
+		$requete = "SELECT * FROM Produits WHERE nom = ?";
+		$args = array('s');
+		
+		$values = array($nom);
+		$resultats = $this->selectPrepared($requete, $args, $values);
+		return $resultats[0];		
 	}
 	
 	//-----------------------------
