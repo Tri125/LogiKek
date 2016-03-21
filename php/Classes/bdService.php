@@ -366,6 +366,43 @@ class bdService
 		$resultats = $this->selectPrepared($requete, $args, $values);
 		return $resultats[0];		
 	}
+
+
+	//-----------------------------
+	//Select une commande avec les produits associé d'un client dans la BD à l'aide d'une déclaration préparé.
+	//-----------------------------
+	function selectCommandeDetails($nomUtilisateur)
+	{
+
+		//Requête qui sera préparé
+		$requete = "SELECT idCommande, dateCommande 
+					FROM Commandes
+					WHERE idClient = (SELECT idClient FROM Clients WHERE nomUtilisateur = ?)
+					ORDER BY dateCommande DESC";
+		$args = array('s');
+		
+		$values = array($nomUtilisateur);
+		$commandes = $this->selectPrepared($requete, $args, $values);
+		if (isset($commandes))
+		{
+			foreach ($commandes as $key => $value) 
+			{
+				$requete = "SELECT p.nom, p.prix, cp.quantite 
+							FROM CommandesProduits AS cp
+							INNER JOIN Produits AS p
+							ON p.idProduit = cp.idProduit
+							WHERE idCommande = ?
+							ORDER BY p.nom DESC";
+				$args = array('i');
+				$values = array($value['idCommande']);
+
+				$produits = $this->selectPrepared($requete, $args, $values);
+
+				$commandes[$key]['tabAchats'] = $produits;
+			}
+		}
+		return $commandes;		
+	}
 	
 	//-----------------------------
 	//Lance la requête de select $sel et retourne le résultat comme tableau.

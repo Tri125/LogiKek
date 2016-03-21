@@ -80,7 +80,10 @@ if (isset($_POST['valider']))
 					unset($_SESSION['prov']);
 					header("location:./changerMotDePasse.php");
 					break;
-
+				case 'histCommande':
+					unset($_SESSION['prov']);
+					header("location:./historiqueCommande.php");
+					break;
 				default:
 					unset($_SESSION['prov']);
 					header("location:./");
