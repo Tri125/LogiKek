@@ -30,6 +30,16 @@ function tempsRestant($dateAchatString)
 	return "erreur";
 }
 
+function depaseDateLimite($dateAchatString)
+{
+	$maintenant = new DateTime();
+	$dateAchat = new DateTime($dateAchatString);
+	//P pour période. 2 jours
+	$dateAnnulationMax = $dateAchat->add(new DateInterval('P2D'));
+
+	return $maintenant > $dateAnnulationMax;
+}
+
 if (!isset($_SESSION['authentification']))
 {
 	//Redirection ?la page d'authentification.
@@ -90,6 +100,7 @@ else
 						Montant : <?php echo number_format(calculTaxeFrais($value->Total()) , 2); ?>$
 					</label>
 				</td>
+			<?php if (!depaseDateLimite($value->getdateCommande())): ?>
 				<td>
 					<a href="#">Annuler</a>
 				</td>
@@ -97,6 +108,9 @@ else
 				<td>
 					<?php echo 'Encore ', tempsRestant($value->getdateCommande()), ' pour annuler.' ?>
 				</td>
+			<?php else: ?>
+				<td colspan="3">&nbsp;</td>
+			<?php endif; ?>
 			</tr>
 			<tr>
 				<td>
