@@ -51,9 +51,6 @@ else
 	global $maBD;
 	$commandes = array();
 
-	require_once("./header.php");
-	require_once("./sectionGauche.php");
-
 	try
 	{
 		$resultat = $maBD->selectCommandeDetails($_SESSION['authentification']);
@@ -69,7 +66,30 @@ else
 		{
 			$commandes[] = new Commande($value);
 		}
+
+		if (isset($_GET['annule']))
+		{
+			$numCommande = $_GET['annule'];
+
+			if (is_numeric($numCommande) && $numCommande >= 0 && $numCommande <= count($commandes) -1)
+			{
+				try
+				{
+					$resultat = $maBD->annulationCommande($commandes[$numCommande]);
+				}
+				catch (Exception $e)
+				{
+					var_dump($e->getMessage());
+					exit();
+				}
+				header("location:./historiqueCommande.php");
+			}
+		}
 	}
+
+
+	require_once("./header.php");
+	require_once("./sectionGauche.php");
 }
 ?>
 
@@ -102,7 +122,7 @@ else
 				</td>
 			<?php if (!depaseDateLimite($value->getdateCommande())): ?>
 				<td>
-					<a href="#">Annuler</a>
+					<a href="./historiqueCommande.php?annule=<?php echo $key ?>">Annuler</a>
 				</td>
 				<td>&nbsp;</td>
 				<td>

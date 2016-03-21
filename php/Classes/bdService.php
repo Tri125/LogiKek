@@ -436,6 +436,89 @@ class bdService
 	}
 
 	//-----------------------------
+	//Annule la commande passé en paramètre en supprimant les entrés en BD et 
+	//réajuster la quantité des produits en inventaire.
+	//-----------------------------
+	function annulationCommande($commande)
+	{
+		$requete = "UPDATE Produits AS p
+					SET p.quantite = p.quantite + ?
+					WHERE p.nom = ?";
+		$args = array('is');
+
+		foreach ($commande->getTabAchats() as $value) 
+		{
+			$values = array($value->getNombre(), $value->getNom());
+
+			$this->updatePrepared($requete, $args, $values);
+		}
+
+		$requete = "DELETE cp.*, c.*
+					FROM CommandesProduits AS cp
+					INNER JOIN Commandes AS c
+					ON c.idCommande = cp.idCommande
+					WHERE c.idCommande = ?";
+		$args = array('i');
+		
+		$values = array($commande->getNumCommande());
+
+		$resultats = $this->deletePrepared($requete, $args, $values);
+
+		return $resultats;
+	}
+
+	//-----------------------------
+	//Delete en BD avec une déclaration préparé
+	//
+	// $requete est la requête qui sera préparé
+	// $args est un array contenant le type de données de la requête
+	// ie: 'ss'
+	// $values Est un array des données à modifier.
+	// Retourne le résultat de la requête.
+	//-----------------------------
+	private function deletePrepared($requete, $args, $values)
+	{
+		//Fusionne les arrays en un seul
+		$params = array_merge($args, $values);
+ 
+		//Transforme les éléments du tableau en référence plutôt qu'en valeur
+		foreach($params as $key => &$value)
+		{
+			$params[$key] = &$value;
+		}
+		//retourne faux si une erreur c'est produit
+		if($stmt = $this->BDInterne->prepare($requete))
+		{
+			//Par réflection, obtient une référence à la classe stmt de mysqli
+			$ref = new ReflectionClass('mysqli_stmt');
+			//Par réflection, obtient une référence à la méthode bind_param.
+			$method = $ref->getMethod("bind_param");
+			
+			//Invoque la méthode bind_param par réflection sur l'objet $stmt et la tableau $params comme paramètre.
+			$method->invokeArgs($stmt, $params); 
+			
+			//call_user_func_array(array($stmt, 'bind_param'), $params);
+			
+			//Exécute la requête. Si vrai, réussite, sinon faux.
+			if($stmt->execute())
+			{
+				$nbrLigneModifier = $stmt->affected_rows;
+			}
+			//Lance une exception avec le code d'erreur.
+			else
+				throw(new Exception($this->BDInterne->errno));
+			//Ferme la déclaration préparé pour permettre les requêtes avenir.
+			$stmt->close();
+
+			return $nbrLigneModifier;
+		}
+		else
+		{
+			throw (new Exception("Erreur lors de l'envois de la déclaration préparé au serveur"));
+		}
+	}
+
+	//-----------------------------
 	// Fonction qui neutralise le texte passé en paramètre
 	// pour une base de donnée mysql et le retourne.
 	//-----------------------------

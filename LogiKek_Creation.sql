@@ -127,7 +127,7 @@ UNIQUE (idCommande, idProduit);
 
 ALTER TABLE CommandesProduits
 ADD CONSTRAINT CommandesProduits_Commandes_FK
-FOREIGN KEY (idCommande) REFERENCES Commandes (idCommande);
+FOREIGN KEY (idCommande) REFERENCES Commandes (idCommande) ON DELETE CASCADE;
 
 ALTER TABLE CommandesProduits
 ADD CONSTRAINT CommandesProduits_Produits_FK
