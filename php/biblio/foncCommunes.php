@@ -54,6 +54,16 @@ function deconnexionUsager()
 	exit();
 }
 
+//-----------------------------
+//Fonction pour calculer les taxes d'achats et les frais associés.
+//-----------------------------
+function calculTaxeFrais($prix)
+{
+	$taxe = ($prix * TVQ) + ($prix * TPS);
+
+	return $prix + $taxe + FRAIS_CODE;
+}
+
 
 //Un seul objet bdService nécessaire, on l'instancie donc dans ce script pour être utilisé ailleur.
 $maBD = new bdService();

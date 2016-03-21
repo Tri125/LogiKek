@@ -2,13 +2,33 @@
 require_once("./php/biblio/foncCommunes.php");
 
 $js = array();
-
+$js[] = 'rafraichissement.js';
 $css = array();
-$css[] = 'index.css';
-$titre = 'LogiKek';
+$css[] = 'historiqueCommande.css';
+$titre = 'LogiKek - Historique de commandes';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
+
+function tempsRestant($dateAchatString)
+{
+	$maintenant = new DateTime();
+	$dateAchat = new DateTime($dateAchatString);
+	//P pour période. 2 jours
+	$dateAnnulationMax = $dateAchat->add(new DateInterval('P2D'));
+
+	$interval = $dateAnnulationMax->diff($maintenant);
+
+	if ($interval->d >= 1)
+		return $interval->format('%d jour(s) et %h heure(s)');
+	if ($interval->h >= 1)
+		return $interval->format('%h heure(s) et %i minute(s)');
+	if ($interval->i >= 1)
+		return $interval->format('%i minute(s) et %s seconde(s)');
+	if ($interval->i < 1)
+		return $interval->format('%s seconde(s)');
+	return "erreur";
+}
 
 if (!isset($_SESSION['authentification']))
 {
@@ -49,8 +69,13 @@ else
 	<div class="row">
 		<table>
 			<tr>
-				<td>
+				<td colspan="5">
 					<label>Vous avez passé un total de <?php echo count($commandes); ?> commandes</label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="5">
+					<hr class="noir">
 				</td>
 			</tr>
 			<?php foreach ($commandes as $key => $value): ?>
@@ -58,15 +83,19 @@ else
 				<td>
 					<label>Commande : <?php echo $value->getNumCommande(); ?></label>
 				</td>
-				<td>
+				<td class="petit">
 					<label>
 						Date : <?php echo $value->getDateCommande(); ?>
 						<br>
-						<?php echo number_format($value->Total(), 2); ?>$
+						Montant : <?php echo number_format(calculTaxeFrais($value->Total()) , 2); ?>$
 					</label>
 				</td>
 				<td>
 					<a href="#">Annuler</a>
+				</td>
+				<td>&nbsp;</td>
+				<td>
+					<?php echo 'Encore ', tempsRestant($value->getdateCommande()), ' pour annuler.' ?>
 				</td>
 			</tr>
 			<tr>
@@ -76,7 +105,7 @@ else
 				<td>
 					<label>Quantité</label>
 				</td>
-				<td>
+				<td colspan="3">
 					<label>Prix</label>
 				</td>
 			</tr>
@@ -84,9 +113,16 @@ else
 			<tr>
 				<td><?php echo $valueAchat->getNom(); ?></td>
 				<td><?php echo $valueAchat->getNombre(); ?></td>
-			<td><?php echo number_format($valueAchat->getPrix(), 2); ?>$</td>
-				<?php endforeach; ?>
+				<td colspan="3"><?php echo number_format($valueAchat->getPrix(), 2); ?>$</td>
+			<?php endforeach; ?>
 			</tr>
+			<?php if( (count($commandes) > 1) && (count($commandes) - 1 != $key)) :?>
+				<tr>
+					<td colspan="5">
+						<hr class="noir">
+					</td>
+				</tr>
+			<?php endif; ?>
 			<?php endforeach; ?>
 		</table>
 
