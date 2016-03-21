@@ -40,7 +40,6 @@ else
 			$commandes[] = new Commande($value);
 		}
 	}
-	//var_dump($commandes);
 }
 ?>
 
@@ -51,10 +50,10 @@ else
 	<?php foreach ($commandes as $key => $value): ?>
 		<label>Num : <?php echo $value->getNumCommande(); ?></label>
 		<label>Date: <?php echo $value->getDateCommande(); ?></label>
-		<?php foreach ($value->getTabAchats() as $keya => $valuea): ?>
-			<label>Nom: <?php echo $valuea['nom']; ?></label>
-			<label>Quantite: <?php echo $valuea['quantite']; ?></label>
-			<label>Prix: <?php echo $valuea['prix']; ?>$</label>
+		<?php foreach ($value->getTabAchats() as $keyAchat => $valueAchat): ?>
+			<label>Nom: <?php echo $valueAchat->getNom(); ?></label>
+			<label>Quantite: <?php echo $valueAchat->getNombre(); ?></label>
+			<label>Prix: <?php echo $valueAchat->getPrix(); ?>$</label>
 			<br>
 		<?php endforeach; ?>
 		<br>

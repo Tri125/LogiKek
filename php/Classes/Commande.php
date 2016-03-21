@@ -7,7 +7,7 @@ class Commande
 {
 	protected $dateCommande;
 	protected $idCommande;
-	protected $tabArticles;
+	protected $tabAchats;
 
 	//-----------------------------
 	//Constructeur...
@@ -17,7 +17,17 @@ class Commande
 		$this->tabAchats = array();
 
 		foreach ($tableau as $cle => $valeur)
-			$this->$cle = $valeur;
+			if ($cle == 'tabAchats')
+			{
+				foreach($tableau[$cle] as $cleAchat => $valeurAchat)
+				{
+					$tmp = new Achat($valeurAchat);
+					$tmp->setNombre($tableau[$cle][$cleAchat]['nombre']);
+					$this->tabAchats[] = $tmp;
+				}
+			}
+			else
+				$this->$cle = $valeur;
 	}
 
 	public function getDateCommande()

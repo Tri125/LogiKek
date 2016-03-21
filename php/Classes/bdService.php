@@ -359,7 +359,15 @@ class bdService
 	function selectProduit($nom)
 	{
 		//Requête qui sera préparé
-		$requete = "SELECT * FROM Produits WHERE nom = ?";
+		//$requete = "SELECT * FROM Produits WHERE nom = ?";
+		$requete = "SELECT p.idProduit, p.nom, p.description, p.prix, p.quantite, p.quantiteMin, 
+							GROUP_CONCAT(c.nom SEPARATOR ',') categories
+							FROM Produits p
+							INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit
+							INNER JOIN Categories c ON c.idCategorie = pc.idCategorie 
+							GROUP BY p.idProduit
+							HAVING p.nom = ?
+							ORDER BY p.nom, c.nom ASC";
 		$args = array('s');
 		
 		$values = array($nom);
@@ -387,17 +395,19 @@ class bdService
 		{
 			foreach ($commandes as $key => $value) 
 			{
-				$requete = "SELECT p.nom, p.prix, cp.quantite 
+				$requete = "SELECT p.idProduit, p.nom, p.description, p.prix, p.quantite, p.quantiteMin, 
+							GROUP_CONCAT(c.nom SEPARATOR ',') categories, cp.quantite AS nombre
 							FROM CommandesProduits AS cp
-							INNER JOIN Produits AS p
-							ON p.idProduit = cp.idProduit
-							WHERE idCommande = ?
-							ORDER BY p.nom DESC";
+							INNER JOIN Produits AS p ON p.idProduit = cp.idProduit
+							INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit
+							INNER JOIN Categories c ON c.idCategorie = pc.idCategorie 
+							WHERE cp.idCommande = ?
+							GROUP BY p.idProduit
+							ORDER BY p.nom ASC";
 				$args = array('i');
 				$values = array($value['idCommande']);
 
 				$produits = $this->selectPrepared($requete, $args, $values);
-
 				$commandes[$key]['tabAchats'] = $produits;
 			}
 		}
