@@ -360,7 +360,7 @@ class bdService
 	{
 		//Requête qui sera préparé
 		//$requete = "SELECT * FROM Produits WHERE nom = ?";
-		$requete = "SELECT p.idProduit, p.nom, p.description, p.prix, p.quantite, p.quantiteMin, 
+		$requete = "SELECT p.idProduit, p.nom, p.description, ROUND(p.prix, 2) as prix, p.quantite, p.quantiteMin, 
 							GROUP_CONCAT(c.nom SEPARATOR ',') categories
 							FROM Produits p
 							INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit
@@ -395,7 +395,7 @@ class bdService
 		{
 			foreach ($commandes as $key => $value) 
 			{
-				$requete = "SELECT p.idProduit, p.nom, p.description, p.prix, p.quantite, p.quantiteMin, 
+				$requete = "SELECT p.idProduit, p.nom, p.description, ROUND(p.prix, 2) as prix, p.quantite, p.quantiteMin, 
 							GROUP_CONCAT(c.nom SEPARATOR ',') categories, cp.quantite AS nombre
 							FROM CommandesProduits AS cp
 							INNER JOIN Produits AS p ON p.idProduit = cp.idProduit

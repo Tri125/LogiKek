@@ -44,6 +44,18 @@ class Commande
 	{
 		return $this->tabAchats;
 	}
+	
+	public function Total()
+	{
+		$total = 0;
+		
+		foreach($this->tabAchats as $value)
+		{
+			$total += ($value->Total());
+		}
+		
+		return $total;
+	}
 
 }
 

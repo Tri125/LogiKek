@@ -32,6 +32,14 @@ class Achat extends Produit
 		if ($qt > 0)
 			$this->nombre = $qt;
 	}
+	
+	//-----------------------------
+	// Retourne le total du coût de l'achat
+	//-----------------------------
+	public function Total()
+	{
+		return ($this->nombre * $this->prix);
+	}
 
 }
 
