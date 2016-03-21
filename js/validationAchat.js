@@ -5,12 +5,16 @@
 //---------------------------------
 
 
+$(document).ready(function () {
+	$('#messageErreur').hide();
+});
 
 //------------------------------
 // Fonction pour valider une carte de crédit
 //------------------------------
 function ValiderCarte(data)
 {
+	$('#messageErreur').hide();
 	var estValide = true;
 	var date = new Date();
 
@@ -23,6 +27,7 @@ function ValiderCarte(data)
 	if ( estVide(typeCarte) || estVide(numero) || estVide(mois) || estVide(annee))
 	{
 		estValide = false;
+		$('#messageErreur').show();
 		return estValide;
 	}
 
@@ -53,7 +58,8 @@ function ValiderCarte(data)
 		estValide = false;
 	}
 
-
+	if (!estValide)
+		$('#messageErreur').show();
 	return estValide;
 }
 

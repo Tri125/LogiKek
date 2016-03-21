@@ -148,7 +148,7 @@ if (isset($_SESSION['panier-item']))
 			<div class="row"> <!-- Lien vers la page commander -->
 				<a href="./historiqueCommande.php">
 					<i class="fa fa-truck">
-						Commander
+						Historique des commandes
 					</i>
 				</a>
 			</div>

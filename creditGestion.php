@@ -59,6 +59,10 @@ else
 	<!-- Début des produits -->
 	<div class="row">
 		<h3>Complétez les informations</h3>
+		<div id="messageErreur" class="alert alert-danger" role="alert">
+			<i class="fa fa-exclamation-triangle"></i>
+			Numéro de carte de crédit ou date d'expiration invalide.
+		</div>
 		<form method="POST" action="./creditGestion.php" onsubmit="return ValiderCarte();">
 			<table>
 				<tr>
