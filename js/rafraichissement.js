@@ -6,7 +6,7 @@ function Chrono()
 {
 	setTimeout(function(){
 		rafraichis()
-	}, 5000);
+	}, 15000);
 }
 
 function rafraichis() {
