@@ -55,7 +55,8 @@ function deconnexionUsager()
 }
 
 //-----------------------------
-//Fonction pour calculer les taxes d'achats et les frais associés.
+//Fonction pour calculer les taxes d'achats 
+//et les frais associés à partir d'un prix passé en paramètre
 //-----------------------------
 function calculTaxeFrais($prix)
 {

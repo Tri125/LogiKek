@@ -65,7 +65,7 @@ class Produit
 	}
 
 	//-----------------------------
-	//Set la quantité en inventaire du produit
+	//Modifie la quantité en inventaire du produit
 	//-----------------------------
 	public function setQuantite($qte)
 	{

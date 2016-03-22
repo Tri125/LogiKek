@@ -1,4 +1,11 @@
 <?php 
+
+//------------------------------------------------
+// Page affichant l'historique des commandes du client
+// et permettant l'annulation d'une commande si le délais n'est pas dépassé.
+//------------------------------------------------
+
+
 require_once("./php/biblio/foncCommunes.php");
 
 $js = array();
@@ -10,15 +17,23 @@ $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
 
+//------------------------------------------------
+//Fonction pour afficher le temps restant avant de ne plus
+//pouvoir annuler une commande.
+//Prend un paramètre une string en format dateTime.
+//------------------------------------------------
 function tempsRestant($dateAchatString)
 {
+
 	$maintenant = new DateTime();
 	$dateAchat = new DateTime($dateAchatString);
+	//Crée un objet date représentant la date limite pour une annulation.
 	//P pour période. 2 jours
 	$dateAnnulationMax = $dateAchat->add(new DateInterval('P2D'));
-
+	//Le temps restant.
 	$interval = $dateAnnulationMax->diff($maintenant);
 
+	//Logique de l'affichage du format.
 	if ($interval->d >= 1)
 		return $interval->format('%d jour(s) et %h heure(s)');
 	if ($interval->h >= 1)
@@ -30,10 +45,16 @@ function tempsRestant($dateAchatString)
 	return "erreur";
 }
 
+
+//------------------------------------------------
+// Fonction pour s'avoir si la date limite d'annulation est dépassé.
+// Retourne vrai ou faux.
+//------------------------------------------------
 function depaseDateLimite($dateAchatString)
 {
 	$maintenant = new DateTime();
 	$dateAchat = new DateTime($dateAchatString);
+	//Crée un objet date représentant la date limite pour une annulation.
 	//P pour période. 2 jours
 	$dateAnnulationMax = $dateAchat->add(new DateInterval('P2D'));
 
@@ -42,7 +63,7 @@ function depaseDateLimite($dateAchatString)
 
 if (!isset($_SESSION['authentification']))
 {
-	//Redirection ?la page d'authentification.
+	//Redirection à la page d'authentification.
 	header("location:./authentification.php?prov=histCommande");
 	exit();
 }
@@ -53,36 +74,44 @@ else
 
 	try
 	{
+		//Sélectionne l'historique de commandes en BD.
 		$resultat = $maBD->selectCommandeDetails($_SESSION['authentification']);
 	}
 	catch (Exception $e)
 	{
 		exit();
 	}
-
+	//Si il y a au moins une commande dans l'historique.
 	if (isset($resultat))
 	{
+		//Pour chacun des commandes
 		foreach ($resultat as $value) 
 		{
+			//Crée un objet Commande et l'enregistre dans le tableau de commandes.
 			$commandes[] = new Commande($value);
 		}
 
+		//Si le paramètre GET 'annule' est set
 		if (isset($_GET['annule']))
 		{
+			//Récupère la valeur de l'index de la commande que nous voulons annuler.
 			$numCommande = $_GET['annule'];
 
+			//Vérifie le type et les bornes
 			if (is_numeric($numCommande) && $numCommande >= 0 && $numCommande <= count($commandes) -1)
 			{
 				try
 				{
+					//Annule la commande.
 					$resultat = $maBD->annulationCommande($commandes[$numCommande]);
 				}
 				catch (Exception $e)
 				{
-					var_dump($e->getMessage());
 					exit();
 				}
+				//Redirection vers le script pour enlever le paramètre GET et actualiser l'affichage de l'historique.
 				header("location:./historiqueCommande.php");
+				exit();
 			}
 		}
 	}
@@ -95,24 +124,28 @@ else
 
 <!-- Début section central col-md-9 -->
 <div class="col-md-7" id="centre">
-	<!-- Début des produits -->
+	<!-- Début de l'historique -->
 	<div class="row">
 		<table>
 			<tr>
+				<!-- Total du nombres de commandes. -->
 				<td colspan="5">
 					<label>Vous avez passé un total de <?php echo count($commandes); ?> commandes</label>
 				</td>
 			</tr>
 			<tr>
+				<!-- Ligne de séparation -->
 				<td colspan="5">
 					<hr class="noir">
 				</td>
 			</tr>
 			<?php foreach ($commandes as $key => $value): ?>
+			<!-- Commande -->
 			<tr>
 				<td>
 					<label>Commande : <?php echo $value->getNumCommande(); ?></label>
 				</td>
+				<!-- Date et montant de la commande -->
 				<td class="petit">
 					<label>
 						Date : <?php echo $value->getDateCommande(); ?>
@@ -120,11 +153,13 @@ else
 						Montant : <?php echo number_format(calculTaxeFrais($value->Total()) , 2); ?>$
 					</label>
 				</td>
-			<?php if (!depaseDateLimite($value->getdateCommande())): ?>
+			<?php if (!depaseDateLimite($value->getdateCommande())): //S'il reste encore du temps pour l'annulation?>
+				<!-- Lien d'annulation de la commande -->
 				<td>
 					<a href="./historiqueCommande.php?annule=<?php echo $key ?>">Annuler</a>
 				</td>
 				<td>&nbsp;</td>
+				<!-- Compte à rebours du temps restant pour l'annulation de la commande. -->
 				<td>
 					<?php echo 'Encore ', tempsRestant($value->getdateCommande()), ' pour annuler.' ?>
 				</td>
@@ -144,13 +179,15 @@ else
 				</td>
 			</tr>
 			<?php foreach ($value->getTabAchats() as $keyAchat => $valueAchat): ?>
+			<!-- Achat -->
 			<tr>
 				<td><?php echo $valueAchat->getNom(); ?></td>
 				<td><?php echo $valueAchat->getNombre(); ?></td>
 				<td colspan="3"><?php echo number_format($valueAchat->getPrix(), 2); ?>$</td>
 			<?php endforeach; ?>
 			</tr>
-			<?php if( (count($commandes) > 1) && (count($commandes) - 1 != $key)) :?>
+			<?php if( count($commandes) - 1 != $key): //Si nous ne sommes pas au dernier Achat de la commande?>
+				<!-- Ligne de séparation -->
 				<tr>
 					<td colspan="5">
 						<hr class="noir">
@@ -159,15 +196,7 @@ else
 			<?php endif; ?>
 			<?php endforeach; ?>
 		</table>
-
-		<br>
-	
-
-
-<!-- Contenu principal -->
-
-
-	</div> 	<!-- Fin des produits -->
+	</div>
 </div>	<!-- Fin section central col-md-9 -->
 <div class="col-md-1"> 	<!-- Début Section de droite central -->
 </div>

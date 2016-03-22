@@ -112,7 +112,7 @@ class bdService
 	//-----------------------------
 	//Insert une commande avec un client passé en paramètre dans la BD à l'aide d'une déclaration préparé
 	//-----------------------------
-	function insertCommande($client)
+	private function insertCommande($client)
 	{
 		//Requête qui sera préparé
 		$requete = "INSERT INTO Commandes (idClient) VALUES ( (SELECT idClient From Clients WHERE nomUtilisateur = ?) )";
@@ -127,7 +127,7 @@ class bdService
 	//-----------------------------
 	//Insert une commandeProduit avec un achat passé en paramètre dans la BD à l'aide d'une déclaration préparé
 	//-----------------------------
-	function insertCommandeProduit($idCommande, $achat)
+	private function insertCommandeProduit($idCommande, $achat)
 	{
 		//Requête qui sera préparé
 		$requete = "INSERT INTO CommandesProduits (idCommande, idProduit, quantite) VALUES ( ?, (SELECT idProduit From Produits WHERE nom = ?), ? )";
@@ -139,18 +139,25 @@ class bdService
 	}
 
 	//-----------------------------
-	//Responsable de compléter une transaction d'une commande en BD
+	//Responsable de compléter une transaction d'une commande en BD avec un client et un panier passé en paramètre
 	//-----------------------------
 	function PasserCommande($client, $panier)
 	{
+		//Tableau des résultats des requêtes.
 		$resultat = array();
 
+		//Crée un sous tableau pour contenir les id des insertions dans la table CommandesProduits.
 		$resultat['idCommandeProduit'] = array();
+
+		//Met à jour les quantités en inventaire
 		$resultat['updateQte'] = $this->updateQteStock($panier);
+		//Fait l'insertion d'une commande
 		$resultat['idCommande'] = $this->insertCommande($client);
 
+		//Pour chaque achat dans le panier
 		foreach ($panier->getTabAchats() as $achat)
 		{
+			//Insertion dans la table CommandesProduits, détaillant les produits faisant parties de la commande.
 			$resultat['idCommandeProduit'][] = $this->insertCommandeProduit($resultat['idCommande'], $achat);
 		}
 
@@ -228,8 +235,10 @@ class bdService
 
 	//-----------------------------
 	//Update la quantité en inventaire en BD des articles commandé dans un objet Panier passé en paramètre à l'aide d'une déclaration préparé
+	//Retrait la quantité. 
+	//TODO: ajuster la query pour faire negatif et positif.
 	//-----------------------------
-	function updateQteStock($panier)
+	private function updateQteStock($panier)
 	{
 		//Requête qui sera préparé
 		$requete = "UPDATE Produits SET quantite = quantite - ? WHERE nom = ?";
@@ -325,6 +334,7 @@ class bdService
 
 	//-----------------------------
 	//Select un client avec son nom d'utilisateur passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//Pour savoir si le compte existe.
 	//-----------------------------
 	function selectClient($nomUtilisateur)
 	{
@@ -359,7 +369,6 @@ class bdService
 	function selectProduit($nom)
 	{
 		//Requête qui sera préparé
-		//$requete = "SELECT * FROM Produits WHERE nom = ?";
 		$requete = "SELECT p.idProduit, p.nom, p.description, ROUND(p.prix, 2) as prix, p.quantite, p.quantiteMin, 
 							GROUP_CONCAT(c.nom SEPARATOR ',') categories
 							FROM Produits p
@@ -390,9 +399,12 @@ class bdService
 		$args = array('s');
 		
 		$values = array($nomUtilisateur);
+
+		//Sélectionne les commandes du client
 		$commandes = $this->selectPrepared($requete, $args, $values);
 		if (isset($commandes))
 		{
+			//Pour chaque commande
 			foreach ($commandes as $key => $value) 
 			{
 				$requete = "SELECT p.idProduit, p.nom, p.description, ROUND(p.prix, 2) as prix, p.quantite, p.quantiteMin, 
@@ -406,8 +418,9 @@ class bdService
 							ORDER BY p.nom ASC";
 				$args = array('i');
 				$values = array($value['idCommande']);
-
+				//Sélectionne les informations détaillés de la commande tel que les noms des produits, la quantité, etc.
 				$produits = $this->selectPrepared($requete, $args, $values);
+				//Rajoute un tableau tabAchats contenant ces informations sous la clé de la commande actuelle.
 				$commandes[$key]['tabAchats'] = $produits;
 			}
 		}
@@ -438,6 +451,7 @@ class bdService
 	//-----------------------------
 	//Annule la commande passé en paramètre en supprimant les entrés en BD et 
 	//réajuster la quantité des produits en inventaire.
+	//Objet Commande passé en paramètre.
 	//-----------------------------
 	function annulationCommande($commande)
 	{
@@ -446,10 +460,11 @@ class bdService
 					WHERE p.nom = ?";
 		$args = array('is');
 
+		//Pour tout les achats de la commande
 		foreach ($commande->getTabAchats() as $value) 
 		{
 			$values = array($value->getNombre(), $value->getNom());
-
+			//Réajuste le nombre en inventaire.
 			$this->updatePrepared($requete, $args, $values);
 		}
 
@@ -461,7 +476,8 @@ class bdService
 		$args = array('i');
 		
 		$values = array($commande->getNumCommande());
-
+		//Supression des entrées de la table CommandesProduits et Commandes avec idCommande correspondant.
+		//La suppression ce fait en cascade.
 		$resultats = $this->deletePrepared($requete, $args, $values);
 
 		return $resultats;

@@ -161,12 +161,16 @@ Class Panier
 	{
 		global $maBD;
 
+		//Pour tout les achats du panier
 		foreach ($this->tabAchats as $key => $value) 
 		{
 			try
 			{
+				//Sélectionne le produit en BD
 				$articleData = $maBD->selectProduit($value->getNom());
+				//Enregistre la quantité en inventaire
 				$quantite = $articleData['quantite'];
+				//Ajuste la quantité de l'objet achat à celle actuelle
 				$this->tabAchats[$key]->setQuantite($quantite);
 			}
 			catch (Exception $e)

@@ -1,8 +1,7 @@
 <?php
 
 //-----------------------------
-// Script d'authentification qui gère la connexion au compte client
-// et la circulation entre certaines pages
+// Script pour afficher la confirmation d'une commande et l'affichage de la facture
 //-----------------------------
 
 require_once("./php/biblio/foncCommunes.php");
@@ -19,9 +18,11 @@ $panier = new Panier();
 $client = $_SESSION['client'];
 $achat = false;
 
+//Si nous voulons confirmer un achat
 if (isset($_SESSION['achat']))
 {
 	$achat = $_SESSION['achat'];
+	//Enlève pour qu'au rafraichissement on retourne dans le contexte d'affichage de commande.
 	unset($_SESSION['achat']);
 }
 
@@ -30,7 +31,10 @@ $tvq = 0.00;
 $tps = 0.00;
 $total = 0.00;
 
-
+//-----------------------------
+// Fonction pour passer la commande
+// Client et panier passé en paramètres
+//-----------------------------
 function Commander($client, $panier)
 {
 	global $maBD;
@@ -43,6 +47,7 @@ function Commander($client, $panier)
 	{
 		exit();
 	}
+	//Vide le panier et unset les variables de session associées.
 	$panier->vider();
 
 	return $resultat['idCommande'];
@@ -50,18 +55,23 @@ function Commander($client, $panier)
 
 if (!isset($_SESSION['authentification']))
 {
-	//Redirection ?la page d'authentification.
+	//Redirection à la page d'authentification.
 	header("location:./authentification.php?prov=commande");
 	exit();
 }
 else
 {
+	//Si false, contexte d'affichage de la commande.
 	if (!empty($achat))
 	{
+		//Fait une deep copy de l'objet panier pour pouvoir garder les données une fois le panier vider.
 		$tmp = unserialize(serialize($panier));
 		$numCommande = Commander($client, $panier);
 		$panier = $tmp;
+		//Actualise l'inventaire pour avoir la quantité en inventaire actuel pour les achats du panier.
 		$panier->actualiseQteInventaire();
+
+		//On récupère l'objet avec une copie de cette façon l'affichage facture/commande reste semblable.
 	}
 
 	require_once("./header.php");
@@ -72,9 +82,9 @@ else
 ?>
 
 
-<!-- D?ut section central col-md-9 -->
+<!-- Début section central col-md-9 -->
 <div class="col-md-7" id="centre">
-	<!-- D?ut des produits -->
+	<!-- Début des produits -->
 	<div class="row">
 	<?php if($panier->isEmpty()) : ?>
 		<div class="alert alert-warning" role="alert"> <!-- Message indiquant un panier vide. -->
@@ -83,8 +93,9 @@ else
 			<a href="./">Continuer votre magasinage</a>
 		</div>
 	<?php else: ?>
-		<?php if (!empty($achat)) : ?>
+		<?php if (!empty($achat)) : //Si achat est true, alors contexte facture?>
 		<h2>Facture</h2>
+		<!-- Informations du client. -->
 		<table class="pull-left">
 			<tr>
 				<td>&nbsp;</td>
@@ -105,12 +116,13 @@ else
 				<td>&nbsp;</td>
 			</tr>
 		</table>
-		<?php else: ?>
+		<?php else: //Sinon, contexte de la commande?>
 		<h2>Votre commande</h2>
 		<?php endif; ?>
+		<!-- Information des produits du panier -->
 		<table class="table">
 			<thead>
-				<?php if (empty($achat)) : ?>
+				<?php if (empty($achat)) : //Si dans le contexte de la commande?>
 				<tr>
 					<td colspan="4">
 						<a href="./panierGestion.php">Retourner au panier</a>
@@ -124,6 +136,7 @@ else
 					<td class="nomProduit prix-group">Prix</td>
 				</tr>
 			</thead>
+			<!-- Les achats du panier -->
 			<tbody>
 			<?php foreach($panier->getTabAchats() as $key=>$value):
 				$sousTotal += ($value->getPrix() * $value->getNombre()); 
@@ -136,40 +149,41 @@ else
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
-				<tfoot class="fraisPrix"> <!-- Pied du tableau contenant le sous total, taxes, total, etc. -->
-					<tr>
-						<td colspan="4">
-							<span class="label">Sous total:</span>
-							<span><?php echo number_format($sousTotal, 2) ?>$</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4">
-							<span class="label">TPS:</span>
-							<span><?php echo $tps = number_format($sousTotal * TPS, 2); //Assigne et affiche en une ligne ?>$</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4">
-							<span class="label">TVQ:</span>
-							<span><?php echo $tvq = number_format($sousTotal * TVQ, 2); //Assigne et affiche en une ligne ?>$</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4">
-							<span class="label">Frais de génération de codes:</span>
-							<span><?php echo number_format(FRAIS_CODE, 2); ?>$</span>
-						</td>
-					</tr>
-					<tr>
-						<td id="total" colspan="4">
-							<span class="label">Total:</span>
-							<span><?php echo number_format($total = $sousTotal + $tvq + $tps + FRAIS_CODE, 2) //Assigne et affiche en une ligne ?>$</span>
-						</td>
-					</tr>
-				</tfoot>
+			<!-- Informations sur les taxes, sous total, total et frais. -->
+			<tfoot class="fraisPrix"> <!-- Pied du tableau contenant le sous total, taxes, total, etc. -->
+				<tr>
+					<td colspan="4">
+						<span class="label">Sous total:</span>
+						<span><?php echo number_format($sousTotal, 2) ?>$</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<span class="label">TPS:</span>
+						<span><?php echo $tps = number_format($sousTotal * TPS, 2); //Assigne et affiche en une ligne ?>$</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<span class="label">TVQ:</span>
+						<span><?php echo $tvq = number_format($sousTotal * TVQ, 2); //Assigne et affiche en une ligne ?>$</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<span class="label">Frais de génération de codes:</span>
+						<span><?php echo number_format(FRAIS_CODE, 2); ?>$</span>
+					</td>
+				</tr>
+				<tr>
+					<td id="total" colspan="4">
+						<span class="label">Total:</span>
+						<span><?php echo number_format($total = $sousTotal + $tvq + $tps + FRAIS_CODE, 2) //Assigne et affiche en une ligne ?>$</span>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
-		<?php if (!empty($achat)) : ?>
+		<?php if (!empty($achat)) : //Si dans le contexte de la facture?>
 			<?php foreach($panier->getTabAchats() as $value) : ?>
 				<?php if ($value->getQuantite() < 0) : ?>
 					<div class="alert alert-warning" role="alert"> <!-- Message indiquant une rupture de stock. -->
@@ -177,7 +191,8 @@ else
 							<?php echo "<label>", $value->getNom(), "</label>"; ?> est en rupture de stock. Votre commande sera envoyé aussi tôt que possible.
 					</div>
 				<?php endif; ?>
-			<?php endforeach; ?>			
+			<?php endforeach; ?>	
+		<!-- Numéro de commande -->		
 		<div>
 			<p>
 				Votre numéro de commande est le <label><?php echo $numCommande; ?></label>.
@@ -192,12 +207,10 @@ else
 		</div>
 		<?php endif; ?>
 	<?php endif; ?>
-<!-- Contenu principal -->
 
-
-	</div> 	<!-- Fin des produits -->
+	</div> 
 </div>	<!-- Fin section central col-md-9 -->
-<div class="col-md-1"> 	<!-- D?ut Section de droite central -->
+<div class="col-md-1"> 	<!-- Début Section de droite central -->
 </div>
 <!-- Fin section de droite central -->
 </div>

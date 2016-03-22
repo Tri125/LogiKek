@@ -6,6 +6,7 @@
 
 
 $(document).ready(function () {
+	//Cache le message d'erreur une fois le DOM chargé.
 	$('#messageErreur').hide();
 });
 
@@ -14,16 +15,19 @@ $(document).ready(function () {
 //------------------------------
 function ValiderCarte(data)
 {
+	//Cache le message d'erreur
 	$('#messageErreur').hide();
+	//Assume est valide au départ
 	var estValide = true;
 	var date = new Date();
 
+	//Récupère les informations des champs du formulaire
 	var typeCarte = $("input[name=carte]:checked").val();
 	var numero = $("#txtNumero").val();
 	var expMois = $("#mois option:selected").val();
 	var expAnnee = $("#annee option:selected").val();
 
-
+	//Si un des champs est vide, affiche le message d'erreur
 	if ( estVide(typeCarte) || estVide(numero) || estVide(mois) || estVide(annee))
 	{
 		estValide = false;
@@ -53,6 +57,9 @@ function ValiderCarte(data)
 			break;
 	}
 
+	//Si la date d'expiration n'est pas valide
+	//L'année actuelle dépasse l'année d'expiration OU si l'année est la même et le mois actuel dépasse le mois d'expiration 
+	//(-1 car de 1-12 dans le formulaire, mais 0-11 pour l'objet date).
 	if (date.getFullYear() > expAnnee || (date.getFullYear() == expAnnee && date.getMonth() > expMois - 1) )
 	{
 		estValide = false;
