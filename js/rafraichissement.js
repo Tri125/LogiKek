@@ -1,6 +1,20 @@
 //------------------------------
 // Script pour rafraichir la page automatiquement à chaque 15 secondes
 //------------------------------
-setTimeout(function(){
-   window.location.reload(1);
-}, 15000);
+
+function Chrono()
+{
+	setTimeout(function(){
+		rafraichis()
+	}, 5000);
+}
+
+function rafraichis() {
+	var url = './historiqueCommande.php';
+	window.location.href = url;
+}
+
+
+$( document ).ready(function() {
+    Chrono();
+});
