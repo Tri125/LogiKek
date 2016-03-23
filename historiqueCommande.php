@@ -112,10 +112,14 @@ else
 				//Redirection vers le script pour enlever le paramètre GET et actualiser l'affichage de l'historique.
 				header("location:./historiqueCommande.php");
 				exit();
-			}
+			} 
 		}
 	}
-
+	//Pour éviter un bug du validateur HTML5.
+	//Colspan est à 5 si au moins une commande existe, sinon 1.
+	//Le bug étant qu'un faux possitif est donnée pour une table avec une colonne d'un colspan d'une longueur
+	//Plus grande que le nombre de colonnes de la table.
+	$colspan = count($commandes) >= 1 ? 5 : 1;
 
 	require_once("./header.php");
 	require_once("./sectionGauche.php");
@@ -129,13 +133,13 @@ else
 		<table>
 			<tr>
 				<!-- Total du nombres de commandes. -->
-				<td colspan="5">
+				<td colspan="<?php echo $colspan ?>">
 					<label>Vous avez passé un total de <?php echo count($commandes); ?> commandes</label>
 				</td>
 			</tr>
 			<tr>
 				<!-- Ligne de séparation -->
-				<td colspan="5">
+				<td colspan="<?php echo $colspan ?>">
 					<hr class="noir">
 				</td>
 			</tr>
