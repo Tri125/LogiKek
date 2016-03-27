@@ -17,6 +17,7 @@ class Client
 	protected $nomUtilisateur;
 	protected $motDePasse;
 	protected $motDePasseExpire;
+	protected $estAdmin;
 	
 	public function __construct($tableau)
 	{
@@ -212,13 +213,29 @@ class Client
 	}
 
 	//-----------------------------
-	//Met a jour le statut du mot de passe
+	//Met à jour le statut du mot de passe
 	//-----------------------------	
 	public function setMotDePasseExpire($motDePasseExpire)
 	{
 		$this->motDePasseExpire = $motDePasseExpire;
 	}
 
+
+	//-----------------------------
+	//Retourne si le client est administrateur ou non
+	//-----------------------------	
+	public function getEstAdmin()
+	{
+		return $this->estAdmin;
+	}
+
+	//-----------------------------
+	//Met à jour le statut d'administrateur du client
+	//-----------------------------	
+	public function setMotDePasseExpire($estAdmin)
+	{
+		$this->estAdmin = $estAdmin;
+	}
 
 	//-----------------------------
 	// Retourne vrai si le mot de passe (plaintext) en paramètre correspond au hash du mot de passe du client

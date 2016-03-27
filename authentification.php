@@ -59,7 +59,6 @@ if (isset($_POST['valider']))
 		//Enregistre l'objet client dans une variable de session et le nom d'utilisateur dans un autre.
 		$_SESSION['client'] = $client;
 		$_SESSION['authentification'] = $client->getNomUtilisateur();
-		//Si le mot de passe est expire
 		//Met à jour l'id de session à une nouvelle valeur pour mitiger les attaques.
 		session_regenerate_id();
 		//Si à l'origine on provient d'une autre page, nous voulons y retourner.
