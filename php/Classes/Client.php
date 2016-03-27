@@ -16,6 +16,7 @@ class Client
 	protected $telephone;
 	protected $nomUtilisateur;
 	protected $motDePasse;
+	protected $motDePasseExpire;
 	
 	public function __construct($tableau)
 	{
@@ -199,6 +200,23 @@ class Client
 	public function setMotDePasse($motDePasse)
 	{
 		$this->motDePasse = $motDePasse;
+	}
+
+
+	//-----------------------------
+	//Retourne le statut du mot de passe
+	//-----------------------------	
+	public function getMotDePasseExpire()
+	{
+		return $this->motDePasseExpire;
+	}
+
+	//-----------------------------
+	//Met a jour le statut du mot de passe
+	//-----------------------------	
+	public function setMotDePasseExpire($motDePasseExpire)
+	{
+		$this->motDePasseExpire = $motDePasseExpire;
 	}
 
 
