@@ -309,7 +309,7 @@ class bdService
 				if ($resultat == false)
 					throw(new Exception($this->BDInterne->errno));
 
-				while($ligne = $resultat->fetch_array(MYSQL_ASSOC))
+				while($ligne = $resultat->fetch_array(MYSQLI_ASSOC))
 				{
 					$tabRetour[] = $ligne;
 				}
@@ -441,7 +441,7 @@ class bdService
 		{
 			throw(new Exception("Erreur de sélection ".$this->BDInterne->errno));
 		}
-		while($ligne = $Res->fetch_array(MYSQL_ASSOC))
+		while($ligne = $Res->fetch_array(MYSQLI_ASSOC))
 		{
 			$tabRetour[] = $ligne;
 		}
