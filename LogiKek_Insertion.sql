@@ -496,8 +496,26 @@ VALUES(
 'QC',
 'J7Z4V2',
 '4502627474',
+'jeff',
+'salt'
+);
+
+
+INSERT INTO Clients (estAdmin, sexe, nom, prenom, courriel, adresse, ville, province, codePostal, telephone, nomUtilisateur, motDePasse, motDePasseExpire)
+VALUES(
+TRUE,
+'F', 
+'Anderson', 
+'Imogen', 
+'im.anderson@hotmail.com', 
+'360 NoScope Street', 
+'Saint-Jerome', 
+'QC',
+'J7Z4V2',
+'4502627474',
 'admin',
-'admin'
+'admin',
+TRUE
 );
 
 COMMIT;

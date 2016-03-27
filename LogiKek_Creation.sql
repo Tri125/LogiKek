@@ -75,6 +75,7 @@ Unique (nom);
 CREATE TABLE IF NOT EXISTS Clients
 (
 	idClient INT PRIMARY KEY AUTO_INCREMENT
+	, estAdmin BOOLEAN NOT NULL DEFAULT FALSE
     , sexe VARCHAR(1) NOT NULL
     , nom VARCHAR(20) NOT NULL
     , prenom VARCHAR(20) NOT NULL
@@ -86,7 +87,7 @@ CREATE TABLE IF NOT EXISTS Clients
     , telephone VARCHAR(20) NOT NULL
     , nomUtilisateur VARCHAR(15) BINARY NOT NULL
     , motDePasse VARCHAR(255) BINARY NOT NULL
-    , cryptMotDePasse VARCHAR(255) BINARY
+    , motDePasseExpire BOOLEAN NOT NULL DEFAULT FALSE
 )
 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
