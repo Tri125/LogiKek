@@ -30,7 +30,7 @@ if(!isset($_SESSION['authentification']))
 	exit();
 }
 
-if(isset($_SESSION['client']) && !$_SESSION['client']->getEstAdmin())
+if(isset($_SESSION['authentification']) && !$_SESSION['client']->getEstAdmin())
 {
 	header('location:../');
 	exit();
@@ -38,7 +38,7 @@ if(isset($_SESSION['client']) && !$_SESSION['client']->getEstAdmin())
 
 
 //Charge les scripts
-require_once("../header.php");
+require_once("./header.php");
 require_once("../sectionGauche.php");
 
 ?>

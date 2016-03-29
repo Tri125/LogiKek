@@ -14,7 +14,7 @@ $CSS_DIR = '../css/';
 $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
 
-require_once("../header.php");
+require_once("./header.php");
 require_once("../sectionGauche.php");
 
 ?>

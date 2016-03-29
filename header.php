@@ -26,6 +26,11 @@ else
 if(isset($_GET['deconnexion']))
 	deconnexionUsager();
 
+if (isset($_SESSION['authentification']) && $_SESSION['client']->getEstAdmin())
+	deconnexionUsager();
+
+
+
 if(isset($_GET['changerMotDePasse']))
 {
 	header('location:./changerMotDePasse.php');
