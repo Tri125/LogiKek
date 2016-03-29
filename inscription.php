@@ -4,7 +4,7 @@
 // Script contenant le formulaire de création et de modification d'un compte client.
 // Procède au diverses validations nécessaires.
 //-----------------------------
-require_once("./php/biblio/foncCommunes.php");
+require_once(realpath(__DIR__).'/php/biblio/foncCommunes.php');
 
 $js = array();
 

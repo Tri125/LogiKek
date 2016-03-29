@@ -12,7 +12,7 @@ class bdService
 	function __construct()
 	{
 		//Parse le fichier de configuration de bd config.ini
-		$config = parse_ini_file('./config.ini');
+		$config = parse_ini_file(ROOT_DIR.'/config.ini');
 		//Crée un objet mysqli selon les paramètres du fichier de config.
 		$this->BDInterne = new mysqli($config['ip'], $config['username'], $config['password'], $config['dbname']);
 		if (!mysqli_connect_errno())

@@ -1,5 +1,5 @@
 <?php 
-require_once("./php/biblio/foncCommunes.php");
+require_once(realpath(__DIR__).'/php/biblio/foncCommunes.php');
 
 $js = array();
 

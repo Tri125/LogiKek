@@ -7,7 +7,7 @@
 // Retourne 0 à un doublon, 1 si le nom est disponible,
 // un message d'erreur dans le cas d'un erreur.
 //-----------------------------
-require_once("./php/biblio/foncCommunes.php");
+require_once(realpath(__DIR__).'/php/biblio/foncCommunes.php');
 
 //S'il reçoit nomUtilisateur dans le GET
 if(!empty($_GET['nomUtilisateur']))

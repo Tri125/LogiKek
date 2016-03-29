@@ -4,7 +4,7 @@
 // Page affichant les politiques de notre entreprise.
 //-----------------------------
 
-require_once("./php/biblio/foncCommunes.php");
+require_once(realpath(__DIR__).'/php/biblio/foncCommunes.php');
 
 $js = array();
 //Variable pour que header.php charge une feuille de style spécifique à la page politiques.php

@@ -6,6 +6,12 @@ define ("TVQ", 0.09975);
 //Frais du magasin par transaction.
 define ("FRAIS_CODE", 3.00);
 
+define ("ROOT_DIR", realpath(__DIR__.'/../..'));
+
+$CSS_DIR = './css/';
+$JS_DIR = './js/';
+$IMG_DIR = './img/';
+
 //Enregistre la fonction ChargementClasses pour activé la queue de chargement des classes.
 spl_autoload_register('ChargementClasses');
 
@@ -20,7 +26,7 @@ session_start();
 function ChargementClasses($nomClasse)
 {
 	//chemin où nos classes sont situés.
-	$chemin = './php/Classes/';
+	$chemin = realpath(__DIR__.'/..').'/Classes/';
 	require_once($chemin.$nomClasse.'.php');
 }
 

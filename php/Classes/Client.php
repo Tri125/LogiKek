@@ -232,7 +232,7 @@ class Client
 	//-----------------------------
 	//Met à jour le statut d'administrateur du client
 	//-----------------------------	
-	public function setMotDePasseExpire($estAdmin)
+	public function setEstAdmin($estAdmin)
 	{
 		$this->estAdmin = $estAdmin;
 	}

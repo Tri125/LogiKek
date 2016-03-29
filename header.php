@@ -4,7 +4,7 @@
 // Page de la section d'entête du site web.
 //---------------------------------------
 
-require_once("./php/biblio/foncCommunes.php");
+require_once(realpath(__DIR__).'/php/biblio/foncCommunes.php');
 
 //code de catégorie pour la recherche. Par défault à 0 pour tout inclure.
 $categorie = 0;
@@ -70,14 +70,14 @@ if (isset($_SESSION['panier-item']))
 	<!-- CSS contenant plusieurs icones vectorielles communes aux sites webs -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	
-	<link rel="stylesheet" href="./css/global.css">
-	<link rel="stylesheet" href="./css/dirty.css">
+	<link rel="stylesheet" href="<?php echo $CSS_DIR.'global.css';?>">
+	<link rel="stylesheet" href="<?php echo $CSS_DIR.'dirty.css';?>">
 	<?php foreach($css as $value) : //Chaque page inclus sont propre css/js avec les variable $css et $js. Si le tableau est vide, alors l'html n'est pas généré. ?>
-		<link rel="stylesheet" href="./css/<?php echo $value; ?>">
+		<link rel="stylesheet" href="<?php echo $CSS_DIR.$value; ?>">
 	<?php endforeach; ?>
 	
 	<?php foreach($js as $value) : ?>
-	<script src="./js/<?php echo $value; ?>"></script>
+	<script src="<?php echo $JS_DIR.$value; ?>"></script>
 	<?php endforeach; ?>
 </head>
 <body>

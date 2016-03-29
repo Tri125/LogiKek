@@ -3,7 +3,7 @@
 //-----------------------------
 // Page qui récupère un produit dans la base de donnée et affiche ses informations détaillés.
 //-----------------------------
-require_once("./php/biblio/foncCommunes.php");
+require_once(realpath(__DIR__).'/php/biblio/foncCommunes.php');
 
 
 global $maBD;

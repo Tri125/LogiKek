@@ -4,7 +4,7 @@
 // Page pour saisir les informations d'une carte de crédit
 // pour confirmer un achat.
 //---------------------------------------------
-require_once("./php/biblio/foncCommunes.php");
+require_once(realpath(__DIR__).'/php/biblio/foncCommunes.php');
 
 $js = array();
 $js[] = 'validationAchat.js';

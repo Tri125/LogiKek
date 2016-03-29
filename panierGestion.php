@@ -4,7 +4,7 @@
 // Page qui gère le panier de commande du client et affiche le prix.
 //-----------------------------
 
-require_once("./php/biblio/foncCommunes.php");
+require_once(realpath(__DIR__).'/php/biblio/foncCommunes.php');
 
 $panier = new Panier();
 

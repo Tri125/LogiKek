@@ -4,9 +4,11 @@
 // Page principal du site web, le catalogue.
 //-----------------------------
 
-require_once(realpath(__DIR__).'/php/biblio/foncCommunes.php');
+require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 
-
+$CSS_DIR = '../css/';
+$JS_DIR = '../js/';
+$IMG_DIR = '../img/';
 
 //Variable pour que header.php charge un javascript spécifique à la page index.php
 $js = array();
@@ -22,9 +24,9 @@ $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
 //Charge les scripts
-require_once("./header.php");
-require_once("./sectionGauche.php");
-
+require_once("../header.php");
+require_once("../sectionGauche.php");
+die;
 ?>
 
 <!-- Début section central col-md-7 -->
