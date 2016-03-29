@@ -84,6 +84,10 @@ if (isset($_POST['valider']))
 					unset($_SESSION['prov']);
 					header("location:./historiqueCommande.php");
 					break;
+				case 'admin':
+					unset($_SESSION['prov']);
+					header("location:./admin/index.php");
+					break;
 				default:
 					unset($_SESSION['prov']);
 					header("location:./");

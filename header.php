@@ -15,7 +15,12 @@ $recherche = '';
 $nbrArticle = 0;
 
 //Pour savoir si nous sommes à la page index.php (le catalogue) pour afficher les éléments de recherche.
-$estIndex = preg_match('@^[a-z/]*index.php$@', htmlspecialchars($_SERVER['PHP_SELF']));
+if (htmlspecialchars($_SERVER['PHP_SELF']) == '/index.php' || htmlspecialchars($_SERVER['PHP_SELF']) == '/tristansavaria/index.php')
+{
+	$estIndex = true;
+}
+else
+	$estIndex = false;
 
 //Paramètre GET pour l'action de déconnexion du compte client.
 if(isset($_GET['deconnexion']))

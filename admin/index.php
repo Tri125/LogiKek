@@ -17,46 +17,55 @@ $js[] = 'index.js';
 $css = array();
 $css[] = 'index.css';
 //Variable pour que header.php donne un titre de page spécifique à index.php
-$titre = 'LogiKek';
+$titre = 'LogiKek - Administration';
 //Variable pour que header.php donne une description spécifique à la page index.php
 $description = 'Site de vente de système d\'exploitation';
 //Variable pour que header.php donne des mots clés spécifique à la page index.php
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
+
+if(!isset($_SESSION['authentification']))
+{
+	header('location:../authentification.php?prov=admin');
+	exit();
+}
+
+if(isset($_SESSION['client']) && !$_SESSION['client']->getEstAdmin())
+{
+	header('location:../');
+	exit();
+}
+
+
 //Charge les scripts
 require_once("../header.php");
 require_once("../sectionGauche.php");
-die;
+
 ?>
 
 <!-- Début section central col-md-7 -->
 <div class="col-md-7" id="centre">
 	<div class="pub">
-		<img class="img-responsive" src="./img/LogiKek2.png" alt="Logo LogiKek">
+		<img class="img-responsive" src="../img/LogiKek2.png" alt="Logo LogiKek">
 	</div>
 	<!-- Début des produits -->
 	<div class="row">
-		<?php if(count($liste->getCatalogue()) > 0) : ?>
-			<?php foreach($liste->getCatalogue() as $value): ?>
-				<div class="col-md-4 panel panel-default produit">
-					<h4><?php echo $value->getNom(); ?></h4>
-					<a class="thumbnail imgProduitPetit" data-noProduit="<?php echo $value->getCodeProduit() ?>">
-						<img src="./img/produits/<?php echo $value->getCodeProduit(); ?>_small.png" alt="<?php echo $value->getNom(); ?>" onError="this.onerror=null;this.src='./img/produits/nonDispo_small.png';">
-					</a>
-					<?php foreach($value->getCategories() as $categorie): ?>
-						<span class="label label-info proCategorie"><?php echo $categorie; ?></span>
-					<?php endforeach; ?>
-					<h4 class="proPrix">
-						<?php echo number_format($value->getPrix(), 2); ?>$ 
-						<a href="./panierGestion.php?quoiFaire=ajout&noProduit=<?php echo $value->getCodeProduit(); ?>" class="proCart">
-							<i class="fa fa-shopping-cart"></i>
-						</a>
-					</h4>
-				</div>
-			<?php endforeach; ?>
-		<?php else : ?>
-			<h1 id="aucunProduit">Aucun produit</h1>
-		<?php endif; ?>
+		<div class="jumbotron">
+  			<div class="container"> <!-- Contenant avec nos politiques d'entreprise -->
+  				<h2>Administration</h2>
+  				<p>Utiliser les liens de navigation au dessous pour faire la gestion du site web.</p>
+  				<p>Vous pouvez également consulter des rapports d'inventaires et de ventes.</p>
+  			</div> <!-- Fin contenant de nos politiques -->
+			<div class="container">
+				<ul class="nav navbar-nav"> <!-- Pour accéder aux spéciaux du magasin et au support technique -->
+					<li><a href="./gestionCategories.php">Catégories<span class="sr-only">(current)</span></a></li>
+					<li><a href="./gestionProduits.php">Produits<span class="sr-only">(current)</span></a></li>
+					<li><a href="./rapportProduits.php">Rapport Produits<span class="sr-only">(current)</span></a></li>
+					<li><a href="./rapportFactures.php">Rapport Factures<span class="sr-only">(current)</span></a></li>
+					<li><a href="./?deconnexion">Quitter<span class="sr-only">(current)</span></a></li>
+				</ul>
+			</div>
+		</div> <!-- Fin du jumbotron -->
 	</div> 	<!-- Fin des produits -->
 </div>	<!-- Fin section central col-md-7 -->
 <div class="col-md-1"> 	<!-- Début Section de droite central -->
@@ -64,10 +73,5 @@ die;
 <!-- Fin section de droite central -->
 </div>
 
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
 
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<?php require_once('./footer.php'); ?>
+<?php require_once('../footer.php'); ?>
