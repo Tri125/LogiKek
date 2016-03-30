@@ -17,6 +17,7 @@ $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
 
 global $maBD;
+global $hasher;
 
 //Si l'utilisateur est déjà connecté
 if (isset($_SESSION['authentification']))
@@ -48,7 +49,20 @@ if (isset($_POST['valider']))
 
 	//Retourne un tableau contenant les données du compte client si le nom d'utilisateur et 
 	//le mot de passe correspond à un compte client dans la base de données.
-	$tmp = $maBD->selectClientMotDePasse($tabFormulaire['nomUtilisateur'], $tabFormulaire['motDePasse']);
+	//$tmp = $maBD->selectClientMotDePasse($tabFormulaire['nomUtilisateur'], $tabFormulaire['motDePasse']);
+
+	//Retourne un tableau contenant les données du compte client si le nom d'utilisateur 
+	//correspond à un compte client dans la base de données.
+	$tmp = $maBD->selectClient($tabFormulaire['nomUtilisateur']);
+	//Si le compte est admin, le mot de passe sera hashé.
+	if ($tmp['estAdmin'])
+	{
+		//Vérifie le mot de passe entré contre le hash stocké en bd.
+		$bonMdp = $hasher->CheckPassword($tabFormulaire['motDePasse'], $tmp['motDePasse']);
+		//Si le mot de passe ne correspond pas, unset la variable.
+		if (!$bonMdp)
+			unset($tmp);
+	}
 	//Si le tableau est set, c'est qu'il y a un compte retourné.
 	if (isset($tmp))
 	{

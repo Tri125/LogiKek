@@ -240,9 +240,9 @@ class Client
 	//-----------------------------
 	// Retourne vrai si le mot de passe (plaintext) en paramètre correspond au hash du mot de passe du client
 	//-----------------------------
-	public function isPasswordMatch($motDePasse)
+	public function isPasswordMatch($hash)
 	{
-		return password_verify($this->motDePasse, $motDePasse);
+		return password_verify($this->motDePasse, $hash);
 	}
 
 	public function setCryptoPassword($motDePasse)

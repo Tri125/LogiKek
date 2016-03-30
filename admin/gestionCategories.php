@@ -5,7 +5,7 @@ $js = array();
 
 $css = array();
 $css[] = 'index.css';
-$titre = 'LogiKek';
+$titre = 'LogiKek - Gestion Catégories';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
@@ -13,6 +13,78 @@ $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 $CSS_DIR = '../css/';
 $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
+
+
+function cmp($a, $b)
+{
+	if ($a->getCodeCategorie() == $b->getCodeCategorie()) 
+	{
+		return 0;
+	}
+	return ($a->getCodeCategorie() < $b->getCodeCategorie()) ? -1 : 1;
+}
+
+
+function compare_categories($a, $b) 
+{
+	if ($a->getNom() < $b->getNom()) 
+	{
+		return -1;
+	} 
+	elseif ($a->getNom() > $b->getNom()) 
+	{
+		return 1;
+	} 
+	else 
+	{
+		return 0;
+	}
+}
+
+
+
+$categories = Categorie::fetchAll();
+
+usort($categories, "cmp");
+
+function getCat($tab)
+{
+	$resultats = array();
+
+	foreach ($tab as $key => $value) 
+	{
+		$pos = strpos($key, 'cat');
+		if ($pos === false)
+			continue;
+		else
+		{
+			$categorie = array();
+			$id = substr($key, $pos+3);
+			$categorie['idCategorie'] = $id;
+			$categorie['nom'] = $value;
+			
+			$resultats[] = new Categorie($categorie);
+		}
+	}
+	return $resultats;
+}
+
+//Si on arrive à la page après le bouton submit 'valider' du formulaire a été cliqué.
+if (isset($_POST['valider']))
+{
+	$tabFormulaire = array();
+
+	//Le POST contient toutes les données entré par l'utilisateur dans le formulaire.
+	//On désinfecte les données et les enregistres dans le tableau.
+	foreach ($_POST as $cle => $valeur)
+	{
+		$tabFormulaire[$cle] = desinfecte($valeur);
+	}
+	$resultats = getCat($tabFormulaire);
+	
+	$diff = array_udiff($resultats, $categories, 'compare_categories');
+	var_dump($diff);
+}
 
 require_once("./header.php");
 require_once("../sectionGauche.php");
@@ -23,7 +95,20 @@ require_once("../sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
-
+		<form id='formModif' action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
+			<h3>Modifier des catégories existantes</h3>
+			<?php foreach($categories as $value): ?>
+				<label><?php echo $value->getCodeCategorie(); ?>:</label>
+				<input type="text" name="<?php echo 'cat'.$value->getCodeCategorie(); ?>" value="<?php echo $value->getNom(); ?>">
+				<br>
+			<?php endforeach; ?>
+			<hr>
+			<h3>Ajouter une catégorie</h3>
+			<label>Catégorie:</label>
+			<input type="text" name="nouvelle">
+			<hr>
+			<input type="submit" name="valider" value="Soumettre">
+		</form>
 
 
 <!-- Contenu principal -->

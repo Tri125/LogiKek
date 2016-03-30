@@ -12,6 +12,9 @@ $CSS_DIR = './css/';
 $JS_DIR = './js/';
 $IMG_DIR = './img/';
 
+$hash_cost_log2 = 8;
+$hash_portable = False;
+
 //Enregistre la fonction ChargementClasses pour activé la queue de chargement des classes.
 spl_autoload_register('ChargementClasses');
 
@@ -25,9 +28,14 @@ session_start();
 //-----------------------------
 function ChargementClasses($nomClasse)
 {
-	//chemin où nos classes sont situés.
-	$chemin = realpath(__DIR__.'/..').'/Classes/';
-	require_once($chemin.$nomClasse.'.php');
+	if ($nomClasse == 'PasswordHash')
+		require_once(realpath(__DIR__.'/').'/phpass-0.3/PasswordHash.php');
+	else
+	{
+		//chemin où nos classes sont situés.
+		$chemin = realpath(__DIR__.'/..').'/Classes/';
+		require_once($chemin.$nomClasse.'.php');
+	}
 }
 
 
@@ -74,6 +82,9 @@ function calculTaxeFrais($prix)
 
 //Un seul objet bdService nécessaire, on l'instancie donc dans ce script pour être utilisé ailleur.
 $maBD = new bdService();
+
+
+$hasher = new PasswordHash($hash_cost_log2, $hash_portable);
 
 
 ?>

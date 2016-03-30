@@ -514,7 +514,7 @@ TRUE,
 'J7Z4V2',
 '4502627474',
 'admin',
-'admin',
+'$2a$08$Z1n2bTR44lRACFgzHudzT.K/GMl2c3OrleRC4A9iu10IHTCeR/AJS',
 TRUE
 );
 
