@@ -143,6 +143,17 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
+		<?php if (isset($_GET['erreur'])): //Si le drapeau d'erreur a été envoyé dans le GET?>
+		<!-- Message d'erreur -->
+		<div class="alert alert-danger" role="alert">
+			<i class="fa fa-exclamation-triangle"></i>
+			<?php if($_GET['erreur'] == 'doublon'): //Erreur de doublon en base de données?>
+			Nom de catégorie déjà existant.
+			<?php else: //Pour tout autre erreur?>
+			Erreur lors du traitement.
+			<?php endif; ?>
+		</div>
+		<?php endif; ?>
 		<form id='formModif' action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
 			<h3>Modifier des catégories existantes</h3>
 			<?php foreach($categories as $value): ?>
