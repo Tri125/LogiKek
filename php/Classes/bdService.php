@@ -39,6 +39,16 @@ class bdService
 			throw(new Exception("Erreur d'insertion ".$this->BDInterne->errno));
 		return $this->BDInterne->insert_id;
 	}
+	
+	function columnsName($nomTable)
+	{
+		$nomTable = $this->neutralise($nomTable);
+		
+		$tabResultat = $this->select("SELECT `COLUMN_NAME`, `CHARACTER_MAXIMUM_LENGTH` 
+										FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+										WHERE `TABLE_NAME`='$nomTable'");
+		return $tabResultat;
+	}
 
 	//-----------------------------
 	//Insert en BD avec une déclaration préparé

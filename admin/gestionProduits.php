@@ -14,6 +14,19 @@ $CSS_DIR = '../css/';
 $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
 
+global $maBD;
+
+$nomChamps = array();
+
+try
+{
+	$nomChamps = $maBD->columnsName('Produits');
+	var_dump($maBD->columnsName('Produits'));
+}
+catch (Exception $e)
+{
+	exit();
+}
 
 require_once("./header.php");
 require_once("./sectionGauche.php");

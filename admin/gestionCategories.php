@@ -14,6 +14,7 @@ $CSS_DIR = '../css/';
 $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
 
+global $maBD;
 
 $categories = array();
 
