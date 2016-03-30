@@ -39,7 +39,7 @@ if(isset($_SESSION['authentification']) && !$_SESSION['client']->getEstAdmin())
 
 //Charge les scripts
 require_once("./header.php");
-require_once("../sectionGauche.php");
+require_once("./sectionGauche.php");
 
 ?>
 
@@ -53,18 +53,9 @@ require_once("../sectionGauche.php");
 		<div class="jumbotron">
   			<div class="container"> <!-- Contenant avec nos politiques d'entreprise -->
   				<h2>Administration</h2>
-  				<p>Utiliser les liens de navigation au dessous pour faire la gestion du site web.</p>
+  				<p>Utiliser les liens de navigation situé à gauche pour faire la gestion du site web.</p>
   				<p>Vous pouvez également consulter des rapports d'inventaires et de ventes.</p>
   			</div> <!-- Fin contenant de nos politiques -->
-			<div class="container">
-				<ul class="nav navbar-nav"> <!-- Pour accéder aux spéciaux du magasin et au support technique -->
-					<li><a href="./gestionCategories.php">Catégories<span class="sr-only">(current)</span></a></li>
-					<li><a href="./gestionProduits.php">Produits<span class="sr-only">(current)</span></a></li>
-					<li><a href="./rapportProduits.php">Rapport Produits<span class="sr-only">(current)</span></a></li>
-					<li><a href="./rapportFactures.php">Rapport Factures<span class="sr-only">(current)</span></a></li>
-					<li><a href="./?deconnexion">Quitter<span class="sr-only">(current)</span></a></li>
-				</ul>
-			</div>
 		</div> <!-- Fin du jumbotron -->
 	</div> 	<!-- Fin des produits -->
 </div>	<!-- Fin section central col-md-7 -->

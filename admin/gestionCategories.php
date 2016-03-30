@@ -15,6 +15,10 @@ $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
 
 
+$categories = array();
+
+$categories = recupereCategorie();
+
 function cmp($a, $b)
 {
 	if ($a->getCodeCategorie() == $b->getCodeCategorie()) 
@@ -41,11 +45,12 @@ function compare_categories($a, $b)
 	}
 }
 
-
-
-$categories = Categorie::fetchAll();
-
-usort($categories, "cmp");
+function recupereCategorie()
+{
+	$categories = Categorie::fetchAll();
+	usort($categories, "cmp");
+	return $categories;
+}
 
 function getCat($tab)
 {
@@ -83,11 +88,54 @@ if (isset($_POST['valider']))
 	$resultats = getCat($tabFormulaire);
 	
 	$diff = array_udiff($resultats, $categories, 'compare_categories');
-	var_dump($diff);
+	
+	$doitRafraichir = false;
+	
+	if (count($diff) > 0)
+	{
+		try
+		{
+			foreach($diff as $value)
+			{
+				//Update les catégories en BD.
+				$resultat = $maBD->updateCategorie($value);
+				if ($resultat >= 1)
+					$doitRafraichir = true;
+			}
+		}
+		catch (Exception $e)
+		{
+			exit();
+		}
+	}
+
+	if (!empty($tabFormulaire['nouvelle']))
+	{
+		try
+		{
+			//insert la nouvelle catégorie en BD.
+			$resultat = $maBD->insertCategorie($tabFormulaire['nouvelle']);
+			
+			$doitRafraichir = true;
+		}
+		catch (Exception $e)
+		{
+			//Exception d'insertion d'un doublon dans la base de données.
+			if ($e->getMessage() == 1062)
+				header("location:./gestionCategories.php?erreur=doublon");
+			//Autre exception
+			else
+				header("location:./gestionCategories.php?erreur=".$e->getMessage());
+			exit();
+		}
+	}
+	
+	if ($doitRafraichir)
+		$categories = recupereCategorie();
 }
 
 require_once("./header.php");
-require_once("../sectionGauche.php");
+require_once("./sectionGauche.php");
 
 ?>
 

@@ -6,8 +6,17 @@
 
 require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 
+if(!isset($_SESSION['authentification']))
+{
+	header('location:../authentification.php?prov=admin');
+	exit();
+}
 
-$estIndex = false;
+if(isset($_SESSION['authentification']) && !$_SESSION['client']->getEstAdmin())
+{
+	header('location:../');
+	exit();
+}
 
 //Paramètre GET pour l'action de déconnexion du compte client.
 if(isset($_GET['deconnexion']))

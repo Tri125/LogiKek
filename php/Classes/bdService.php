@@ -137,6 +137,21 @@ class bdService
 
 		return $this->insertPrepared($requete, $args, $values);
 	}
+	
+	//-----------------------------
+	//Insert une catégorie de produit dans la BD à partir de son nom passé en paramètre à l'aide d'une déclaration préparé
+	//-----------------------------
+	function insertCategorie($nom)
+	{
+		//Requête qui sera préparé
+		$requete = "INSERT INTO Categories (nom) VALUES (?)";
+		$args = array('s');
+		
+		$values = array($nom);
+
+		return $this->insertPrepared($requete, $args, $values);
+	}	
+	
 
 	//-----------------------------
 	//Responsable de compléter une transaction d'une commande en BD avec un client et un panier passé en paramètre
@@ -216,6 +231,21 @@ class bdService
 		}
 	}
 
+	//-----------------------------
+	//Update une catégorie de produit passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//-----------------------------
+	function updateCategorie($categorie)
+	{
+		//Requête qui sera préparé
+		$requete = "UPDATE Categories SET nom = ? WHERE idCategorie = ?";
+		$args = array('si');
+		
+		$values = array($categorie->getNom(), $categorie->getCodeCategorie());
+
+		return $this->updatePrepared($requete, $args, $values);
+	}
+	
+	
 	//-----------------------------
 	//Update un client passé en paramètre dans la BD à l'aide d'une déclaration préparé
 	//-----------------------------
