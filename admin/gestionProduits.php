@@ -39,15 +39,22 @@ function genereForm($nomChamps, $produit)
 {
 	foreach ($nomChamps as $key => $value) 
 	{
-		//Si c'est une colonne de clé primaire, nous ne voulons pas afficher le champs.
-		if (isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
-			continue;
 
-		echo "<label>".$value['COLUMN_NAME'].": </label>";
-		echo "<br>";
+		//Si c'est une colonne de clé primaire, nous ne voulons pas afficher le champs.
+		if (isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] != 'PRI')
+			echo "<label>".ucfirst($value['COLUMN_NAME']).": </label>";
+
+		if (isset($produit) && isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
+		{
+			echo "<input type='hidden' name='".$value['COLUMN_NAME']."' value='".$produit[$value['COLUMN_NAME']]."'>";
+			continue;
+		}
+		elseif(isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
+			continue;
 
 		if (isset($value['CHARACTER_MAXIMUM_LENGTH']) && $value['CHARACTER_MAXIMUM_LENGTH'] > 60)
 		{
+			echo "<br>";
 			echo "<textarea rows='4' cols='50' name='".$value['COLUMN_NAME']."'>";
 			if(isset($produit))
 			{
@@ -74,7 +81,7 @@ function genereForm($nomChamps, $produit)
 			}
 			echo ">";
 		}
-
+		echo "<br>";
 		echo "<br>";
 	}
 	echo "<hr>";
