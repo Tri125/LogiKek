@@ -409,7 +409,7 @@ class bdService
 	function selectProduit($nom)
 	{
 		//Requête qui sera préparé
-		$requete = "SELECT p.idProduit, p.nom, p.description, ROUND(p.prix, 2) as prix, p.quantite, p.quantiteMin, 
+		$requete = "SELECT p.idProduit, p.nom, p.description, FORMAT(ROUND(p.prix, 2),2) as prix, p.quantite, p.quantiteMin, 
 							GROUP_CONCAT(c.nom SEPARATOR ',') categories
 							FROM Produits p
 							INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit

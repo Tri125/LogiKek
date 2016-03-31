@@ -108,16 +108,38 @@ function valideForm($nomChamps, $data)
 
 	foreach ($nomChamps as $key => $value) 
 	{
+		//Si c'est une colonne de clé primaire, nous ne voulons pas afficher le champs.
+		if (isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
+			continue;
+
+		$input = $data[$value['COLUMN_NAME']];
+
 		if (isset($value['CHARACTER_MAXIMUM_LENGTH']))
 		{
 			$maxLen = $value['CHARACTER_MAXIMUM_LENGTH'];
-			$input = $data[$value['COLUMN_NAME']];
 
 			if(strlen($input) > $maxLen || strlen($input) < 2)
 				return false;
 		}
-	}
+		$type = $value['DATA_TYPE'];
 
+		if ($type == 'float' || $type == 'int')
+		{
+			if (is_numeric($input))
+			{
+				if( ($input * 1) < 0)
+					return false;
+
+				if ($type == 'float')
+					if(!preg_match( "/^[0-9]*[.,][0-9]{2}$/", $input ))
+						return false;
+			}
+			else
+				return false;
+		}
+	}
+	var_dump('yes');
+	die;
 	return true;
 }
 
