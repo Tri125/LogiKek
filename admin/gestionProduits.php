@@ -5,7 +5,7 @@ $js = array();
 
 $css = array();
 $css[] = 'index.css';
-$titre = 'LogiKek';
+$titre = 'LogiKek - Gestion Produits';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
@@ -20,13 +20,33 @@ $nomChamps = array();
 $catalogue = new Catalogue(0, '');
 $produitData = null;
 $valide = false;
+$choix = null;
+
+
+if(isset($_SESSION['choix']))
+{
+	$choix = $_SESSION['choix'];
+}
+elseif(isset($_POST['choix']))
+{
+	$choix = $_POST['choix'];
+	$_SESSION['choix'] = $choix;
+}
+
+
+
+if (!isset($_POST['choix']) && !isset($_SESSION['choix']) || isset($_POST['annuler']))
+{
+	header('location:./gestionProduitsmenu.php');
+	exit();
+}
 
 try
 {
 	$nomChamps = $maBD->columnsName('Produits');
-	if (isset($_GET['choix']) && $_GET['choix'] != 'nouveau')
+	if (isset($choix) && $choix != 'nouveau')
 	{
-		$produitData = $maBD->selectProduit($_GET['choix']);
+		$produitData = $maBD->selectProduit($choix);
 	}
 }
 catch (Exception $e)
@@ -84,6 +104,10 @@ function genereForm($nomChamps, $produit)
 		echo "<br>";
 		echo "<br>";
 	}
+
+	echo "<label>Catégories: </label>";
+	echo "<br>";
+	genereCheckBoxCategorie($produit);
 	echo "<hr>";
 
 	echo "<input type='hidden' name='MAX_FILE_SIZE' value='100000'>";
@@ -97,12 +121,28 @@ function genereForm($nomChamps, $produit)
 	echo "<br>";
 
 	echo "<input type='submit' name='valider' value='Valider'>";
+	echo "<input type='submit' name='annuler' value='Annuler'>";
 }
 
+function genereCheckBoxCategorie($produit = null)
+{
+	$categories = Categorie::fetchAll();
+	if(isset($produit))
+		$tabCategorieSelected = explode(",", $produit['categories']);
+	foreach ($categories as $key => $value) 
+	{
+		if ($key % 5 == 0)
+			echo "<br>";
+		echo "<input type='checkbox' name='categories[]' value='".$value->getCodeCategorie()."'";
+		if (isset($produit) && in_array($value->getNom(), $tabCategorieSelected))
+			echo " checked";
+		echo ">".$value->getNom();
+	}
+}
 
 function valideForm($nomChamps, $data)
 {
-	var_dump($data);
+	//var_dump($data);
 
 	//Vérifie si chacun des champs est set et non vide.
 	foreach ($data as $key => $value) 
@@ -145,8 +185,6 @@ function valideForm($nomChamps, $data)
 				return false;
 		}
 	}
-	var_dump('yes');
-	die;
 	return true;
 }
 
@@ -157,10 +195,28 @@ if (isset($_POST['valider']))
 	//Récupère les champs du POST et désinfecte les données de l'utilisateur.
 	foreach ($_POST as $cle => $valeur)
 	{
-		$tabData[$cle] = desinfecte($valeur);
+		if ($cle == 'categories')
+		{
+			$tmp = array();
+			foreach ($valeur as $codeCategorie) 
+			{
+				$tmp[] = desinfecte($codeCategorie);
+			}
+			$tabData[$cle] = $tmp;
+		}
+		else
+			$tabData[$cle] = desinfecte($valeur);
 	}
 
 	$valide = valideForm($nomChamps, $tabData);
+
+	if($valide)
+	{
+		unset($_SESSION['choix']);
+		header('location:./gestionProduitsmenu.php?success');
+		exit();
+	}
+
 }
 
 require_once("./header.php");
@@ -172,20 +228,9 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
-	<?php if(!isset($_GET['choix'])): ?>
-	<form id='formProduit' method='GET' action='./gestionProduits.php'>
-		<select name='choix'>
-			<option value="nouveau">Nouveau Produit</option>
-			<?php foreach ($catalogue->getCatalogue() as $value): ?>
-			<option value="<?php echo $value->getNom(); ?>"><?php echo $value->getNom(); ?></option>
-			<?php endforeach; ?>
-		</select>
-		<input type="submit" value="Continuer">
-	<?php else: ?>
 		<form id="formProduit" method="POST" action="./gestionProduits.php" enctype="multipart/form-data">
 			<?php genereForm($nomChamps, $produitData); ?>
-	<?php endif; ?>
-	</form>
+		</form>
 <!-- Contenu principal -->
 
 
