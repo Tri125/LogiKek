@@ -44,7 +44,7 @@ class bdService
 	{
 		$nomTable = $this->neutralise($nomTable);
 		
-		$tabResultat = $this->select("SELECT `COLUMN_NAME`, `CHARACTER_MAXIMUM_LENGTH` 
+		$tabResultat = $this->select("SELECT `COLUMN_NAME`, `CHARACTER_MAXIMUM_LENGTH` , `COLUMN_KEY`, `COLUMN_DEFAULT`, `DATA_TYPE`
 										FROM `INFORMATION_SCHEMA`.`COLUMNS` 
 										WHERE `TABLE_NAME`='$nomTable'");
 		return $tabResultat;

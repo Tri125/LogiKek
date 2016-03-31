@@ -14,10 +14,10 @@ DROP TABLE IF EXISTS Clients;
 CREATE TABLE IF NOT EXISTS Produits
 (
 	idProduit INT PRIMARY KEY AUTO_INCREMENT
-    , nom VARCHAR(50) NOT NULL
+    , nom VARCHAR(60) NOT NULL
     , prix float
-    , description TEXT
-    , quantite INT DEFAULT 0
+    , description VARCHAR(255)
+    , quantite INT NOT NULL DEFAULT 0
     , quantiteMin INT NOT NULL DEFAULT 1
 )
 CHARACTER SET utf8 COLLATE utf8_unicode_ci;

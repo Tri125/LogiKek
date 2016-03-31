@@ -58,7 +58,7 @@ VALUES ('Windows 7 Professionnel 64-bit', 569.99, 'Inclus toutes les fonctionali
 10, 1);
 
 INSERT INTO Produits (nom, prix, description, quantite, quantiteMin)
-VALUES ('Ubuntu 15.10 (Wily Werewolf)', 30.99, 'Inclus la version 32-bit et 64-bit. Ubuntu est une platforme logiciel à source ouverte qui roule dans le Cloud, du téléphone intelligent, à toute vos choses. Interface intuitive. Rapide et sécuritaire avec des milliers d\'application disponibles. Ubuntu à ce que vous avez besoin.',
+VALUES ('Ubuntu 15.10 (Wily Werewolf)', 30.99, 'Inclus la version 32-bit et 64-bit. Ubuntu est une platforme logiciel à source ouverte. Interface intuitive. Rapide et sécuritaire avec des milliers d\'application disponibles. Ubuntu à ce que vous avez besoin.',
 10, 1);
 
 INSERT INTO Produits (nom, prix, description, quantite, quantiteMin)
