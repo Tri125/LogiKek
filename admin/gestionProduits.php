@@ -177,7 +177,7 @@ function valideForm($nomChamps, $data)
 	//Vérifie si chacun des champs est set et non vide.
 	foreach ($data as $key => $value) 
 	{
-		if (empty($value))
+		if (isset($value) && strlen($value) == 0)
 		{
 			$estValide = true;
 			$messagesErreur[$key] = "Champs vide.";
@@ -211,7 +211,7 @@ function valideForm($nomChamps, $data)
 			{
 				if( ($input * 1) < 0)
 				{
-					$messagesErreur[$colName] = "Le champs dois être numérique et plus grand que 0.";
+					$messagesErreur[$colName] = "Le champs dois être numérique et au moins 0.";
 					$estValide = false;
 				}
 
