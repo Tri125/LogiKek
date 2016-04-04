@@ -171,12 +171,20 @@ function genereCheckBoxCategorie($produit = null)
 function valideForm($nomChamps, $data)
 {
 	global $messagesErreur;
-	//var_dump($data);
-	$estVide = false;
+
 	$estValide = true;
+
+
+	if (!isset($data['categories']))
+	{
+		$messagesErreur['categories'] = "Veuillez choisir au moins une catégorie.";
+		$estValide = false;
+	}
 	//Vérifie si chacun des champs est set et non vide.
 	foreach ($data as $key => $value) 
 	{
+		if ($key == 'categories')
+			continue;
 		if (isset($value) && strlen($value) == 0)
 		{
 			$estValide = true;
@@ -229,6 +237,7 @@ function valideForm($nomChamps, $data)
 			}
 		}
 	}
+
 	return $estValide;
 }
 
