@@ -4,7 +4,7 @@ require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 $js = array();
 
 $css = array();
-$css[] = 'index.css';
+$css[] = 'formulaire.css';
 $titre = 'LogiKek - Gestion Produits';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
@@ -21,7 +21,7 @@ $catalogue = new Catalogue(0, '');
 $produitData = null;
 $valide = false;
 $choix = null;
-
+$messagesErreur = array();
 
 if(isset($_SESSION['choix']))
 {
@@ -44,6 +44,8 @@ if (!isset($_POST['choix']) && !isset($_SESSION['choix']) || isset($_POST['annul
 try
 {
 	$nomChamps = $maBD->columnsName('Produits');
+
+	$messagesErreur = genereMessages($nomChamps);
 	if (isset($choix) && $choix != 'nouveau')
 	{
 		$produitData = $maBD->selectProduit($choix);
@@ -54,19 +56,39 @@ catch (Exception $e)
 	exit();
 }
 
+function genereMessages($nomChamps)
+{
+	$messagesErreur = array();
+
+	foreach ($nomChamps as $key => $value) 
+	{
+		$messagesErreur[$value['COLUMN_NAME']] = '';
+	}
+	$messagesErreur['categories'] = '';
+	$messagesErreur['petitePhoto'] = '';
+	$messagesErreur['grandePhoto'] = '';
+
+	return $messagesErreur;
+}
 
 function genereForm($nomChamps, $produit)
 {
+	global $messagesErreur;
+
 	foreach ($nomChamps as $key => $value) 
 	{
-
+		$nomCol = $value['COLUMN_NAME'];
 		//Si c'est une colonne de clé primaire, nous ne voulons pas afficher le champs.
 		if (isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] != 'PRI')
-			echo "<label>".ucfirst($value['COLUMN_NAME']).": </label>";
+		{
+			echo "<span class='erreur'>".$messagesErreur[$nomCol]."</span>";
+			echo "<br>";
+			echo "<label>".ucfirst($nomCol).": </label>";
+		}
 
 		if (isset($produit) && isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
 		{
-			echo "<input type='hidden' name='".$value['COLUMN_NAME']."' value='".$produit[$value['COLUMN_NAME']]."'>";
+			echo "<input type='hidden' name='".$nomCol."' value='".$produit[$nomCol]."'>";
 			continue;
 		}
 		elseif(isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
@@ -78,7 +100,7 @@ function genereForm($nomChamps, $produit)
 			echo "<textarea rows='4' cols='50' name='".$value['COLUMN_NAME']."'>";
 			if(isset($produit))
 			{
-				echo $produit[$value['COLUMN_NAME']];
+				echo $produit[$nomCol];
 			}
 			elseif(isset($value['COLUMN_DEFAULT']))
 			{
@@ -88,12 +110,12 @@ function genereForm($nomChamps, $produit)
 		}
 		else
 		{
-			echo "<input type='text' name='".$value['COLUMN_NAME']."'";
+			echo "<input type='text' name='".$nomCol."'";
 
 			if(isset($produit))
 			{
-				echo " value='".$produit[$value['COLUMN_NAME']]."'";
-				echo " size='".strlen($produit[$value['COLUMN_NAME']])."'";
+				echo " value='".$produit[$nomCol]."'";
+				echo " size='".strlen($produit[$nomCol])."'";
 			}
 			elseif(isset($value['COLUMN_DEFAULT']))
 			{
@@ -105,23 +127,29 @@ function genereForm($nomChamps, $produit)
 		echo "<br>";
 	}
 
+	echo "<span class='erreur'>".$messagesErreur['categories']."</span>";
+	echo "<br>";
 	echo "<label>Catégories: </label>";
 	echo "<br>";
 	genereCheckBoxCategorie($produit);
 	echo "<hr>";
 
 	echo "<input type='hidden' name='MAX_FILE_SIZE' value='100000'>";
-
+	echo "<span class='erreur'>".$messagesErreur['petitePhoto']."</span>";
+	echo "<br>";
 	echo "<label>Petite photo: </label>";
 	echo "<input type='file' name='petitePhoto'>";
 	echo "<br>";
-
+	echo "<span class='erreur'>".$messagesErreur['grandePhoto']."</span>";
+	echo "<br>";
 	echo "<label>Grande photo: </label>";
 	echo "<input type='file' name='grandePhoto'>";
 	echo "<br>";
 
 	echo "<input type='submit' name='valider' value='Valider'>";
 	echo "<input type='submit' name='annuler' value='Annuler'>";
+
+	var_dump($messagesErreur);
 }
 
 function genereCheckBoxCategorie($produit = null)
@@ -142,31 +170,38 @@ function genereCheckBoxCategorie($produit = null)
 
 function valideForm($nomChamps, $data)
 {
+	global $messagesErreur;
 	//var_dump($data);
-
+	$estVide = false;
+	$estValide = true;
 	//Vérifie si chacun des champs est set et non vide.
 	foreach ($data as $key => $value) 
 	{
 		if (empty($value))
 		{
-			return false;
+			$estValide = true;
+			$messagesErreur[$key] = "Champs vide.";
 		}
 	}
 
 	foreach ($nomChamps as $key => $value) 
 	{
+		$colName = $value['COLUMN_NAME'];
 		//Si c'est une colonne de clé primaire, nous ne voulons pas afficher le champs.
 		if (isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
 			continue;
 
-		$input = $data[$value['COLUMN_NAME']];
+		$input = $data[$colName];
 
 		if (isset($value['CHARACTER_MAXIMUM_LENGTH']))
 		{
 			$maxLen = $value['CHARACTER_MAXIMUM_LENGTH'];
 
 			if(strlen($input) > $maxLen || strlen($input) < 2)
-				return false;
+			{
+				$messagesErreur[$colName] = "Le champs dois être entre 2 et $maxLen caractères.";
+				$estValide = false;
+			}
 		}
 		$type = $value['DATA_TYPE'];
 
@@ -175,17 +210,26 @@ function valideForm($nomChamps, $data)
 			if (is_numeric($input))
 			{
 				if( ($input * 1) < 0)
-					return false;
+				{
+					$messagesErreur[$colName] = "Le champs dois être numérique et plus grand que 0.";
+					$estValide = false;
+				}
 
 				if ($type == 'float')
 					if(!preg_match( "/^[0-9]*[.,][0-9]{2}$/", $input ))
-						return false;
+					{
+						$messagesErreur[$colName] = "Le champs dois être écris avec deux décimals (10.00).";
+						$estValide = false;
+					}
 			}
 			else
-				return false;
+			{
+				$messagesErreur[$colName] = "Le champs dois être numérique.";
+				$estValide = false;
+			}
 		}
 	}
-	return true;
+	return $estValide;
 }
 
 if (isset($_POST['valider']))
