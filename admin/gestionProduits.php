@@ -23,19 +23,14 @@ $valide = false;
 $choix = null;
 $messagesErreur = array();
 
-if(isset($_SESSION['choix']))
-{
-	$choix = $_SESSION['choix'];
-}
-elseif(isset($_POST['choix']))
+if(isset($_POST['choix']))
 {
 	$choix = $_POST['choix'];
-	$_SESSION['choix'] = $choix;
 }
 
 
 
-if (!isset($_POST['choix']) && !isset($_SESSION['choix']) || isset($_POST['annuler']))
+if ((!isset($_POST['choix']) && !isset($_POST['valider'])) || isset($_POST['annuler']))
 {
 	header('location:./gestionProduitsmenu.php');
 	exit();
@@ -88,7 +83,10 @@ function genereForm($nomChamps, $produit)
 
 		if (isset($produit) && isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
 		{
-			echo "<input type='hidden' name='".$nomCol."' value='".$produit[$nomCol]."'>";
+			echo "<input type='hidden' name='".$nomCol."' value='";
+			if(isset($produit[$nomCol]))
+				echo $produit[$nomCol];
+			echo "'>";
 			continue;
 		}
 		elseif(isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
@@ -114,8 +112,14 @@ function genereForm($nomChamps, $produit)
 
 			if(isset($produit))
 			{
+				if (strlen($produit[$nomCol]) < 10)
+					$size = 10;
+				else
+					$size = strlen($produit[$nomCol]);
+
 				echo " value='".$produit[$nomCol]."'";
-				echo " size='".strlen($produit[$nomCol])."'";
+				echo " size='".$size."'";
+
 			}
 			elseif(isset($value['COLUMN_DEFAULT']))
 			{
@@ -161,7 +165,7 @@ function genereCheckBoxCategorie($produit = null)
 	{
 		if ($key % 5 == 0)
 			echo "<br>";
-		echo "<input type='checkbox' name='categories[]' value='".$value->getCodeCategorie()."'";
+		echo "<input type='checkbox' name='categories[]' value='".$value->getNom()."'";
 		if (isset($produit) && in_array($value->getNom(), $tabCategorieSelected))
 			echo " checked";
 		echo ">".$value->getNom();
@@ -243,7 +247,7 @@ function valideForm($nomChamps, $data)
 
 if (isset($_POST['valider']))
 {
-	$tabData = array();
+	$postData = array();
 
 	//Récupère les champs du POST et désinfecte les données de l'utilisateur.
 	foreach ($_POST as $cle => $valeur)
@@ -255,13 +259,24 @@ if (isset($_POST['valider']))
 			{
 				$tmp[] = desinfecte($codeCategorie);
 			}
-			$tabData[$cle] = $tmp;
+			$postData[$cle] = $tmp;
 		}
 		else
-			$tabData[$cle] = desinfecte($valeur);
+			$postData[$cle] = desinfecte($valeur);
 	}
 
-	$valide = valideForm($nomChamps, $tabData);
+	$valide = valideForm($nomChamps, $postData);
+
+	$produitData = array_splice($postData,0, -2);
+	if(isset($produitData['categories']))
+	{
+		$produitData['categories'] = implode(',',$produitData['categories']);
+	}
+	else
+	{
+		$produitData['categories'] = '';
+	}
+	var_dump($produitData);
 
 	if($valide)
 	{
