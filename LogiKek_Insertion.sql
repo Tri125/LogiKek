@@ -481,7 +481,7 @@ VALUES(
 'J7Z4V2',
 '4502627479',
 'tristan',
-'1081849'
+'$2a$08$snWNmJBghIwBEYIkXaKnyuH.2VdLbLB/duL0.6pGDAZzE0cAS1vtu' #1081849
 );
 
 
@@ -497,7 +497,7 @@ VALUES(
 'J7Z4V2',
 '4502627474',
 'jeff',
-'salt'
+'$2a$08$qtGM0JVBzHRtWdhxCRnPlOy1FjomKoYvlK4BOd5aapSu4JZtmtgYa' #salt
 );
 
 
@@ -514,7 +514,7 @@ TRUE,
 'J7Z4V2',
 '4502627474',
 'admin',
-'$2a$08$Z1n2bTR44lRACFgzHudzT.K/GMl2c3OrleRC4A9iu10IHTCeR/AJS',
+'$2a$08$Z1n2bTR44lRACFgzHudzT.K/GMl2c3OrleRC4A9iu10IHTCeR/AJS', #admin
 TRUE
 );
 

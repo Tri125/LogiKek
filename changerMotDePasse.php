@@ -17,6 +17,7 @@ $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
 $valide = true;
 global $maBD;
+global $hasher;
 
 //Tableau contenant les différents messages d'erreur qui seront affichés.
 $messages = array();
@@ -85,11 +86,12 @@ if (isset($_SESSION['authentification']))
 			$valide = false;
 		}
 	
-		//Récupère un array avec les données du compte client si le nom d'utilisateur et le mot de passe actuel concorde.
-		$resultat = $maBD->selectClientMotDePasse($client->getNomUtilisateur(), $tabMotPasse['mdpActuel']);
-
-		//Si not set, alors ne concorde pas.
-		if (!isset($resultat))
+		//Récupère un array avec les données du compte client si le nom d'utilisateur existe.
+		$resultat = $maBD->selectClient($client->getNomUtilisateur());
+		//Vérifie le mot de passe
+		$correct = $hasher->CheckPassword($tabMotPasse['mdpActuel'], $resultat['motDePasse']);
+		//Si faux, alors ne concorde pas.
+		if (!$correct)
 		{
 			$messages[] = 'Le mot de passe actuel est incorrect.';
 			$valide = false;
@@ -115,8 +117,11 @@ if (isset($_SESSION['authentification']))
 		//Si le chamgement de mot de passe est valide, on procède à la modification en BD.
 		if ($valide)
 		{
+			$hash = $hasher->HashPassword($tabMotPasse['mdpNouveau']);
+			if ($hash == '*')
+				throw new Exception('Erreur de hash.');
 			//Modifie le mot de passe sur l'objet client.
-			$client->setMotDePasse($tabMotPasse['mdpNouveau']);
+			$client->setMotDePasse($hash);
 			//Enregistre client dans la variable de SESSION
 			$_SESSION['client'] = $client;
 		

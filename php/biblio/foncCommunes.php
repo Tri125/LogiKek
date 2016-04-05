@@ -86,5 +86,4 @@ $maBD = new bdService();
 
 $hasher = new PasswordHash($hash_cost_log2, $hash_portable);
 
-
 ?>
