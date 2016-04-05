@@ -258,6 +258,56 @@ function valideForm($nomChamps, $data)
 	return $estValide;
 }
 
+
+function validationImage($file, $idProduit = 0)
+{
+	$uploadDir = ROOT_DIR.'/img/produits/';
+	$types = array('image/jpeg', 'image/png');
+	
+	foreach($file as $key => $imageForm)
+	{
+		if ($imageForm['error'] == UPLOAD_ERR_OK)
+		{
+			if (!in_array($imageForm['type'], $types))
+			{
+				echo "Type de fichier refusé.";
+				break;
+			}
+			$info = pathinfo($imageForm['name']);
+			$extension = $info['extension'];
+			
+			switch($key)
+			{
+				case 'petitePhoto':
+					$nomPhoto = $idProduit.'_small';
+				break;
+				
+				case 'grandePhoto':
+					$nomPhoto = $idProduit.'_big';
+				break;
+				
+				default:
+					$nomPhoto = $idProduit.'_mystere';
+				break;
+			}
+			
+			$uploadLocation = $uploadDir.basename($nomPhoto.'.'.$extension);
+			var_dump($uploadLocation);
+			
+			if (is_uploaded_file($imageForm['tmp_name']))
+			{
+				if (!move_uploaded_file($imageForm['tmp_name'], $uploadLocation))
+				{
+					echo "Problème copie du fichier temporaire.";
+					break;
+				}
+			}
+
+		}
+	}
+	die;
+}
+
 if (isset($_POST['valider']))
 {
 	$postData = array();
@@ -289,11 +339,12 @@ if (isset($_POST['valider']))
 	{
 		$produitData['categories'] = '';
 	}
-	var_dump($produitData);
 
 	if($valide)
 	{
-		unset($_SESSION['choix']);
+		var_dump($_FILES);
+		validationImage($_FILES);
+		die;
 		header('location:./gestionProduitsmenu.php?success');
 		exit();
 	}
