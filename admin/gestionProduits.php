@@ -81,11 +81,13 @@ function genereForm($nomChamps, $produit)
 			echo "<label>".ucfirst($nomCol).": </label>";
 		}
 
-		if (isset($produit) && isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
+		if (isset($value['COLUMN_KEY']) && $value['COLUMN_KEY'] == 'PRI')
 		{
 			echo "<input type='hidden' name='".$nomCol."' value='";
 			if(isset($produit[$nomCol]))
 				echo $produit[$nomCol];
+			else
+				echo -1;
 			echo "'>";
 			continue;
 		}
@@ -184,17 +186,6 @@ function valideForm($nomChamps, $data)
 		$messagesErreur['categories'] = "Veuillez choisir au moins une catégorie.";
 		$estValide = false;
 	}
-	//Vérifie si chacun des champs est set et non vide.
-	foreach ($data as $key => $value) 
-	{
-		if ($key == 'categories')
-			continue;
-		if (isset($value) && strlen($value) == 0)
-		{
-			$estValide = true;
-			$messagesErreur[$key] = "Champs vide.";
-		}
-	}
 
 	foreach ($nomChamps as $key => $value) 
 	{
@@ -221,24 +212,46 @@ function valideForm($nomChamps, $data)
 		{
 			if (is_numeric($input))
 			{
-				if( ($input * 1) < 0)
+				switch($type)
 				{
-					$messagesErreur[$colName] = "Le champs dois être numérique et au moins 0.";
-					$estValide = false;
+					case 'int':
+						if(!preg_match( "/^[0-9]{1,}$/", $input ))
+						{
+							$messagesErreur[$colName] = "Le champs dois être un entier positif.";
+							$estValide = false;
+						}
+						break;
+						
+					case 'float':
+						if(!preg_match( "/^[0-9]+[.,][0-9]{2}$/", $input ))
+						{
+							$messagesErreur[$colName] = "Le champs dois être un réel positif avec deux décimals (10.00).";
+							$estValide = false;
+						}
+						break;
+						
+					default:
+						throw new Exception('Validation de ce type de champs non défini.');
+						break;
 				}
-
-				if ($type == 'float')
-					if(!preg_match( "/^[0-9]*[.,][0-9]{2}$/", $input ))
-					{
-						$messagesErreur[$colName] = "Le champs dois être écris avec deux décimals (10.00).";
-						$estValide = false;
-					}
 			}
 			else
 			{
 				$messagesErreur[$colName] = "Le champs dois être numérique.";
 				$estValide = false;
 			}
+		}
+	}
+	
+	//Vérifie si chacun des champs est set et non vide.
+	foreach ($data as $key => $value) 
+	{
+		if ($key == 'categories')
+			continue;
+		if (isset($value) && strlen($value) == 0)
+		{
+			$estValide = false;
+			$messagesErreur[$key] = "Champs vide.";
 		}
 	}
 
