@@ -22,6 +22,7 @@ $produitData = null;
 $valide = false;
 $choix = null;
 $messagesErreur = array();
+$messageErreurBD;
 
 if(isset($_POST['choix']))
 {
@@ -370,8 +371,9 @@ if (isset($_POST['valider']))
 			$idProduit;
 			try
 			{
-				$statut = $maBD->autoCommit(false);
-				var_dump($statut);
+				if(!$maBD->autoCommit(false))
+					throw new Exception('Problème autocommit false');
+
 				if ($produit->getcodeProduit() == -1)
 				{
 					$reponse = $maBD->creeProduit($produit);
@@ -382,22 +384,36 @@ if (isset($_POST['valider']))
 					$idProduit = $produit->getcodeProduit();
 					$reponse = $maBD->ModifProduit($produit);					
 				}
-				//var_dump($reponse);
 				$valide = validationImage($_FILES, $idProduit);
-				$statut = $maBD->rollback();
-				var_dump($statut);
-				$statut = $maBD->commit();
-				var_dump($statut);
-				$statut = $maBD->autoCommit(false);
-				var_dump($statut);
+				
+				if ($valide)
+				{
+					if(!$maBD->commit())
+						throw new Exception('Impossible de faire un commit');	
+				}
+				else
+				{
+					if(!$maBD->rollback())
+						throw new Exception('Rollback a échoué');			
+				}
+				if(!$maBD->autoCommit(true))
+					throw new Exception('Problème autocommit true');
 			}
 			catch (Exception $e)
 			{
+				$valide = false;
+				
+				if ($e->getMessage() == 1062)
+					$messageErreurBD = 'Le nom du produit est déjà utilisé.';
+				else
+					$messageErreurBD = 'Erreur de traitement BD: '. $e->getMessage();
+			}
+			
+			if($valide)
+			{
+				header('location:./gestionProduitsmenu.php?success');
 				exit();
 			}
-			die;
-			header('location:./gestionProduitsmenu.php?success');
-			exit();
 		}
 	}
 
@@ -412,6 +428,12 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
+		<?php if(isset($messageErreurBD)): ?>
+		<div class="alert alert-danger" role="alert">
+			<i class="fa fa-exclamation-triangle"></i>
+				<?php echo $messageErreurBD; ?>
+		</div>
+		<?php endif; ?>
 		<form id="formProduit" method="POST" action="./gestionProduits.php" enctype="multipart/form-data">
 			<?php genereForm($nomChamps, $produitData); ?>
 		</form>
