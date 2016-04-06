@@ -36,6 +36,12 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
+	<?php if(isset($produits) && count($produits) == 0): ?>
+		<div class="alert alert-success" role="alert">
+			<i class="fa fa fa-check"></i>
+				Aucun produit à commander.
+		</div>
+	<?php endif; ?>
 		<table>
 			<tr>
 				<td colspan='3'>
