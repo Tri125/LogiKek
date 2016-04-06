@@ -4,8 +4,8 @@ require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 $js = array();
 
 $css = array();
-$css[] = 'index.css';
-$titre = 'LogiKek';
+$css[] = 'formulaire.css';
+$titre = 'LogiKek - Rapport Factures';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 

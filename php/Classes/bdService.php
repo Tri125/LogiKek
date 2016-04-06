@@ -102,6 +102,21 @@ class bdService
 		$resultats = $this->select($requete);
 		return $resultats;		
 	}
+	
+	
+	//-----------------------------
+	//Select les commandes/commandesProduits passé.
+	//-----------------------------
+	function selectRapportFacture()
+	{
+		//Requête
+		$requete = "SELECT nom, quantite, quantiteMin
+					FROM Produits
+					WHERE quantite < quantiteMin
+					ORDER BY nom ASC";
+		$resultats = $this->select($requete);
+		return $resultats;		
+	}
 
 	//-----------------------------
 	//Insert en BD avec une déclaration préparé
