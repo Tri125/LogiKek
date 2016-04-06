@@ -28,6 +28,41 @@ class bdService
     		printf("Error loading character set utf8: %s\n", $this->BDInterne->error);
     	}
 	}
+
+	//-----------------------------
+	//Commence une transaction
+	//-----------------------------
+	function transaction($flag)
+	{
+		return $this->BDInterne->begin_transaction($flag);
+	}
+
+
+	//-----------------------------
+	//Commit une transaction
+	//-----------------------------
+	function commit()
+	{
+		return $this->BDInterne->commit();
+	}
+
+	//-----------------------------
+	//Rollback une transaction
+	//-----------------------------
+	function rollback()
+	{
+		return $this->BDInterne->rollback();
+	}
+
+	//-----------------------------
+	//Change le mode d'autocommit
+	//-----------------------------
+	function autoCommit($flag)
+	{
+		return $this->BDInterne->autocommit($flag);
+	}
+
+
 	//-----------------------------
 	//Lance la requète $ins comme insert en bd et retourne le résultat (l'id du dernier élément rajouté)
 	//-----------------------------

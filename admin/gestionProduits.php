@@ -363,13 +363,15 @@ if (isset($_POST['valider']))
 
 	if($valide)
 	{
-		var_dump($_FILES);
+		//var_dump($_FILES);
 		if ($valide)
 		{
 			$produit = new Produit($produitData);
 			$idProduit;
 			try
 			{
+				$statut = $maBD->autoCommit(false);
+				var_dump($statut);
 				if ($produit->getcodeProduit() == -1)
 				{
 					$reponse = $maBD->creeProduit($produit);
@@ -380,13 +382,20 @@ if (isset($_POST['valider']))
 					$idProduit = $produit->getcodeProduit();
 					$reponse = $maBD->ModifProduit($produit);					
 				}
-				var_dump($reponse);
+				//var_dump($reponse);
 				$valide = validationImage($_FILES, $idProduit);
+				$statut = $maBD->rollback();
+				var_dump($statut);
+				$statut = $maBD->commit();
+				var_dump($statut);
+				$statut = $maBD->autoCommit(false);
+				var_dump($statut);
 			}
 			catch (Exception $e)
 			{
 				exit();
 			}
+			die;
 			header('location:./gestionProduitsmenu.php?success');
 			exit();
 		}
