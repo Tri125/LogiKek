@@ -154,8 +154,6 @@ function genereForm($nomChamps, $produit)
 
 	echo "<input type='submit' name='valider' value='Valider'>";
 	echo "<input type='submit' name='annuler' value='Annuler'>";
-
-	var_dump($messagesErreur);
 }
 
 function genereCheckBoxCategorie($produit = null)
@@ -261,6 +259,8 @@ function valideForm($nomChamps, $data)
 
 function validationImage($file, $idProduit = 0)
 {
+	global $messagesErreur;
+	$valide = true;
 	$uploadDir = ROOT_DIR.'/img/produits/';
 	$types = array('image/jpeg', 'image/png');
 	
@@ -270,8 +270,9 @@ function validationImage($file, $idProduit = 0)
 		{
 			if (!in_array($imageForm['type'], $types))
 			{
-				echo "Type de fichier refusé.";
-				break;
+				$messagesErreur[$key] = "Type de fichier refusé.";
+				$valide = false;
+				continue;
 			}
 			$info = pathinfo($imageForm['name']);
 			$extension = $info['extension'];
@@ -291,21 +292,41 @@ function validationImage($file, $idProduit = 0)
 				break;
 			}
 			
-			$uploadLocation = $uploadDir.basename($nomPhoto.'.'.$extension);
+			$uploadLocation = $uploadDir.basename($nomPhoto.'.'.'png');
 			var_dump($uploadLocation);
 			
 			if (is_uploaded_file($imageForm['tmp_name']))
 			{
 				if (!move_uploaded_file($imageForm['tmp_name'], $uploadLocation))
 				{
-					echo "Problème copie du fichier temporaire.";
-					break;
+					$messagesErreur[$key] = "Problème de copie du fichier temporaire.";
+					$valide = false;
+					continue;
 				}
+			}
+			else
+			{
+				$messagesErreur[$key] = "Tentative de piratage.";
+				$valide = false;
+				continue;
 			}
 
 		}
+		elseif ($imageForm['error'] == UPLOAD_ERR_FORM_SIZE || $imageForm['error'] == UPLOAD_ERR_INI_SIZE)
+		{
+			$messagesErreur[$key] = "La taille de l'image excède 100 KB.";
+			$valide = false;
+			continue;
+		}
+		elseif ($imageForm['error'] != UPLOAD_ERR_NO_FILE)
+		{
+			$messagesErreur[$key] = "Erreur lors de l'envoi de l'image.";
+			$valide = false;
+			continue;
+		}
 	}
-	die;
+
+	return $valide;
 }
 
 if (isset($_POST['valider']))
@@ -343,10 +364,32 @@ if (isset($_POST['valider']))
 	if($valide)
 	{
 		var_dump($_FILES);
-		validationImage($_FILES);
-		die;
-		header('location:./gestionProduitsmenu.php?success');
-		exit();
+		if ($valide)
+		{
+			$produit = new Produit($produitData);
+			$idProduit;
+			try
+			{
+				if ($produit->getcodeProduit() == -1)
+				{
+					$reponse = $maBD->creeProduit($produit);
+					$idProduit = $reponse['idProduit'];
+				}
+				else
+				{
+					$idProduit = $produit->getcodeProduit();
+					$reponse = $maBD->ModifProduit($produit);					
+				}
+				var_dump($reponse);
+				$valide = validationImage($_FILES, $idProduit);
+			}
+			catch (Exception $e)
+			{
+				exit();
+			}
+			header('location:./gestionProduitsmenu.php?success');
+			exit();
+		}
 	}
 
 }

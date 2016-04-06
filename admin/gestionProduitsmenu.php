@@ -28,6 +28,12 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
+	<?php if(isset($_GET['success'])): ?>
+		<div class="alert alert-success" role="alert">
+			<i class="fa fa fa-check"></i>
+				Opération fait avec succès.
+		</div>
+	<?php endif; ?>
 		<form id='formProduit' method='POST' action='./gestionProduits.php'>
 			<select name='choix'>
 				<option value="nouveau">Nouveau Produit</option>

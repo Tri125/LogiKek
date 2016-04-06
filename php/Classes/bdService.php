@@ -118,6 +118,52 @@ class bdService
 		return $this->insertPrepared($requete, $args, $values);
 	}
 
+	//-----------------------------
+	//Insert un produit passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//-----------------------------
+	private function insertProduit($produit)
+	{
+		//Requête qui sera préparé
+		$requete = "INSERT INTO Produits (nom, prix, description, quantite, quantiteMin) VALUES (?, ?, ?, ?, ?)";
+		$args = array('sdsii');
+		
+		$values = array($produit->getNom(), $produit->getPrix(), $produit->getDescription()
+				, $produit->getQuantite(), $produit->getQuantiteMin());
+
+		return $this->insertPrepared($requete, $args, $values);
+	}
+
+	//-----------------------------
+	//Insert un produitCatégorie passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//-----------------------------
+	private function insertProduitCategorie($produit)
+	{
+		$reponse = array();
+		foreach ($produit->getCategories() as $categorie)
+		{
+			//Requête qui sera préparé
+			$requete = "INSERT INTO ProduitsCategories (idProduit, idCategorie) VALUES ((SELECT idProduit FROM Produits WHERE nom = ?), (SELECT idCategorie FROM Categories WHERE nom = ?))";
+			$args = array('ss');
+		
+			$values = array($produit->getNom(), $categorie);
+			$reponse[] = $this->insertPrepared($requete, $args, $values);
+		}
+
+		return $reponse;
+	}
+
+	//-----------------------------
+	//Crée un produit passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//-----------------------------
+	function creeProduit($produit)
+	{
+		$reponse = array();
+
+		$reponse['idProduit'] = $this->insertProduit($produit);
+		$reponse['idCategories']= $this->insertProduitCategorie($produit);
+
+		return $reponse;
+	}
 
 	//-----------------------------
 	//Insert une commande avec un client passé en paramètre dans la BD à l'aide d'une déclaration préparé
@@ -253,6 +299,36 @@ class bdService
 		$values = array($categorie->getNom(), $categorie->getCodeCategorie());
 
 		return $this->updatePrepared($requete, $args, $values);
+	}
+
+	//-----------------------------
+	//Update un produit passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//-----------------------------
+	private function updateProduit($produit)
+	{
+		//Requête qui sera préparé
+		$requete = "UPDATE Produits SET nom = ?, prix = ?, description = ?, quantite = ?, quantiteMin = ? WHERE idProduit = ?";
+		$args = array('sdsiii');
+		
+		$values = array($produit->getNom(), $produit->getPrix(), $produit->getDescription(), $produit->getQuantite(), $produit->getQuantiteMin(), $produit->getcodeProduit());
+
+		return $this->updatePrepared($requete, $args, $values);
+	}
+
+	//-----------------------------
+	//Modifie un produit passé en paramètre dans la BD à l'aide d'une déclaration préparé
+	//-----------------------------
+	function ModifProduit($produit)
+	{
+		$reponse = array();
+
+		$reponse[] = $this->updateProduit($produit);
+
+		$reponse[] = $this->deleteProduitCategorie($produit);
+
+		$reponse[] = $this->insertProduitCategorie($produit);
+
+		return $reponse;
 	}
 	
 	
@@ -572,6 +648,24 @@ class bdService
 		{
 			throw (new Exception("Erreur lors de l'envois de la déclaration préparé au serveur"));
 		}
+	}
+
+
+	//-----------------------------
+	//Supprime les produitsCategories associé à un produit passé en paramètre par un requête préparé
+	//-----------------------------
+	private function deleteProduitCategorie($produit)
+	{
+		$requete = "DELETE pc.*
+					FROM ProduitsCategories AS pc
+					WHERE pc.idProduit = ?";
+		$args = array('i');
+		
+		$values = array($produit->getcodeProduit());
+		//Supression des entrées de la table ProduitsCategories idProduit correspondant.
+		$resultats = $this->deletePrepared($requete, $args, $values);
+
+		return $resultats;
 	}
 
 	//-----------------------------
