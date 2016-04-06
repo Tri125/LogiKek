@@ -75,6 +75,9 @@ class bdService
 		return $this->BDInterne->insert_id;
 	}
 	
+	//-----------------------------
+	//Retourne les caractéristiques de la table en BD d'on le nom est passé en paramètre.
+	//-----------------------------
 	function columnsName($nomTable)
 	{
 		$nomTable = $this->neutralise($nomTable);
@@ -83,6 +86,21 @@ class bdService
 										FROM `INFORMATION_SCHEMA`.`COLUMNS` 
 										WHERE `TABLE_NAME`='$nomTable'");
 		return $tabResultat;
+	}
+	
+	//-----------------------------
+	//Select les produits dont la quantité en stock 
+	// est inférieure à la quantité minimale.
+	//-----------------------------
+	function selectRapportProduit()
+	{
+		//Requête
+		$requete = "SELECT nom, quantite, quantiteMin
+					FROM Produits
+					WHERE quantite < quantiteMin
+					ORDER BY nom ASC";
+		$resultats = $this->select($requete);
+		return $resultats;		
 	}
 
 	//-----------------------------
