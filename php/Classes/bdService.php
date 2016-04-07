@@ -110,12 +110,36 @@ class bdService
 	function selectRapportFacture()
 	{
 		//Requête
-		$requete = "SELECT nom, quantite, quantiteMin
-					FROM Produits
-					WHERE quantite < quantiteMin
-					ORDER BY nom ASC";
-		$resultats = $this->select($requete);
-		return $resultats;		
+		$requete = "SELECT c.idCommande, cl.nomUtilisateur, c.dateCommande 
+					FROM Commandes AS c
+					INNER JOIN Clients AS cl ON c.idClient = cl.idClient
+					ORDER BY dateCommande DESC";
+
+		//Sélectionne les commandes des clients
+		$commandes = $this->select($requete);
+
+		if (isset($commandes))
+		{
+			//Pour chaque commande
+			foreach ($commandes as $key => $value) 
+			{
+				$requete = "SELECT p.idProduit, p.nom, p.description, ROUND(p.prix, 2) as prix, p.quantite, p.quantiteMin, 
+							GROUP_CONCAT(c.nom SEPARATOR ',') categories, cp.quantite AS nombre
+							FROM CommandesProduits AS cp
+							INNER JOIN Produits AS p ON p.idProduit = cp.idProduit
+							INNER JOIN ProduitsCategories pc ON pc.idProduit = p.idProduit
+							INNER JOIN Categories c ON c.idCategorie = pc.idCategorie 
+							WHERE cp.idCommande =".$value['idCommande'].
+							" GROUP BY p.idProduit 
+							ORDER BY p.nom ASC";
+
+				//Sélectionne les informations détaillés de la commande tel que les noms des produits, la quantité, etc.
+				$produits = $this->select($requete);
+				//Rajoute un tableau tabAchats contenant ces informations sous la clé de la commande actuelle.
+				$commandes[$key]['tabAchats'] = $produits;
+			}
+		}
+		return $commandes;		
 	}
 
 	//-----------------------------

@@ -14,6 +14,23 @@ $CSS_DIR = '../css/';
 $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
 
+$commandes;
+
+global $maBD;
+
+
+try
+{
+	$commandes = $maBD->selectRapportFacture();
+}
+catch (Exception $e)
+{
+	exit();
+}
+
+var_dump($commandes);
+die;
+
 require_once("./header.php");
 require_once("./sectionGauche.php");
 
