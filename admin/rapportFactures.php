@@ -28,9 +28,6 @@ catch (Exception $e)
 	exit();
 }
 
-var_dump($commandes);
-die;
-
 require_once("./header.php");
 require_once("./sectionGauche.php");
 
@@ -40,11 +37,55 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
-
-
-
-<!-- Contenu principal -->
-
+		<?php if(isset($commandes) && count($commandes) == 0): ?>
+		<div class="alert alert-warning" role="alert">
+			<i class="fa fa-exclamation-triangle"></i>
+				Aucune facture à afficher.
+		</div>
+		<?php endif; ?>
+		<table>
+			<thead>
+				<tr>
+					<td colspan=4>
+						<h3>Historiques des factures</h3>
+					</td>
+				</tr>
+				<tr>
+					<td><label>Client</label></td>
+					<td><label>Date commande</label></td>
+					<td><label>Produit</label></td>
+					<td><label>Quantité</label></td>
+				</tr>
+			</thead>
+			<tbody>
+			<?php foreach($commandes as $commande): ?>
+				<tr>
+					<td>
+						<?php echo $commande['prenom'].' '.$commande['nom']; ?>
+					</td>
+					<td>
+						<?php echo $commande['dateCommande']; ?>
+					</td>
+				<?php foreach($commande['tabAchats'] as $key => $produit): ?>
+				<?php if($key != 0): ?>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				<?php endif; ?>
+					<td>
+						<?php echo $produit['nom']; ?>
+					</td>
+					<td>
+						<?php echo $produit['nombre']; ?>
+					</td>
+				</tr>
+				<?php endforeach; ?>
+				<tr>
+					<td colspan=4><hr></td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
 
 	</div> 	<!-- Fin des produits -->
 </div>	<!-- Fin section central col-md-9 -->

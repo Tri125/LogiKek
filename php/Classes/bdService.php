@@ -110,7 +110,7 @@ class bdService
 	function selectRapportFacture()
 	{
 		//Requête
-		$requete = "SELECT c.idCommande, cl.nomUtilisateur, c.dateCommande 
+		$requete = "SELECT c.idCommande, cl.prenom, cl.nom, c.dateCommande 
 					FROM Commandes AS c
 					INNER JOIN Clients AS cl ON c.idClient = cl.idClient
 					ORDER BY dateCommande DESC";
