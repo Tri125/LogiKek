@@ -1,17 +1,19 @@
 <?php 
 
 //---------------------------------------
-// Page de la section d'entête du site web.
+// Page de la section d'entête de la section administrateur du site web.
 //---------------------------------------
 
 require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 
+//Si non authentifié, redirection vers la page d'authentification.
 if(!isset($_SESSION['authentification']))
 {
 	header('location:../authentification.php?prov=admin');
 	exit();
 }
 
+//Si authentifié, mais pas administrateur on redirige vers la section usager du site web.
 if(isset($_SESSION['authentification']) && !$_SESSION['client']->getEstAdmin())
 {
 	header('location:../');

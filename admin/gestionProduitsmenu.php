@@ -1,4 +1,9 @@
 <?php 
+
+//-----------------------------
+//Page du menu pour sélectionner si on modifie un produit ou crée un nouveau.
+//-----------------------------
+
 require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 
 $js = array();
@@ -9,13 +14,14 @@ $titre = 'LogiKek - Gestion Produits Menu';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
-
+//Path relatif vers les dossiers ressources.
 $CSS_DIR = '../css/';
 $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
 
 global $maBD;
 
+//Récupère le Catalogue de produits sans utilisé la recherche.
 $catalogue = new Catalogue(0, '');
 
 
@@ -28,12 +34,13 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
-	<?php if(isset($_GET['success'])): ?>
+	<?php if(isset($_GET['success'])): //Message de succès?>
 		<div class="alert alert-success" role="alert">
 			<i class="fa fa fa-check"></i>
 				Opération fait avec succès.
 		</div>
 	<?php endif; ?>
+		<!-- Formulaire de liste déroulante -->
 		<form id='formProduit' method='POST' action='./gestionProduits.php'>
 			<select name='choix'>
 				<option value="nouveau">Nouveau Produit</option>

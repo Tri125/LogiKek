@@ -114,9 +114,10 @@ if (isset($_SESSION['authentification']))
 			}
 		}
 
-		//Si le chamgement de mot de passe est valide, on procède à la modification en BD.
+		//Si le changement de mot de passe est valide, on procède à la modification en BD.
 		if ($valide)
 		{
+			//Hash le nouveau mot de passe.
 			$hash = $hasher->HashPassword($tabMotPasse['mdpNouveau']);
 			if ($hash == '*')
 				throw new Exception('Erreur de hash.');
@@ -129,7 +130,7 @@ if (isset($_SESSION['authentification']))
 		
 			try
 			{
-				//Modifie le mot de passe du compte client.
+				//Modifie le mot de passe du compte client dans la bd.
 				$nbrLigneJour =	$maBD->updateMotDePasse($client);
 			}
 			catch (Exception $e)

@@ -1,4 +1,10 @@
 <?php 
+
+//-----------------------------
+//Page du rapport des factures.
+//Affiche toutes les Commandes passé par nos clients.
+//-----------------------------
+
 require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 
 $js = array();
@@ -9,7 +15,7 @@ $titre = 'LogiKek - Rapport Factures';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
-
+//Path relatif vers les dossiers ressources.
 $CSS_DIR = '../css/';
 $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
@@ -21,6 +27,7 @@ global $maBD;
 
 try
 {
+	//Récupère les données de l'historique des commandes du magasin.
 	$commandes = $maBD->selectRapportFacture();
 }
 catch (Exception $e)
@@ -37,7 +44,7 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
-		<?php if(isset($commandes) && count($commandes) == 0): ?>
+		<?php if(isset($commandes) && count($commandes) == 0): //Message s'il n'y a aucune commande.?>
 		<div class="alert alert-warning" role="alert">
 			<i class="fa fa-exclamation-triangle"></i>
 				Aucune facture à afficher.

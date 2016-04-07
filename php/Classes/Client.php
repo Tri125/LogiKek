@@ -245,6 +245,9 @@ class Client
 		return password_verify($this->motDePasse, $hash);
 	}
 
+	//-----------------------------
+	//Hash le mot de passe fournit en paramètre et l'enregistre dans le client.
+	//-----------------------------
 	public function setCryptoPassword($motDePasse)
 	{
 		$this->motDePasse = password_hash($motDePasse, PASSWORD_BCRYPT);

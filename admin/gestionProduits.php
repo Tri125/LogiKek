@@ -1,4 +1,9 @@
 <?php 
+
+//-----------------------------
+//Page pour modifier et créer un nouveau produit.
+//-----------------------------
+
 require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 
 $js = array();
@@ -9,28 +14,43 @@ $titre = 'LogiKek - Gestion Produits';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
-
+//Path relatif vers les dossiers ressources.
 $CSS_DIR = '../css/';
 $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
 
 global $maBD;
 
+//Tableau qui contiendra les caractéristiques de la table Produits en BD.
 $nomChamps = array();
+
+//Récupère tout les produits dans notre catalogue.
 $catalogue = new Catalogue(0, '');
+
+//Contiendra les données d'un produit en BD.
 $produitData = null;
+
+//Flag de validation des données entrés par l'usager.
 $valide = false;
+
+//Mode de fonctionnement: nouveau produit ou modification d'un produit existant.
 $choix = null;
+
+//Tableau de messages d'erreur de validation.
 $messagesErreur = array();
+
+//Message d'erreur lors des opérations en BD.
 $messageErreurBD;
 
+//Enregistre la valeur du POST.
 if(isset($_POST['choix']))
 {
 	$choix = $_POST['choix'];
 }
 
 
-
+//Si le POST ne contient pas choix ET valider (donc, aucune opération sur le formulaire de la page, donc navigation directe)
+//Ou si le POST contient 'annuler', alors redirection vers la page gestionProduitsmenu pour sélectionner la modif ou la création.
 if ((!isset($_POST['choix']) && !isset($_POST['valider'])) || isset($_POST['annuler']))
 {
 	header('location:./gestionProduitsmenu.php');

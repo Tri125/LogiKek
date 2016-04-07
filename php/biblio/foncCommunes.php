@@ -12,7 +12,9 @@ $CSS_DIR = './css/';
 $JS_DIR = './js/';
 $IMG_DIR = './img/';
 
+//Coût de la fonction de hash
 $hash_cost_log2 = 8;
+//Spécifie que nous ne voulons pas utilisé les fonctions portables de hashing
 $hash_portable = False;
 
 //Enregistre la fonction ChargementClasses pour activé la queue de chargement des classes.
@@ -83,7 +85,7 @@ function calculTaxeFrais($prix)
 //Un seul objet bdService nécessaire, on l'instancie donc dans ce script pour être utilisé ailleur.
 $maBD = new bdService();
 
-
+//Objet pour le hashing de mot de passe. Spécifie le côut des fonctions et si oui ou non on utilise les fonctions portables. 
 $hasher = new PasswordHash($hash_cost_log2, $hash_portable);
 
 ?>

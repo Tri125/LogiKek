@@ -1,4 +1,9 @@
 <?php 
+
+//-----------------------------
+//Page pour rajouter et modifier des catégories.
+//-----------------------------
+
 require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 
 $js = array();
@@ -9,7 +14,7 @@ $titre = 'LogiKek - Gestion Catégories';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
-
+//Path relatif vers les dossiers ressources.
 $CSS_DIR = '../css/';
 $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
@@ -20,6 +25,10 @@ $categories = array();
 
 $categories = recupereCategorie();
 
+//-----------------------------
+//Fonction de comparaison pour ordonné deux objets 
+//Catégorie selon leur code de catégorie
+//-----------------------------
 function cmp($a, $b)
 {
 	if ($a->getCodeCategorie() == $b->getCodeCategorie()) 
@@ -29,7 +38,10 @@ function cmp($a, $b)
 	return ($a->getCodeCategorie() < $b->getCodeCategorie()) ? -1 : 1;
 }
 
-
+//-----------------------------
+//Fonction de comparaison pour deux objets Catégories
+//selon leur nom.
+//-----------------------------
 function compare_categories($a, $b) 
 {
 	if ($a->getNom() < $b->getNom()) 
@@ -46,6 +58,11 @@ function compare_categories($a, $b)
 	}
 }
 
+//-----------------------------
+//Fonction pour récupérer les données de Catégories de produit de la BD
+//et ordonner les résultats.
+//Retourne un array.
+//-----------------------------
 function recupereCategorie()
 {
 	$categories = Categorie::fetchAll();
@@ -53,22 +70,30 @@ function recupereCategorie()
 	return $categories;
 }
 
+//-----------------------------
+//Fonction qui crée un tableau d'objets Categorie à partir
+// d'un tableau passé en paramètre des données de formulaire.
+//-----------------------------
 function getCat($tab)
 {
 	$resultats = array();
 
 	foreach ($tab as $key => $value) 
 	{
+		//Récupère la position du string 'cat'.
+		//Chaque input à un name du format 'cat#'
 		$pos = strpos($key, 'cat');
+		//Précaution
 		if ($pos === false)
 			continue;
 		else
 		{
 			$categorie = array();
+			//Retire 'cat' du key pour récupéré le numéro de catégorie.
 			$id = substr($key, $pos+3);
 			$categorie['idCategorie'] = $id;
 			$categorie['nom'] = $value;
-			
+			//Crée l'objet Catégorie.
 			$resultats[] = new Categorie($categorie);
 		}
 	}
@@ -86,12 +111,18 @@ if (isset($_POST['valider']))
 	{
 		$tabFormulaire[$cle] = desinfecte($valeur);
 	}
+	
+	//Obtien un tableau d'objets Catégories avec les données du POST.
 	$resultats = getCat($tabFormulaire);
 	
+	//Avec le tableau de Catégories contenu dans la BD, les Catégories du POST et une fonction de comparaison
+	//obtien un tableau contenant les catégories modifiées.
 	$diff = array_udiff($resultats, $categories, 'compare_categories');
 	
+	//Indique si une modification a eu lieu. Pour rafraichir les données lorsque la BD est à jour.
 	$doitRafraichir = false;
 	
+	//Si au moins une catégorie a été modifié.
 	if (count($diff) > 0)
 	{
 		try
@@ -100,6 +131,7 @@ if (isset($_POST['valider']))
 			{
 				//Update les catégories en BD.
 				$resultat = $maBD->updateCategorie($value);
+				//Si au moins une row a été modifié en BD.
 				if ($resultat >= 1)
 					$doitRafraichir = true;
 			}
@@ -109,7 +141,7 @@ if (isset($_POST['valider']))
 			exit();
 		}
 	}
-
+	//Si une nouvelle catégorie doit être créé.
 	if (!empty($tabFormulaire['nouvelle']))
 	{
 		try
@@ -130,7 +162,7 @@ if (isset($_POST['valider']))
 			exit();
 		}
 	}
-	
+	//Si on doit rafraichir, récupère les nouvelles Catégorie en BD.
 	if ($doitRafraichir)
 		$categories = recupereCategorie();
 }

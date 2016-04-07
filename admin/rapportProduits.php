@@ -1,4 +1,9 @@
 <?php 
+
+//-----------------------------
+//Page de rapport de produits pour connaitre les produits que nous devons commander.
+//-----------------------------
+
 require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 
 $js = array();
@@ -9,7 +14,7 @@ $titre = 'LogiKek - Rapport Produits';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
 
-
+//Path relatif vers les dossiers ressources.
 $CSS_DIR = '../css/';
 $JS_DIR = '../js/';
 $IMG_DIR = '../img/';
@@ -20,6 +25,7 @@ global $maBD;
 
 try
 {
+	//Récupère les données des produits qui doivent être commander. 
 	$produits = $maBD->selectRapportProduit();
 }
 catch (Exception $e)
@@ -36,7 +42,7 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
-	<?php if(isset($produits) && count($produits) == 0): ?>
+	<?php if(isset($produits) && count($produits) == 0): //Message s'il n'y a aucun produit?>
 		<div class="alert alert-success" role="alert">
 			<i class="fa fa fa-check"></i>
 				Aucun produit à commander.

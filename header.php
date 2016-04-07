@@ -26,6 +26,7 @@ else
 if(isset($_GET['deconnexion']))
 	deconnexionUsager();
 
+//Déconnecte un administrateur qui navigue dans les sections d'usager du site web.
 if (isset($_SESSION['authentification']) && $_SESSION['client']->getEstAdmin())
 	deconnexionUsager();
 
