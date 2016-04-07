@@ -59,11 +59,17 @@ if ((!isset($_POST['choix']) && !isset($_POST['valider'])) || isset($_POST['annu
 
 try
 {
+	//Récupère les caractéristiques de la table Produits en BD.
 	$nomChamps = $maBD->columnsName('Produits');
 
+	//Génère les clée du tableau messagesErreur selon nomChamps.
 	$messagesErreur = genereMessages($nomChamps);
+	
+	//Si le choix est set et qu'il n'est pas 'nouveau', alors mode modification de produit.
+	//Contient le nom du produit.
 	if (isset($choix) && $choix != 'nouveau')
 	{
+		//Récupère les données du produit en BD.
 		$produitData = $maBD->selectProduit($choix);
 	}
 }
@@ -72,14 +78,24 @@ catch (Exception $e)
 	exit();
 }
 
+
+//-----------------------------
+//Fonction qui crée un tableau avec comme clée les nom des colonnes de nomChamps passé en paramètre.
+//Retourne un tableau.
+//Utiliser pour l'affichage de message d'erreur.
+//Dynamique 
+//-----------------------------
 function genereMessages($nomChamps)
 {
 	$messagesErreur = array();
 
+	//Pour chaque colonne de nomChamps.
 	foreach ($nomChamps as $key => $value) 
 	{
+		//Insert comme clée le nom de la colonne dans le tableau
 		$messagesErreur[$value['COLUMN_NAME']] = '';
 	}
+	//Rajoute les clées pour nos champs de formulaire categories et photos.
 	$messagesErreur['categories'] = '';
 	$messagesErreur['petitePhoto'] = '';
 	$messagesErreur['grandePhoto'] = '';
