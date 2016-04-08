@@ -368,69 +368,97 @@ function valideForm($nomChamps, $data)
 }
 
 
+
+//-----------------------------
+//Fonction pour valider les images téléchargé par POST et les sauvegarder sur le serveur web.
+//$_FILES est passé en paramètre, ainsi que l'id de produit qui est nécessaire
+//pour renommer le fichier une fois sauvegarder sur le server.
+//-----------------------------
 function validationImage($file, $idProduit = 0)
 {
 	global $messagesErreur;
+	//Flag de validation.
 	$valide = true;
+	//Dossier cible de sauvegarde des images sur le serveur.
 	$uploadDir = ROOT_DIR.'/img/produits/';
+	//Tableau de types d'images acceptées.
 	$types = array('image/jpeg', 'image/png');
 	
-	foreach($file as $key => $imageForm)
+	//Pour chaque image. Key est le name de l'input dans le formulaire.
+	foreach($file as $key => $image)
 	{
-		if ($imageForm['error'] == UPLOAD_ERR_OK)
+		//Si le téléchargement de l'image a réussis.
+		if ($image['error'] == UPLOAD_ERR_OK)
 		{
-			if (!in_array($imageForm['type'], $types))
+			//Si le type de l'image n'est pas un des type accepté.
+			if (!in_array($image['type'], $types))
 			{
+				//Message d'erreur de validation de l'image.
 				$messagesErreur[$key] = "Type de fichier refusé.";
 				$valide = false;
 				continue;
 			}
-			$info = pathinfo($imageForm['name']);
+			//Récupère des informations sur le fichier téléchargé.
+			$info = pathinfo($image['name']);
+			//Obtient l'extension du fichier.
 			$extension = $info['extension'];
 			
+			//switch sur le name de l'input du formulaire.
+			//Pour créer le nom de l'image sous laquelle elle sera sauvegardé sur le serveur.
 			switch($key)
 			{
 				case 'petitePhoto':
 					$nomPhoto = $idProduit.'_small';
-				break;
+					break;
 				
 				case 'grandePhoto':
 					$nomPhoto = $idProduit.'_big';
-				break;
+					break;
 				
 				default:
 					$nomPhoto = $idProduit.'_mystere';
-				break;
+					break;
 			}
 			
+			//Path (et nom) où l'image sera sauvegardé.
+			//Sauvegardé en png, car le catalogue du site web charge des fichiers .png dans les balises img.
 			$uploadLocation = $uploadDir.basename($nomPhoto.'.'.'png');
-			var_dump($uploadLocation);
 			
-			if (is_uploaded_file($imageForm['tmp_name']))
+			//Pour vérifier que le fichier que l'on traite est véritablement un fichier provenant d'un téléchargement
+			//et non un utilisateur qui a truqué le serveur à traiter un fichier local. Mesure de sécurité.
+			if (is_uploaded_file($image['tmp_name']))
 			{
-				if (!move_uploaded_file($imageForm['tmp_name'], $uploadLocation))
+				//Essaie de sauvegarder le fichier sur le serveur. False s'il y a une erreur.
+				if (!move_uploaded_file($image['tmp_name'], $uploadLocation))
 				{
+					//Message d'erreur de validation de l'image.
 					$messagesErreur[$key] = "Problème de copie du fichier temporaire.";
 					$valide = false;
 					continue;
 				}
 			}
+			//Le fichier passé en paramètre n'est pas un fichier qui viend d'un téléchargement.
 			else
 			{
+				//Message d'erreur de validation de l'image.
 				$messagesErreur[$key] = "Tentative de piratage.";
 				$valide = false;
 				continue;
 			}
 
 		}
-		elseif ($imageForm['error'] == UPLOAD_ERR_FORM_SIZE || $imageForm['error'] == UPLOAD_ERR_INI_SIZE)
+		//Erreur de téléchargement qui ne respecte pas la taille.
+		elseif ($image['error'] == UPLOAD_ERR_FORM_SIZE || $image['error'] == UPLOAD_ERR_INI_SIZE)
 		{
+			//Message d'erreur de validation de l'image.
 			$messagesErreur[$key] = "La taille de l'image excède 100 KB.";
 			$valide = false;
 			continue;
 		}
-		elseif ($imageForm['error'] != UPLOAD_ERR_NO_FILE)
+		//Aucune image téléchargé.
+		elseif ($image['error'] != UPLOAD_ERR_NO_FILE)
 		{
+			//Message d'erreur de validation de l'image.
 			$messagesErreur[$key] = "Erreur lors de l'envoi de l'image.";
 			$valide = false;
 			continue;
@@ -440,6 +468,7 @@ function validationImage($file, $idProduit = 0)
 	return $valide;
 }
 
+//Si on navigue à la page à partir du bouton valider du formulaire.
 if (isset($_POST['valider']))
 {
 	$postData = array();
