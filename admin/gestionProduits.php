@@ -476,6 +476,7 @@ if (isset($_POST['valider']))
 	//Récupère les champs du POST et désinfecte les données de l'utilisateur.
 	foreach ($_POST as $cle => $valeur)
 	{
+		//Puisque categories est un tableau dans le POST, désinfecte les éléments individuellement.
 		if ($cle == 'categories')
 		{
 			$tmp = array();
@@ -488,74 +489,88 @@ if (isset($_POST['valider']))
 		else
 			$postData[$cle] = desinfecte($valeur);
 	}
-
+	//Valide les données du POST. Passe en paramètre les caractéristiques du tableau en BD et les données du POST.
 	$valide = valideForm($nomChamps, $postData);
-
+	//Retire du POST le submit button et le MAX_FILE_SIZE du téléchargement de fichier.
 	$produitData = array_splice($postData,0, -2);
 	if(isset($produitData['categories']))
 	{
+		//Transforme notre array des catégories sélectionnées en une string d'on les catégories
+		//sont séparé par une virgule.
+		//Préparation pour former un objet Produit.
 		$produitData['categories'] = implode(',',$produitData['categories']);
 	}
 	else
 	{
 		$produitData['categories'] = '';
 	}
-
-	if($valide)
+	//Si les champs du formulaire sont valides.
+	if ($valide)
 	{
-		//var_dump($_FILES);
-		if ($valide)
+		$produit = new Produit($produitData);
+		//Contiendra l'id du Produit en BD.
+		$idProduit;
+		try
 		{
-			$produit = new Produit($produitData);
-			$idProduit;
-			try
+			//Met l'autocommit à off pour notre connexion avec notre BD.
+			if(!$maBD->autoCommit(false))
+				throw new Exception('Problème autocommit false');
+			//Si le codeProduit de notre Produit est à -1, donc nouveau produit qui n'avait pas d'id.
+			if ($produit->getcodeProduit() == -1)
 			{
-				if(!$maBD->autoCommit(false))
-					throw new Exception('Problème autocommit false');
-
-				if ($produit->getcodeProduit() == -1)
-				{
-					$reponse = $maBD->creeProduit($produit);
-					$idProduit = $reponse['idProduit'];
-				}
-				else
-				{
-					$idProduit = $produit->getcodeProduit();
-					$reponse = $maBD->ModifProduit($produit);					
-				}
-				$valide = validationImage($_FILES, $idProduit);
-				
-				if ($valide)
-				{
-					if(!$maBD->commit())
-						throw new Exception('Impossible de faire un commit');	
-				}
-				else
-				{
-					if(!$maBD->rollback())
-						throw new Exception('Rollback a échoué');			
-				}
-				if(!$maBD->autoCommit(true))
-					throw new Exception('Problème autocommit true');
+				//Crée le produit en BD.
+				$reponse = $maBD->creeProduit($produit);
+				//Récupère l'id du Produit en BD.
+				$idProduit = $reponse['idProduit'];
 			}
-			catch (Exception $e)
+			//Sinon, modification d'un produit existant.
+			else
 			{
-				$valide = false;
-				
-				if ($e->getMessage() == 1062)
-					$messageErreurBD = 'Le nom du produit est déjà utilisé.';
-				else
-					$messageErreurBD = 'Erreur de traitement BD: '. $e->getMessage();
+				$idProduit = $produit->getcodeProduit();
+				$reponse = $maBD->ModifProduit($produit);					
 			}
-			
-			if($valide)
+			//Valide les fichiers téléchargé avec l'id du produit pour renommer correctement les fichiers sur le serveur.
+			$valide = validationImage($_FILES, $idProduit);
+			//Si le téléchargement des images est validé.
+			if ($valide)
 			{
-				header('location:./gestionProduitsmenu.php?success');
-				exit();
+				//Commit la transaction dans la BD.
+				//Notre produit est maintenant modifié/créé et sera affiché dans notre catalogue.
+				if(!$maBD->commit())
+					throw new Exception('Impossible de faire un commit');	
 			}
+			//Erreur de validation des images.
+			else
+			{
+				//Rollback notre insertion/modification de produit en BD.
+				//Si l'utilisateur avait tenté d'ajouter des images à un produit, mais qu'il y a eu un produit de validation
+				//sa porte à confusion de faire le changement en BD sauf pour les images. Préférable de faire un rollback.
+				//On doit procédé ainsi, car pour les nouveaux produits il faut d'abord faire une insertion pour avoir l'id pour savoir
+				//sous quel nom nous devons enregistrer les images sur le serveur.
+				if(!$maBD->rollback())
+					throw new Exception('Rollback a échoué');			
+			}
+			//Met l'autocommit à on pour notre connexion avec notre BD.
+			if(!$maBD->autoCommit(true))
+				throw new Exception('Problème autocommit true');
+		}
+		catch (Exception $e)
+		{
+			$valide = false;
+			//Erreur de clée unique déjà présente en BD. Dans notre cas c'est le nom du produit.
+			if ($e->getMessage() == 1062)
+				$messageErreurBD = 'Le nom du produit est déjà utilisé.';
+			else
+				$messageErreurBD = 'Erreur de traitement BD: '. $e->getMessage();
+		}
+		//Si tout est validé.
+		if($valide)
+		{
+			//Redirection vers la page gestionProduitsmenu.
+			header('location:./gestionProduitsmenu.php?success');
+			exit();
 		}
 	}
-
 }
 
 require_once("./header.php");
@@ -567,18 +582,17 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
+		<!-- Message d'erreur d'opération en BD -->
 		<?php if(isset($messageErreurBD)): ?>
 		<div class="alert alert-danger" role="alert">
 			<i class="fa fa-exclamation-triangle"></i>
 				<?php echo $messageErreurBD; ?>
 		</div>
 		<?php endif; ?>
+		<!-- Formulaire de modification/création de produit -->
 		<form id="formProduit" method="POST" action="./gestionProduits.php" enctype="multipart/form-data">
 			<?php genereForm($nomChamps, $produitData); ?>
 		</form>
-<!-- Contenu principal -->
-
-
 	</div> 	<!-- Fin des produits -->
 </div>	<!-- Fin section central col-md-9 -->
 <div class="col-md-1"> 	<!-- Début Section de droite central -->
