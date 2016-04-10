@@ -9,7 +9,7 @@ require_once(realpath(__DIR__.'/..').'/php/biblio/foncCommunes.php');
 $js = array();
 
 $css = array();
-$css[] = 'index.css';
+$css[] = 'formulaire.css';
 $titre = 'LogiKek - Gestion Catégories';
 $description = 'Site de vente de système d\'exploitation';
 $motCle = 'OS, Linux, Windows, BSD, Apple, RHEL, Vente, logiciel';
@@ -24,6 +24,28 @@ global $maBD;
 $categories = array();
 
 $categories = recupereCategorie();
+
+//Contient les messages d'erreur de validation des champs du formulaire.
+$messagesErreur = setupMessagesErreur($categories);
+
+
+
+//-----------------------------
+//Fonction pour initialiser le tableau de message d'erreur de validation.
+//Retourne un tableau.
+//-----------------------------
+function setupMessagesErreur($categories)
+{
+	$messages = array();
+
+	foreach ($categories as $key => $value) 
+	{
+		$messages[$key] = '';
+	}
+	$messages['nouvelle'] = '';
+
+	return $messages;
+}
 
 //-----------------------------
 //Fonction de comparaison pour ordonné deux objets 
@@ -66,6 +88,7 @@ function compare_categories($a, $b)
 function recupereCategorie()
 {
 	$categories = Categorie::fetchAll();
+	//Change l'ordre selon la fonction de comparaison cmp.
 	usort($categories, "cmp");
 	return $categories;
 }
@@ -83,7 +106,7 @@ function getCat($tab)
 		//Récupère la position du string 'cat'.
 		//Chaque input à un name du format 'cat#'
 		$pos = strpos($key, 'cat');
-		//Précaution
+		//Pour ne pas contenir le submit ou le champ nouveau du formulaire.
 		if ($pos === false)
 			continue;
 		else
@@ -122,27 +145,56 @@ if (isset($_POST['valider']))
 	//Indique si une modification a eu lieu. Pour rafraichir les données lorsque la BD est à jour.
 	$doitRafraichir = false;
 	
+	//flag de validation
+	$valide = true;
+
+	//Valide la longueur du champ.
+	foreach ($resultats as $key => $value) 
+	{
+		if (strlen($value->getNom()) < 2 || strlen($value->getNom()) > 20)
+		{
+			//Message d'erreur de validation.
+			$messagesErreur[$key] = 'Le nom doit être entre 2 et 20 caractères.';
+			$valide = false;
+		}
+	}
+
+
+	if (!empty($tabFormulaire['nouvelle']))
+	{
+		if (strlen($tabFormulaire['nouvelle']) < 2 || strlen($tabFormulaire['nouvelle']) > 20)
+		{
+			//Message d'erreur de validation.
+			$messagesErreur['nouvelle'] = 'Le nom doit être entre 2 et 20 caractères.';
+			$valide = false;
+		}
+	}
+
+
 	//Si au moins une catégorie a été modifié.
 	if (count($diff) > 0)
 	{
-		try
+		if ($valide)
 		{
-			foreach($diff as $value)
+			try
 			{
-				//Update les catégories en BD.
-				$resultat = $maBD->updateCategorie($value);
-				//Si au moins une row a été modifié en BD.
-				if ($resultat >= 1)
-					$doitRafraichir = true;
+				foreach($diff as $value)
+				{
+					//Update les catégories en BD.
+					$resultat = $maBD->updateCategorie($value);
+					//Si au moins une row a été modifié en BD.
+					if ($resultat >= 1)
+						$doitRafraichir = true;
+				}
 			}
-		}
-		catch (Exception $e)
-		{
-			exit();
+			catch (Exception $e)
+			{
+				exit();
+			}
 		}
 	}
 	//Si une nouvelle catégorie doit être créé.
-	if (!empty($tabFormulaire['nouvelle']))
+	if ($valide && !empty($tabFormulaire['nouvelle']))
 	{
 		try
 		{
@@ -164,7 +216,10 @@ if (isset($_POST['valider']))
 	}
 	//Si on doit rafraichir, récupère les nouvelles Catégorie en BD.
 	if ($doitRafraichir)
+	{
 		$categories = recupereCategorie();
+		$messagesErreur = setupMessagesErreur($categories);
+	}
 }
 
 require_once("./header.php");
@@ -189,15 +244,17 @@ require_once("./sectionGauche.php");
 		<?php endif; ?>
 		<form id='formModif' action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
 			<h3>Modifier des catégories existantes</h3>
-			<?php foreach($categories as $value): ?>
+			<?php foreach($categories as $key => $value): ?>
 				<label><?php echo $value->getCodeCategorie(); ?>:</label>
 				<input type="text" name="<?php echo 'cat'.$value->getCodeCategorie(); ?>" value="<?php echo $value->getNom(); ?>">
+				<span class='erreur'><?php echo $messagesErreur[$key]; ?></span>
 				<br>
 			<?php endforeach; ?>
 			<hr>
 			<h3>Ajouter une catégorie</h3>
 			<label>Catégorie:</label>
 			<input type="text" name="nouvelle">
+			<span class='erreur'><?php echo $messagesErreur['nouvelle']; ?></span>
 			<hr>
 			<input type="submit" name="valider" value="Soumettre">
 		</form>
