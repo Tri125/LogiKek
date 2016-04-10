@@ -327,7 +327,7 @@ function valideForm($nomChamps, $data)
 					case 'float':
 						//Si ne match pas la regex: Commence et fini par au moins 1 caractère de chiffre, suivi d'un point ou d'une virgule, puis de 2 caractère de chiffre.
 						// ie: 12.22
-						if(!preg_match( "/^[0-9]+[.,][0-9]{2}$/", $input ))
+						if(!preg_match( "/^[0-9]+[.][0-9]{2}$/", $input ))
 						{
 							//Message d'erreur de validation pour ce champ.
 							$messagesErreur[$colName] = "Le champs dois être un réel positif avec deux décimals (10.00).";
