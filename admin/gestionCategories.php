@@ -217,8 +217,8 @@ if (isset($_POST['valider']))
 	//Si on doit rafraichir, récupère les nouvelles Catégorie en BD.
 	if ($doitRafraichir)
 	{
-		$categories = recupereCategorie();
-		$messagesErreur = setupMessagesErreur($categories);
+		header("location:./gestionCategories.php?success");
+		exit();
 	}
 }
 
@@ -231,6 +231,12 @@ require_once("./sectionGauche.php");
 <div class="col-md-7" id="centre">
 	<!-- Début des produits -->
 	<div class="row">
+	<?php if(isset($_GET['success'])): //Message de succès?>
+		<div class="alert alert-success" role="alert">
+			<i class="fa fa fa-check"></i>
+				Opération fait avec succès.
+		</div>
+	<?php endif; ?>
 		<?php if (isset($_GET['erreur'])): //Si le drapeau d'erreur a été envoyé dans le GET?>
 		<!-- Message d'erreur -->
 		<div class="alert alert-danger" role="alert">
