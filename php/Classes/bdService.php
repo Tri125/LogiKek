@@ -17,7 +17,7 @@ class bdService
 		$this->BDInterne = new mysqli($config['ip'], $config['username'], $config['password'], $config['dbname']);
 		if (mysqli_connect_errno())
 		{
-			throw new Exception("Échec de connexion." . $this->$BDInterne->mysqli_connect_error());	
+			throw new Exception("Échec de connexion." . mysqli_connect_error());	
 		}
 		//Spécifie le charset pour ne pas avoir de problème si Apache est configuré différament sous un autre système.
 		if (!$this->BDInterne->set_charset("utf8")) 
