@@ -52,4 +52,37 @@ Les comptes administrateurs peuvent uniquement êtres accédés à partir du pan
    
 # Démonstration
 
-![Page principale](http://imgur.com/QNbk63H)
+![Page principale](https://i.imgur.com/QNbk63H.png)
+Page principale.
+
+![Vue détaillé d'un produit](https://i.imgur.com/c3z9l7P.png)
+
+Vue détaillé d'un produit.
+
+![Authentification](https://i.imgur.com/EnMMvDY.png)
+
+Page d'authentification.
+
+![Gestion de profil](https://i.imgur.com/zz3Lu7A.png)
+
+Gestion de profil.
+
+![Panier d'achat](https://i.imgur.com/wf7rGBM.png)
+
+Panier d'achat.
+
+![Validation de carte de crédit](https://i.imgur.com/AoId20P.png)
+
+Validation de la carte de crédit lors d'un achat.
+
+![Historique de commandes](https://i.imgur.com/b8Np4fx.png)
+
+Historique de commandes.
+
+![Panneau d'administration - Catégories](https://i.imgur.com/vYIBxB8.png)
+
+Gestion des catégories des produits par l'administrateur.
+
+![Panneau d'administration - Produits](https://i.imgur.com/sa74iRo.png)
+
+Gestion des produits par l'administrateur.
